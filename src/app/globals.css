@@ -2,32 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.intro_overly{
+    background-size: 850px 600px;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.testimonials_overly{
+    background-size: 150px ;
+}
+.slick-slide {
+        margin: 0px -36px;
+    transform: scale(0.8);
+    z-index: 30;
+    transition: all 0.4s ease-in-out;
+    padding: 60px 0;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.slick-slide img{
+    transition: all 0.4s ease-in-out;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.slick-list {
+    margin: 0 -12px;
 }
+
+.slick-center{
+    transform: scale(1.0);
+}
+
