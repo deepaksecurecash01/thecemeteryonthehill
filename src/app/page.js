@@ -9,6 +9,10 @@ const page = () => {
   return (
     <>
       <HeroSection />
+      <IntroSection />
+      <ServicesSection />
+      <TestimonialSection />
+      <BannerSection />
     </>
   );
 };
