@@ -3,12 +3,12 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 const ServicesSection = () => {
   return (
-    <div className="space-y-8 py-[5rem]">
+    <div className="space-y-8 py-[5rem] min-h-screen">
       <h2 className="text-[2.75rem] font-bold text-center font-trajanpro3 text-burgundy">
         Our Services
       </h2>
       <div className="flex justify-center items-center">
-        <div className="bg-services_bg_1 grid grid-rows-2 place-items-center bg-contain bg-center bg-no-repeat h-[54rem] w-[28rem] px-16">
+        <div className="bg-services_bg_1 grid grid-rows-2 place-items-center bg-contain bg-center bg-no-repeat h-[56rem] w-[28rem] px-16">
           <div className=" row-span-1"></div>
           <div className=" row-span-1 h-full w-full flex flex-col justify-evenly pb-12 items-center space-y-6">
             <h2 className="text-3xl font-bold text-start font-trajanpro3 text-burgundy">
@@ -25,7 +25,7 @@ const ServicesSection = () => {
             </button>
           </div>
         </div>
-        <div className="bg-services_bg_2 bg-contain bg-center bg-no-repeat h-[54rem] w-[28rem] grid grid-rows-2 place-items-center px-16">
+        <div className="bg-services_bg_2 bg-contain bg-center bg-no-repeat h-[56rem] w-[28rem] grid grid-rows-2 place-items-center px-16">
           <div className=" row-span-1"></div>
           <div className=" row-span-1 h-full w-full flex flex-col justify-evenly pb-12 items-center space-y-6">
             <h2 className="text-3xl font-bold text-start font-trajanpro3 text-burgundy">
@@ -43,7 +43,7 @@ const ServicesSection = () => {
             </button>
           </div>
         </div>
-        <div className="bg-services_bg_3 bg-contain bg-center bg-no-repeat h-[54rem] w-[28rem] grid grid-rows-2 place-items-center  px-16">
+        <div className="bg-services_bg_3 bg-contain bg-center bg-no-repeat h-[56rem] w-[28rem] grid grid-rows-2 place-items-center  px-16">
           <div className=" row-span-1"></div>
           <div className=" row-span-1 h-full w-full flex flex-col justify-evenly pb-12 items-center space-y-6">
             <h2 className="text-3xl font-bold text-start font-trajanpro3 text-burgundy">

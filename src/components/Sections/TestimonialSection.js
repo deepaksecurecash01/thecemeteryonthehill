@@ -62,12 +62,12 @@ const TestimonialSection = () => {
   ];
 
   return (
-    <div className="relative overflow-hidden w-full ">
+    <div className="relative overflow-hidden w-full min-h-screen flex justify-start items-center">
       <div className="absolute bg-elipse1 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10" />
       <div className="absolute bg-elipse2 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10" />
       <div className="absolute bg-testimonials_overly bg-no-repeat object-right w-72 h-full -z-20 bg-contain " />
-      <div className="py-[5rem]">
-        <div className="flex justify-center items-center">
+      <div className="py-20 flex flex-col justify-between items-start h-full w-full space-y-4">
+        <div className="flex justify-center items-center ">
           <div className="px-8 space-y-2 w-full pl-64">
             <h2 className="text-[2.75rem] font-bold text-start font-trajanpro3 text-burgundy">
               Testimonial

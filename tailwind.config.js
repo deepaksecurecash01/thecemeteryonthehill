@@ -31,6 +31,7 @@ module.exports = {
         banner_bg: "url('/images/banner_bg.jpg')",
       },
     },
+ 
   },
   plugins: [],
 };
