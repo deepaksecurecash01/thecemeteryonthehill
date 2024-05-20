@@ -12,7 +12,6 @@ const page = () => {
       <IntroSection />
       <ServicesSection />
       <TestimonialSection />
-      <BannerSection />
     </>
   );
 };

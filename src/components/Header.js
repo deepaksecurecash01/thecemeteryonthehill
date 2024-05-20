@@ -40,7 +40,7 @@ const Header = () => {
           </button>
         </div>
         <ul
-          className={`absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-4 xl:flex xl:space-x-6 ${"hidden"}`}
+          className={`absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6 xl:flex xl:space-x-6 ${"hidden"}`}
         >
           {[
             { href: "/", label: "Home" },
@@ -53,7 +53,7 @@ const Header = () => {
             <li key={item.href}>
               <Link href={item.href} passHref>
                 <span
-                  className={`text-sm ${
+                  className={`text-base ${
                     pathname === item.href
                       ? "text-burgundy font-bold"
                       : "text-gray-400 hover:text-gray-500"

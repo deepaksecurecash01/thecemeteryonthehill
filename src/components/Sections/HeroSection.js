@@ -5,12 +5,12 @@ const HeroSection = () => {
   return (
     <div className="relative min-h-[90vh]">
       <div className="absolute bg-herosection bg-no-repeat bg-cover bg-center w-full h-full opacity-30 -z-10" />
-      <div className="flex flex-col justify-between items-center w-full h-[95vh] overflow-hidden pt-20 px-4 sm:px-8 sm:py-4 md:px-4 md:py-8">
-        <div className="flex flex-col justify-center items-center h-full max-w-2xl lg:max-w-2xl lg:pt-12 sm:space-y-6 md:space-y-6 lg:space-y-4 gap-2 lg:h-[28rem]  text-center">
+      <div className="flex flex-col justify-between items-center w-full h-[95vh] overflow-hidden pt-20 px-4 sm:px-8 ">
+        <div className="flex flex-col justify-center items-center max-w-2xl lg:max-w-2xl lg:pt-16 sm:space-y-6 md:space-y-6 lg:space-y-4 gap-4 lg:h-[28rem]  text-center">
           <h5 className="text-4xl sm:text-4xl md:text-5xl font-eliyamoliscript font-semibold text-gold tracking-wider">
             Welcome to
           </h5>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[2.75rem] font-bold font-trajanpro3 text-burgundy">
+          <h2 className="text-[1.75rem]  md:text-[2.75rem] font-bold font-trajanpro3 text-burgundy">
             THE HISTORIC CEMETERY ON THE HILL
           </h2>
           <p className="text-sm sm:text-base md:text-lg lg:text-lg text-gray-700 tracking-wide">

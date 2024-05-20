@@ -4,7 +4,9 @@ import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import { IoStar, IoStarOutline } from "react-icons/io5";
 import { motion, AnimatePresence } from "framer-motion";
 
-const TestimonialsSlider = () => {
+const TestimonialsSlider = () =>
+{
+  
   const [items] = useState([
     {
       review:
@@ -73,7 +75,6 @@ const TestimonialsSlider = () => {
     const levelSettings = [
       {
         level: -2,
-        left: "calc(50% - 20%)",
         boxShadow: "-.2em .0em .9em #212121",
         height: "400px",
         width: "300px",
@@ -81,7 +82,6 @@ const TestimonialsSlider = () => {
       },
       {
         level: -1,
-        left: "calc(50% - 10%)",
         boxShadow: "-.1em .0em .8em #212121",
         height: "450px",
         width: "300px",
@@ -89,7 +89,6 @@ const TestimonialsSlider = () => {
       },
       {
         level: 0,
-        left: "50%",
         boxShadow: "0 .1em .8em #212121",
         height: "500px",
         width: "350px",
@@ -97,7 +96,6 @@ const TestimonialsSlider = () => {
       },
       {
         level: 1,
-        left: "calc(50% + 13%)",
         boxShadow: ".1em .0em .8em #212121",
         height: "450px",
         width: "300px",
@@ -105,7 +103,6 @@ const TestimonialsSlider = () => {
       },
       {
         level: 2,
-        left: "calc(50% + 22%)",
         boxShadow: ".2em .0em .9em #212121",
         height: "400px",
         width: "300px",
@@ -118,7 +115,6 @@ const TestimonialsSlider = () => {
       const { left, boxShadow, height, width, zIndex } =
         levelSettings.find((setting) => setting.level === level) || {};
       const item = items[index];
-
       const ratingStar = Math.floor(parseFloat(item.rating));
       const stars = Array(5)
         .fill()
@@ -137,8 +133,8 @@ const TestimonialsSlider = () => {
           initial={{
             opacity: 0,
             x: direction === "left" ? 100 : -100,
-            rotateY: direction === "left" ? -30 : 30,
-            scale: 0.8,
+            rotateY: direction === "left" ? 100 : -100,
+            scale: 0.5,
           }}
           animate={{
             opacity: 1,
@@ -149,8 +145,8 @@ const TestimonialsSlider = () => {
           exit={{
             opacity: 0,
             x: direction === "left" ? -100 : 100,
-            rotateY: direction === "left" ? 30 : -30,
-            scale: 0.8,
+            rotateY: direction === "left" ? 100 : -100,
+            scale: 0.5,
           }}
           transition={{ duration: 0.5 }}
           style={{
@@ -166,7 +162,6 @@ const TestimonialsSlider = () => {
             textAlign: "center",
             padding: "1em",
             borderRadius: "10px",
-            position: "absolute",
           }}
         >
           <q className="text-grey text-lg">{item.review}</q>
@@ -200,24 +195,26 @@ const TestimonialsSlider = () => {
         }
         .item {
           backface-visibility: hidden;
-          transform-style: preserve-3d;
+          transform-style: ease-in-out;
         }
       `}</style>
-      <div className="relative h-full flex justify-between items-center">
-        <div
-          className="arrow arrow-left cursor-pointer rounded-sm p-4 bg-gold/50 hover:bg-gold/75 absolute top-1/2 transform -translate-y-1/2 left-32 z-10"
-          onClick={moveLeft}
-        >
-          <FaArrowLeft className="text-grey text-4xl" />
+      <div className="relative h-full grid lg:grid-cols-3 md:gap-24 lg">
+        <div className="col-span-1 flex justify-center items-center gap-4 w-full">
+          <div
+            className=" cursor-pointer rounded-sm p-4 bg-gold/50 hover:bg-gold/75  z-10"
+            onClick={moveLeft}
+          >
+            <FaArrowLeft className="text-grey text-4xl" />
+          </div>
+          <div
+            className="arrow arrow-right cursor-pointer rounded-sm p-4 bg-gold/50  hover:bg-gold/75 z-10"
+            onClick={moveRight}
+          >
+            <FaArrowRight className="text-grey text-4xl" />
+          </div>
         </div>
-        <div className="carousel-container relative h-[28rem] w-full flex justify-start items-center">
+        <div className=" col-span-2 carousel-container relative h-[28rem] w-full flex justify-center items-center -space-x-20">
           <AnimatePresence>{generateItems()}</AnimatePresence>
-        </div>
-        <div
-          className="arrow arrow-right cursor-pointer rounded-sm p-4 bg-gold/50  hover:bg-gold/75 absolute top-1/2 transform -translate-y-1/2 left-52 z-10"
-          onClick={moveRight}
-        >
-          <FaArrowRight className="text-grey text-4xl" />
         </div>
       </div>
     </>
