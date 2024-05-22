@@ -7,165 +7,31 @@
 }
 
 .testimonials_overly {
-    background-size: 150px;
-}
-
-.slick-slide {
-    margin: 0px -36px;
-    transform: scale(0.8);
-    z-index: 30;
-    transition: all 0.4s ease-in-out;
-    padding: 60px 0;
-}
-
-.slick-slide img {
-    transition: all 0.4s ease-in-out;
-}
-
-.slick-list {
-    margin: 0 -12px;
-}
-
-.slick-center {
-    transform: scale(1.0);
+    background-size: 300px;
 }
 
 
 
+ /* the slides */
+ .slick-slide > div {
+     margin: 0 10px;
+ }
 
-/* Extra small devices (phones, 640px and down) */
-@media only screen and (max-width: 639px) {
-    .level-2 {
-        height: 20vw !important;
-        width: 15vw !important;
-        display: none !important;
+
+ .slide-item {
+     width: 380px !important;
+     height: auto !important;
+     position: relative;
+     margin: 1rem !important;
+ }
+
+ @media (max-width: 500px) {
+/* the slides */
+    .slick-slide>div {
+        margin: 0 0;
     }
-
-    .level-1 {
-        height: 22.5vw !important;
-        width: 15vw !important;
-    }
-
-    .level0 {
-        height: 25vw !important;
-        width: 17.5vw !important;
-    }
-
-    .level1 {
-        height: 22.5vw !important;
-        width: 15vw !important;
-    }
-
-    .level2 {
-        height: 20vw !important;
-        width: 15vw !important;
-        display: none !important;
-    }
-}
-
-/* Small devices (portrait tablets and large phones, 640px and up) */
-@media only screen and (min-width: 640px) {
-    .level-2 {
-        height: 20vw !important;
-        width: 15vw !important;
-    }
-
-    .level-1 {
-        height: 22.5vw !important;
-        width: 15vw !important;
-    }
-
-    .level0 {
-        height: 25vw !important;
-        width: 17.5vw !important;
-    }
-
-    .level1 {
-        height: 22.5vw !important;
-        width: 15vw !important;
-    }
-
-    .level2 {
-        height: 20vw !important;
-        width: 15vw !important;
-    }
-}
-
-/* Medium devices (landscape tablets, 768px and up) */
-@media only screen and (min-width: 768px) {
-    .level-2 {
-        height: 250px !important;
-        width: 175px !important;
-        left: "calc(30% - 40%)" !important;
-    }
-
-    .level-1 {
-        height: 350px !important;
-        width: 175px !important;
-        left: "calc(40% - 15%)" !important;
-    }
-
-    .level0 {
-        height: 400px !important;
-        width: 275px !important;
-        display: flex;
-        left: "calc(40% - 0%)" !important;
-    }
-
-    .level1 {
-        height: 350px !important;
-        width: 175px !important;
-        left: "calc(40% + 15%)" !important;
-    }
-
-    .level2 {
-        height: 250px !important;
-        width: 175px !important;
-        left: "calc(40% + 15%)" !important;
-    }
-}
-
-/* Large devices (laptops/desktops, 1024px and up) */
-@media only screen and (min-width: 1024px) {
-    .level-2 {
-        height: 20vw !important;
-        width: 15vw !important;
-    }
-
-    .level-1 {
-        height: 22.5vw !important;
-        width: 15vw !important;
-    }
-
-    .level0 {
-        height: 25vw !important;
-        width: 17.5vw !important;
-    }
-
-    .level1 {
-        height: 22.5vw !important;
-        width: 15vw !important;
-    }
-
-    .level2 {
-        height: 20vw !important;
-        width: 15vw !important;
-    }
-}
-
-.animate-pulse {
-    box-shadow: 0 0 40px #61dafb, 0 0 40px #61dafb, 0 0 40px #61dafb;
-    animation: animate 2s infinite alternate;
-}
-
-@keyframes animate {
-    to {
-        box-shadow: 0 0 50px #61dafb, 0 0 50px #61dafb, 0 0 50px #61dafb;
-    }
-}
-
-
-
-.carousel .carousel-item {
-    opacity: 1 !important;
-}
+         .slide-item {
+          
+             margin: 0 !important;
+         }
+ }

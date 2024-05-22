@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -29,6 +30,7 @@ module.exports = {
         services_bg_2: "url('/images/services_bg_2.png')",
         services_bg_3: "url('/images/services_bg_3.png')",
         banner_bg: "url('/images/banner_bg.jpg')",
+        testi_bg: "url('/images/demo.png')",
       },
     },
  

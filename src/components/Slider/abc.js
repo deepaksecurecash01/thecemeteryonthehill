@@ -1,6 +1,6 @@
+'use client';
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import "materialize-css/dist/css/materialize.min.css";
 import M from "materialize-css";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { IoStar, IoStarOutline } from "react-icons/io5";
@@ -42,6 +42,7 @@ const TestimonialsCarousel = () => {
 
   return (
     <div className="carousel-container w-full lg:grid lg:grid-cols-4 place-items-center md:ml-24 lg:ml-0 ">
+
       <div className="col-span-1 flex justify-center lg:justify-end items-center gap-4 w-full">
         <div
           className=" cursor-pointer rounded-sm p-4 bg-gold/50 hover:bg-gold/75  z-10"

@@ -91,7 +91,7 @@ const Footer = () => {
             </p>
             <p className="flex items-center space-x-3 text-grey hover:text-gold cursor-pointer">
               <FaEnvelope className="text-base" />
-              <span className="text-base">
+              <span className="text-base text-grey">
                 <a href="mailto:hello@thecemeteryonthehill.com.au">
                   hello@thecemeteryonthehill.com.au
                 </a>
