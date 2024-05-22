@@ -11,7 +11,7 @@ import {
 
 const Footer = () => {
   return (
-    <div className="relative w-full">
+    <div className="relative w-full overflow-hidden">
       <div className="absolute bg-elipse1 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10" />
       <div className="absolute bg-elipse2 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10" />
       <div className="flex flex-col md:flex-row justify-between py-10 px-6 md:px-12 lg:px-20 space-y-10 md:space-y-0">

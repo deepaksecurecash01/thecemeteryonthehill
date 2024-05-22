@@ -128,10 +128,10 @@ const TestimonialSection = () => {
           <h2 className="text-[2.75rem] font-bold text-start font-trajanpro3 text-burgundy">
             Testimonial
           </h2>
-          <p className="text-grey text-start tracking-wide">
-            Don't just take our word for it - see what actual users of our
-            <br />
-            service have to say about their experience.
+          <p className="text-grey text-start tracking-wide pr-10">
+            {
+              " Don't just take our word for it - see what actual users of our service have to say about their experience."
+            }
           </p>
         </div>
       </div>

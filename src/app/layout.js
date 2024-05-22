@@ -37,7 +37,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${opensans.className} ${roboto.variable} ${eliyamoliscript.variable} ${trajanpro3.variable}`}
+        className={`${opensans.className} ${roboto.variable} ${eliyamoliscript.variable} ${trajanpro3.variable} `}
       >
         <Header />
         {children}
