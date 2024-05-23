@@ -6,7 +6,7 @@ const BannerSection = () => {
     <div className="relative">
       <div className="absolute bg-banner_bg bg-no-repeat w-full h-full bg-cover bg-center -z-20" />
       <div className="absolute bg-black bg-opacity-60 w-full h-full -z-10" />
-      <div className="grid place-items-center gap-6 py-20 px-4 md:px-8">
+      <div className="grid place-items-center gap-6 py-20 px-4 md:px-8 6xl:py-28">
         <p className="text-lg sm:text-lg md:text-xl text-white text-center max-w-3xl">
           {
             "Don't just take our word for it - see what actual users of our service have to say about their experience."

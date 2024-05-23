@@ -25,7 +25,7 @@ const IntroSection = () => {
         />
       </div>
 
-      <div className="col-span-1 lg:col-span-3 h-full w-full py-6 px-8 lg:px-12 md:pr-4 sm:px-12 space-y-6 md:flex md:flex-col justify-center items-start order-2 lg:order-1">
+      <div className="col-span-1 lg:col-span-3 h-full w-full py-6 px-8 lg:px-12 md:pr-4 space-y-6 md:flex md:flex-col justify-center items-start order-2 lg:order-1">
         <h2 className="text-[1.75rem] md:text-[4rem] font-bold text-start text-burgundy font-trajanpro3">
           The Historic Cemetery on the Hill
         </h2>
@@ -41,7 +41,7 @@ const IntroSection = () => {
           St Philip & St James, was in honour of Mssrs Clark and Hollins.
         </p>
         <Link href="/contact" passHref>
-          <button className="flex items-center justify-center px-4 py-2 lg:px-6 lg:py-3 text-white bg-gold border border-gold rounded-md cursor-pointer font-roboto uppercase lg:text-xl hover:bg-burgundy hover:border-burgundy">
+          <button className="flex items-center justify-center mt-4 md:mt-0 px-4 py-2 lg:px-6 lg:py-3 text-white bg-gold border border-gold rounded-md cursor-pointer font-roboto uppercase lg:text-xl hover:bg-burgundy hover:border-burgundy">
             Get in touch <FaArrowRightLong className="ml-2 text-lg" />
           </button>
         </Link>

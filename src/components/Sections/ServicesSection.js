@@ -43,7 +43,7 @@ const ServiceCard = ({ title, description, backgroundClass, link }) => (
       <h2 className="text-2xl md:text-4xl lg:text-3xl font-bold text-burgundy font-trajanpro3 text-start">
         {title}
       </h2>
-      <p className="text-center text-base md:text-lg lg:text-base text-grey tracking-wide">
+      <p className="text-center text-base md:text-lg text-grey tracking-wide">
         {description}
       </p>
       <Link href={link} passHref>
