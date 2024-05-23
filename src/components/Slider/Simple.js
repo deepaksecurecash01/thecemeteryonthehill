@@ -5,7 +5,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
-    className={`absolute rounded-sm p-4 -top-[6.8rem] right-[6rem] ${
+    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[6rem] xl:-top-[6.8rem] xl:right-[6rem] ${
       currentSlide === 0 ? "bg-gold/50" : "bg-gold/75 cursor-pointer"
     }`}
     style={{ animation: "moveRightLeft 1.5s infinite", zIndex: 1 }}
@@ -21,7 +21,7 @@ const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
 
 const CustomNextArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
-    className={`absolute rounded-sm p-4 -top-[6.8rem] right-[2rem] ${
+    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[2rem] xl:-top-[6.8rem] xl:right-[2rem] ${
       currentSlide === slideCount - 1
         ? "bg-gold/50"
         : "bg-gold/75 cursor-pointer"
@@ -96,44 +96,110 @@ const testimonials = [
   },
 ];
 
-  const settings = {
-    infinite: true,
-    speed: 500,
-    slidesToShow: 4,
-    slidesToScroll: 1,
-    initialSlide: 0,
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          infinite: true,
+    const settings = {
+      infinite: true,
+      speed: 500,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      initialSlide: 0,
+      nextArrow: <CustomNextArrow />,
+      prevArrow: <CustomPrevArrow />,
+      responsive: [
+        {
+          breakpoint: 3200,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
-      {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
+        {
+          breakpoint: 2560,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            infinite: true,
+          },
+        },
+        {
+          breakpoint: 1920,
+          settings: {
+            slidesToShow: 4,
+            slidesToScroll: 1,
+            infinite: true,
+          },
+        },
+        {
+          breakpoint: 1600,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true,
+          },
+        },
+        {
+          breakpoint: 1440,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true,
+          },
+        },
+        {
+          breakpoint: 1280,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true,
+          },
+        },
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true,
+          },
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
             initialSlide: 0,
-          infinite: true,
+            infinite: true,
+          },
         },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
+        {
+          breakpoint: 600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,
+            infinite: true,
+          },
         },
-      },
-    ],
-    nextArrow: <CustomNextArrow />,
-    prevArrow: <CustomPrevArrow />,
-  };
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+        {
+          breakpoint: 320,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+          },
+        },
+      ],
+    };
+
+
+
   return (
-    <div className="slider-container space-x-2 py-10">
-      <div>
+    <div className="slider-container space-x-2 py-10 ">
+      <div className="">
         <Slider {...settings}>
           {testimonials.map(
             ({ fullname, review, rating, position, image }, index) => {
@@ -167,7 +233,7 @@ const testimonials = [
                     borderRadius: "10px",
                   }}
                 >
-                  <q className="text-grey text-base md:text-lg">
+                  <q className="text-grey text-base lg:text-lg">
                     {review}
                   </q>
                   <div className="flex justify-center items-center">

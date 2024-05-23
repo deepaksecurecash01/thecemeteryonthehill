@@ -10,28 +10,155 @@
     background-size: 300px;
 }
 
+/* General slide styling */
+.slick-slide>div {
+    margin: 0 10px;
+}
 
+.slide-item {
+    width: 380px !important;
+    height: auto !important;
+    position: relative;
+    margin: 1rem !important;
+}
 
- /* the slides */
- .slick-slide > div {
-     margin: 0 10px;
- }
-
-
- .slide-item {
-     width: 380px !important;
-     height: auto !important;
-     position: relative;
-     margin: 1rem !important;
- }
-
- @media (max-width: 500px) {
-/* the slides */
+/* Styling for screens with a max-width of 500px */
+@media (max-width: 500px) {
     .slick-slide>div {
-        margin: 0 0;
+        margin: 0;
     }
-         .slide-item {
-          
-             margin: 0 !important;
-         }
- }
+
+    .slide-item {
+        margin: 0.5rem !important;
+    }
+}
+
+/* Styling for screens between 501px and 600px */
+@media (min-width: 501px) and (max-width: 600px) {
+    .slick-slide>div {
+        margin: 0;
+    }
+
+    .slide-item {
+        width: 200px !important;
+        height: auto !important;
+        margin: 0.5rem !important;
+    }
+}
+
+/* Styling for screens between 601px and 768px */
+@media (min-width: 601px) and (max-width: 768px) {
+    .slick-slide>div {
+        margin: 0;
+    }
+
+    .slide-item {
+        width: 250px !important;
+        height: auto !important;
+        margin: 0.5rem !important;
+    }
+}
+
+/* Styling for screens between 769px and 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .slick-slide>div {
+        margin: 0;
+    }
+
+    .slide-item {
+        width: 300px !important;
+        height: auto !important;
+        margin: 0.3rem !important;
+    }
+}
+
+/* Styling for screens between 1025px and 1280px */
+@media (min-width: 1025px) and (max-width: 1280px) {
+    .slick-slide>div {
+        margin: 0 10px !important;
+    }
+
+    .slide-item {
+        width: 350px !important;
+        height: auto !important;
+        margin: 2em !important;
+    }
+}
+
+/* Styling for screens between 1281px and 1440px */
+@media (min-width: 1281px) and (max-width: 1440px) {
+    .slick-slide>div {
+        margin: 0 10px;
+    }
+
+    .slide-item {
+        width: 350px !important;
+        height: auto !important;
+        margin: 0.3rem !important;
+    }
+}
+
+/* Styling for screens between 1441px and 1600px */
+@media (min-width: 1441px) and (max-width: 1600px) {
+    .slick-slide>div {
+        margin: 0 10px;
+    }
+
+    .slide-item {
+        width: 350px !important;
+        height: auto !important;
+        margin: 0.3rem !important;
+    }
+}
+
+/* Styling for screens between 1601px and 1920px */
+@media (min-width: 1601px) and (max-width: 1920px) {
+    .slick-slide>div {
+        margin: 0 10px !important;
+    }
+
+    .slide-item {
+        width: 320px !important;
+        height: auto !important;
+        margin: 0.5rem !important;
+    }
+}
+
+/* Styling for screens between 1921px and 2560px */
+@media (min-width: 1921px) and (max-width: 2560px) {
+.slick-slide>div {
+        margin: 0 10px !important;
+    }
+
+    .slide-item {
+        width: 380px !important;
+        height: auto !important;
+        margin: 0.5rem !important;
+    }
+}
+
+/* Styling for screens between 2561px and 3200px */
+@media (min-width: 2561px) and (max-width: 3200px) {
+.slick-slide>div {
+        margin: 0 10px !important;
+    }
+
+    .slide-item {
+        width: 380px !important;
+        height: auto !important;
+        margin: 0.5rem !important;
+    }
+}
+
+/* Styling for screens larger than 3200px */
+@media (min-width: 3201px) {
+    .slick-slide>div {
+            margin: 0 10px !important;
+        }
+    
+        .slide-item {
+            width: 380px !important;
+            height: auto !important;
+            margin: 0.5rem !important;
+        }
+}
