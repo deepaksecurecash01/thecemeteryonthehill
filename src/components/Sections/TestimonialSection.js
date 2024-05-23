@@ -72,16 +72,15 @@ const TestimonialSection = () => {
               <h2 className="text-[2.75rem] font-bold text-start font-trajanpro3 text-burgundy">
                 Testimonial
               </h2>
-              <p className="text-grey text-start tracking-wide md:pr-10">
+              <p className="text-grey text-start tracking-wide md:pr-10 lg:text-lg">
                 {
                   " Don't just take our word for it - see what actual users of our service have to say about their experience."
                 }
               </p>
             </div>
-          
           </div>
-          <div className="flex md:justify-end lg:justify-end items-center py-8 lg:px-8 space-x-4 w-full ">
-            <div className="w-full md:w-[80vw] lg:w-[85vw] px-4 md:ml-10 lg:ml-12 xl:ml-10">
+          <div className="flex md:justify-end lg:justify-center items-center py-8 lg:px-8 space-x-4 w-full ">
+            <div className="w-full md:w-[80vw] lg:[85vw] 4xl:w-[70vw] 5xl:w[60-vw] px-4 md:ml-10 lg:ml-0">
               <Simple />
             </div>
           </div>

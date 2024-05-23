@@ -201,7 +201,7 @@ const testimonials = [
 
 
   return (
-    <div className="slider-container space-x-2 py-10">
+    <div className="slider-container space-x-2 py-10 relative">
       <div className="">
         <Slider {...settings}>
           {testimonials.map(
@@ -258,7 +258,7 @@ const testimonials = [
                       <h3 className="text-2xl text-black font-semibold font-trajanpro3">
                         {fullname}
                       </h3>
-                      <p className="text-base md:text-lg font-medium text-grey">
+                      <p className="text-base font-medium text-grey lg:text-lg">
                         {position}
                       </p>
                     </div>
