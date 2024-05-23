@@ -1,12 +1,25 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    screens: {
+      xs: { max: "639px" },
+      sm: { min: "640px" },
+      md: { min: "768px" },
+      lg: { min: "1024px" },
+      xl: { min: "1280px" },
+      "2xl": { min: "1536px" },
+      "3xl": { min: "1792px" },
+      "4xl": { min: "2048px" },
+      "5xl": { min: "2304px" },
+      "6xl": { min: "2560px" },
+      "7xl": { min: "2816px" },
+      "8xl": { min: "3072px" },
+    },
     extend: {
       fontFamily: {
         opensans: ["var(--font-opensans)"], //Default font for paragraphs.
@@ -33,7 +46,6 @@ module.exports = {
         testi_bg: "url('/images/demo.png')",
       },
     },
- 
   },
   plugins: [],
 };

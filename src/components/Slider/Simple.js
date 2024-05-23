@@ -5,7 +5,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
-    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[6rem] xl:-top-[6.8rem] xl:right-[6rem] ${
+    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[6rem] xl:-top-[6.8rem] xl:right-[6rem] 6xl:right-52 ${
       currentSlide === 0 ? "bg-gold/50" : "bg-gold/75 cursor-pointer"
     }`}
     style={{ animation: "moveRightLeft 1.5s infinite", zIndex: 1 }}
@@ -21,7 +21,7 @@ const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
 
 const CustomNextArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
-    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[2rem] xl:-top-[6.8rem] xl:right-[2rem] ${
+    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[2rem] xl:-top-[6.8rem] xl:right-[2rem] 6xl:right-36 ${
       currentSlide === slideCount - 1
         ? "bg-gold/50"
         : "bg-gold/75 cursor-pointer"
@@ -48,7 +48,7 @@ const testimonials = [
   },
   {
     review:
-      "A fantastic solution for our team's collaboration needs. The seamless integration with our existing tools is a game-changer.",
+      "A fantastic solution for our team's collaboration needs. The seamless integration with our existing tools is a game-changer. ",
     rating: 4,
     fullname: "Charlie Brown",
     position: "Product Owner",
@@ -56,7 +56,7 @@ const testimonials = [
   },
   {
     review:
-      "Excellent customer service and a product that truly delivers on its promises. We’ve seen significant improvements in efficiency.",
+      "Excellent customer service and a product that truly delivers on its promises. We’ve seen significant improvements in efficiency. ",
     rating: 4,
     fullname: "Dylan Cross",
     position: "Senior Developer",
@@ -64,7 +64,7 @@ const testimonials = [
   },
   {
     review:
-      "User-friendly interface and outstanding performance. It’s been a vital tool for our day-to-day operations.",
+      "User-friendly interface and outstanding performance. It’s been a vital tool for our day-to-day operations. ",
     rating: 5,
     fullname: "Dana White",
     position: "Business Analyst",
@@ -72,7 +72,7 @@ const testimonials = [
   },
   {
     review:
-      "The best investment we’ve made this year. The features are exactly what we needed, and the support team is phenomenal.",
+      "The best investment we’ve made this year. The features are exactly what we needed, and the support team is phenomenal. ",
     rating: 5,
     fullname: "Eli Martinez",
     position: "IT Director",
@@ -80,7 +80,7 @@ const testimonials = [
   },
   {
     review:
-      "User-friendly interface and outstanding performance. It’s been a vital tool for our day-to-day operations.",
+      "User-friendly interface and outstanding performance. It’s been a vital tool for our day-to-day operations. ",
     rating: 5,
     fullname: "Dana White",
     position: "Business Analyst",
@@ -88,13 +88,15 @@ const testimonials = [
   },
   {
     review:
-      "The best investment we’ve made this year. The features are exactly what we needed, and the support team is phenomenal.",
+      "The best investment we’ve made this year. The features are exactly what we needed, and the support team is phenomenal. ",
     rating: 5,
     fullname: "Eli Martinez",
     position: "IT Director",
     image: "/images/testimonials/images (1).jpeg",
   },
 ];
+
+
 
     const settings = {
       infinite: true,
@@ -198,7 +200,7 @@ const testimonials = [
 
 
   return (
-    <div className="slider-container space-x-2 py-10 ">
+    <div className="slider-container space-y-2 py-10 ">
       <div className="">
         <Slider {...settings}>
           {testimonials.map(
@@ -221,7 +223,7 @@ const testimonials = [
               return (
                 <div
                   key={index}
-                  className="bg-gold/50 backdrop-blur-lg px-8 py-8 rounded-md space-y-6 flex flex-col items-center justify-center w-full slide-item"
+                  className="bg-gold/50 backdrop-blur-lg px-8 py-8 rounded-md space-y-8 flex flex-col items-center justify-center w-full slide-item"
                   style={{
                     boxShadow: "0 .1em .8em #212121",
                     display: "flex",
@@ -233,14 +235,14 @@ const testimonials = [
                     borderRadius: "10px",
                   }}
                 >
-                  <q className="text-grey text-base lg:text-lg">
+                  <q className="text-grey text-base tracking-wide lg:text-lg 5xl:text-xl">
                     {review}
                   </q>
                   <div className="flex justify-center items-center">
                     {stars}
                   </div>
-                  <div className="space-y-1 flex flex-col justify-center items-center">
-                    <div className="h-16 w-16 md:h-24 md:w-24 flex justify-center items-center relative">
+                  <div className="space-y-3 flex flex-col justify-center items-center">
+                    <div className="h-16 w-16 md:h-32 md:w-32 flex justify-center items-center relative">
                       <Image
                         src={image}
                         fill
@@ -248,10 +250,10 @@ const testimonials = [
                         className="absolute rounded-full object-cover"
                       />
                     </div>
-                    <h3 className="text-2xl text-black font-semibold font-trajanpro3">
+                    <h3 className="text-2xl 5xl:text-4xl text-black font-semibold font-trajanpro3">
                       {fullname}
                     </h3>
-                    <p className="text-base md:text-lg font-medium text-grey">
+                    <p className="text-base md:text-lg 5xl:text-xl font-medium text-grey">
                       {position}
                     </p>
                   </div>

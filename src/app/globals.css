@@ -126,12 +126,12 @@
 
 /* Styling for screens between 1921px and 2560px */
 @media (min-width: 1921px) and (max-width: 2560px) {
-.slick-slide>div {
-        margin: 0 10px !important;
+    .slick-slide>div {
+        margin: 0 0 !important;
     }
 
     .slide-item {
-        width: 380px !important;
+        width: 400px !important;
         height: auto !important;
         margin: 0.5rem !important;
     }
@@ -139,12 +139,12 @@
 
 /* Styling for screens between 2561px and 3200px */
 @media (min-width: 2561px) and (max-width: 3200px) {
-.slick-slide>div {
-        margin: 0 10px !important;
+    .slick-slide>div {
+        margin: 0 0 !important;
     }
 
     .slide-item {
-        width: 380px !important;
+        width: 400px !important;
         height: auto !important;
         margin: 0.5rem !important;
     }
@@ -153,12 +153,12 @@
 /* Styling for screens larger than 3200px */
 @media (min-width: 3201px) {
     .slick-slide>div {
-            margin: 0 10px !important;
-        }
-    
-        .slide-item {
-            width: 380px !important;
-            height: auto !important;
-            margin: 0.5rem !important;
-        }
+        margin: 0 10px !important;
+    }
+
+    .slide-item {
+        width: 400px !important;
+        height: auto !important;
+        margin: 0.5rem !important;
+    }
 }
