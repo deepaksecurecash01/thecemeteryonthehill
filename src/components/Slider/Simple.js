@@ -5,7 +5,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
-    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[6rem] xl:-top-[6.8rem] xl:right-[6rem] 6xl:right-52 ${
+    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[6rem] xl:-top-[6.8rem] lg:right-[6rem] ${
       currentSlide === 0 ? "bg-gold/50" : "bg-gold/75 cursor-pointer"
     }`}
     style={{ animation: "moveRightLeft 1.5s infinite", zIndex: 1 }}
@@ -21,7 +21,7 @@ const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
 
 const CustomNextArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
-    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[2rem] xl:-top-[6.8rem] xl:right-[2rem] 6xl:right-36 ${
+    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[2rem] xl:-top-[6.8rem] xl:right-[2rem] ${
       currentSlide === slideCount - 1
         ? "bg-gold/50"
         : "bg-gold/75 cursor-pointer"
@@ -95,6 +95,7 @@ const testimonials = [
     image: "/images/testimonials/images (1).jpeg",
   },
 ];
+
 
 
 
@@ -175,7 +176,7 @@ const testimonials = [
         {
           breakpoint: 600,
           settings: {
-            slidesToShow: 2,
+            slidesToShow: 1,
             slidesToScroll: 1,
             infinite: true,
           },
@@ -200,7 +201,7 @@ const testimonials = [
 
 
   return (
-    <div className="slider-container space-y-2 py-10 ">
+    <div className="slider-container space-x-2 py-10">
       <div className="">
         <Slider {...settings}>
           {testimonials.map(
@@ -223,7 +224,7 @@ const testimonials = [
               return (
                 <div
                   key={index}
-                  className="bg-gold/50 backdrop-blur-lg px-8 py-8 rounded-md space-y-8 flex flex-col items-center justify-center w-full slide-item"
+                  className="bg-gold/50 backdrop-blur-lg px-8 py-8 rounded-md flex flex-col items-center justify-evenly w-full slide-item"
                   style={{
                     boxShadow: "0 .1em .8em #212121",
                     display: "flex",
@@ -235,14 +236,17 @@ const testimonials = [
                     borderRadius: "10px",
                   }}
                 >
-                  <q className="text-grey text-base tracking-wide lg:text-lg 5xl:text-xl">
-                    {review}
-                  </q>
-                  <div className="flex justify-center items-center">
-                    {stars}
+                  <div className="h-20 4xl:h-24 flex justify-center items-center">
+                    <q className="text-grey text-base tracking-wide h-full lg:text-lg">
+                      {review}
+                    </q>
                   </div>
-                  <div className="space-y-3 flex flex-col justify-center items-center">
-                    <div className="h-16 w-16 md:h-32 md:w-32 flex justify-center items-center relative">
+
+                  <div className="space-y-4 flex flex-col justify-center items-center h-full">
+                    <div className="flex justify-center items-center">
+                      {stars}
+                    </div>
+                    <div className="h-16 w-16 md:h-24 md:w-24 flex justify-center items-center relative">
                       <Image
                         src={image}
                         fill
@@ -250,12 +254,14 @@ const testimonials = [
                         className="absolute rounded-full object-cover"
                       />
                     </div>
-                    <h3 className="text-2xl 5xl:text-4xl text-black font-semibold font-trajanpro3">
-                      {fullname}
-                    </h3>
-                    <p className="text-base md:text-lg 5xl:text-xl font-medium text-grey">
-                      {position}
-                    </p>
+                    <div className=" space-y-2 flex flex-col justify-center items-center">
+                      <h3 className="text-2xl text-black font-semibold font-trajanpro3">
+                        {fullname}
+                      </h3>
+                      <p className="text-base md:text-lg font-medium text-grey">
+                        {position}
+                      </p>
+                    </div>
                   </div>
                 </div>
               );

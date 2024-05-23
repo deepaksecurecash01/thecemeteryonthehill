@@ -16,19 +16,33 @@
 }
 
 .slide-item {
-    width: 380px !important;
-    height: auto !important;
+    width: 340px !important;
+    height: 400px !important;
     position: relative;
     margin: 1rem !important;
 }
 
 /* Styling for screens with a max-width of 500px */
-@media (max-width: 500px) {
+@media (max-width: 419px) {
     .slick-slide>div {
         margin: 0;
     }
 
     .slide-item {
+        margin: 0rem !important;
+    }
+}
+
+/* Styling for screens between 501px and 600px */
+@media (min-width: 420px) and (max-width: 500px) {
+    .slick-slide>div {
+        margin: 0;
+    }
+
+    .slide-item {
+        width: 380px !important;
+        height: 400px !important;
+        position: relative;
         margin: 0.5rem !important;
     }
 }
@@ -40,8 +54,9 @@
     }
 
     .slide-item {
-        width: 200px !important;
-        height: auto !important;
+        width: 380px !important;
+            height: 400px !important;
+            position: relative;
         margin: 0.5rem !important;
     }
 }
@@ -53,9 +68,10 @@
     }
 
     .slide-item {
-        width: 250px !important;
-        height: auto !important;
-        margin: 0.5rem !important;
+        width: 380px !important;
+            height: 400px !important;
+            position: relative;
+            margin: 0.5rem !important;
     }
 }
 
@@ -67,7 +83,7 @@
 
     .slide-item {
         width: 300px !important;
-        height: auto !important;
+        height: 440px !important;
         margin: 0.3rem !important;
     }
 }
@@ -80,7 +96,7 @@
 
     .slide-item {
         width: 350px !important;
-        height: auto !important;
+        height: 440px !important;
         margin: 2em !important;
     }
 }
@@ -93,7 +109,7 @@
 
     .slide-item {
         width: 350px !important;
-        height: auto !important;
+        height: 440px !important;
         margin: 0.3rem !important;
     }
 }
@@ -106,7 +122,7 @@
 
     .slide-item {
         width: 350px !important;
-        height: auto !important;
+        height: 440px !important;
         margin: 0.3rem !important;
     }
 }
@@ -119,7 +135,7 @@
 
     .slide-item {
         width: 320px !important;
-        height: auto !important;
+        height: 500px !important;
         margin: 0.5rem !important;
     }
 }
@@ -132,7 +148,7 @@
 
     .slide-item {
         width: 400px !important;
-        height: auto !important;
+        height: 500px !important;
         margin: 0.5rem !important;
     }
 }
