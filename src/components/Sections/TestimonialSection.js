@@ -5,14 +5,12 @@ import BannerSection from "./BannerSection";
 import Simple from "../Slider/Simple";
 
 const TestimonialSection = () => {
-
-
   return (
-    <div className="min-h-screen w-full overflow-hidden flex flex-col justify-between">
-      <div className="relative overflow-hidden h-full flex justify-start items-start lg:items-center">
-        <div className="absolute bg-ellipse-1 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10" />
-        <div className="absolute bg-ellipse-2 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10" />
-        <div className="hidden absolute bg-testimonials-overlay bg-no-repeat bg-left w-full h-full -z-20 bg-contain md:block" />
+    <div className="min-h-screen relative w-full overflow-hidden flex flex-col justify-between">
+      <div className="absolute bg-ellipse-1 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10" />
+      <div className="absolute bg-ellipse-2 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10" />
+      <div className="hidden absolute bg-testimonials-overlay -left-16 bg-no-repeat bg-left w-full h-full -z-20 bg-contain md:block" />
+      <div className=" w-full min-h-screen z-10 flex flex-col justify-between items-center">
         <div className="py-20 flex flex-col justify-between items-start w-full space-y-2">
           <div className="flex flex-col justify-center items-center lg:flex-row w-full h-full gap-6">
             <div className="px-8 space-y-2 w-full md:pl-64">
@@ -32,8 +30,10 @@ const TestimonialSection = () => {
             </div>
           </div>
         </div>
+        <div className="w-full">
+          <BannerSection />
+        </div>
       </div>
-      <BannerSection />
     </div>
   );
 };
