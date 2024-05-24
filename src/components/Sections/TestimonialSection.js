@@ -11,7 +11,7 @@ const TestimonialSection = () => {
       <div className="absolute bg-ellipse-2 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10" />
       <div className="hidden absolute bg-testimonials-overlay -left-16 bg-no-repeat bg-left w-full h-full -z-20 bg-contain md:block" />
       <div className=" w-full min-h-screen z-10 flex flex-col justify-between items-center">
-        <div className="py-20 flex flex-col justify-between items-start w-full space-y-2">
+        <div className="pt-10 6xl:min-h-[65vh] flex flex-col justify-center items-start w-full space-y-2">
           <div className="flex flex-col justify-center items-center lg:flex-row w-full h-full gap-6">
             <div className="px-8 space-y-2 w-full md:pl-64">
               <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-start font-display text-primary">
@@ -24,7 +24,7 @@ const TestimonialSection = () => {
               </p>
             </div>
           </div>
-          <div className="flex md:justify-end lg:justify-center items-center py-8 lg:px-8 space-x-4 w-full h-full">
+          <div className="flex md:justify-end lg:justify-center items-center py-10 lg:px-8 space-x-4 w-full h-full">
             <div className="w-full md:w-[80vw] lg:w-[85vw] 4xl:w-[70vw] 5xl:w-[60vw] px-4 md:ml-10 lg:ml-0">
               <Simple />
             </div>
