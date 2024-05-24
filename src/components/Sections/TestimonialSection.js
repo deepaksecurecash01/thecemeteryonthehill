@@ -24,7 +24,7 @@ const TestimonialSection = () => {
               </p>
             </div>
           </div>
-          <div className="flex md:justify-end lg:justify-center items-center py-8 6xl:py-24 lg:px-8 space-x-4 w-full h-full">
+          <div className="flex md:justify-end lg:justify-center items-center py-8 lg:px-8 space-x-4 w-full h-full">
             <div className="w-full md:w-[80vw] lg:w-[85vw] 4xl:w-[70vw] 5xl:w-[60vw] px-4 md:ml-10 lg:ml-0">
               <Simple />
             </div>
