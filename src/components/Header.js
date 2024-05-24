@@ -7,6 +7,7 @@ import Image from "next/image";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
@@ -26,7 +27,7 @@ const Header = () => {
         </Link>
         <div className="lg:hidden w-full flex justify-end">
           <button
-            className="navbar-burger flex items-center text-burgundy p-3"
+            className="navbar-burger flex items-center text-primary p-3"
             onClick={toggleMenu}
           >
             <svg
@@ -40,7 +41,9 @@ const Header = () => {
           </button>
         </div>
         <ul
-          className={`absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6 xl:flex xl:space-x-6 ${"hidden"}`}
+          className={`absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto lg:space-x-6 xl:flex xl:space-x-6 ${
+            "hidden"
+          }`}
         >
           {[
             { href: "/", label: "Home" },
@@ -55,8 +58,8 @@ const Header = () => {
                 <span
                   className={`text-base ${
                     pathname === item.href
-                      ? "text-burgundy font-bold"
-                      : "text-gray-400 hover:text-gray-500"
+                      ? "text-primary font-bold"
+                      : "text-paragraph hover:text-secondary"
                   }`}
                 >
                   {item.label}
@@ -66,7 +69,7 @@ const Header = () => {
           ))}
         </ul>
         <Link href="/contact" passHref>
-          <span className="hidden lg:inline-block py-2 px-6 bg-gold hover:bg-burgundy text-sm text-white font-bold rounded-md transition duration-200">
+          <span className="hidden lg:inline-block py-2 px-6 bg-secondary hover:bg-primary text-sm text-white font-bold rounded-md transition duration-200">
             Contact us
           </span>
         </Link>
@@ -123,8 +126,8 @@ const Header = () => {
                   <span
                     className={`block p-4 text-sm font-semibold rounded ${
                       pathname === item.href
-                        ? "text-burgundy font-bold"
-                        : "text-gray-400 hover:bg-gold/10 hover:text-burgundy"
+                        ? "text-primary font-bold"
+                        : "text-paragraph hover:bg-secondary/10 hover:text-primary"
                     }`}
                     onClick={toggleMenu}
                   >
@@ -137,7 +140,7 @@ const Header = () => {
           <div className="mt-auto">
             <div className="pt-6">
               <Link href="/contact" passHref>
-                <span className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-gold hover:bg-burgundy rounded-xl">
+                <span className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-secondary hover:bg-primary rounded-xl">
                   Contact us
                 </span>
               </Link>

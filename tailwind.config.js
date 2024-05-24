@@ -22,29 +22,28 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        opensans: ["var(--font-opensans)"], //Default font for paragraphs.
-        roboto: ["var(--font-roboto)"], //Applied to navigation menus, contact details, buttons, and all clickable links.
-        eliyamoliscript: ["var(--font-eliyamoliscript)"], //Used for sub-headings.
-        trajanpro3: ["var(--font-trajanpro3)"], //Used for headings.
+        sans: ["var(--font-opensans)"], // Default font for paragraphs
+        roboto: ["var(--font-roboto)"], // Navigation menus, contact details, buttons, and all clickable links
+        script: ["var(--font-eliyamoliscript)"], // Sub-headings
+        display: ["var(--font-trajanpro3)"], // Headings
       },
       colors: {
-        burgundy: "#933d38", //Primary Colour
-        gold: "#9e8034", //Secondary Colour
-        black: "#030000", //Tertiary Colour
-        grey: "#58595b", //Paragraph text
+        primary: "#933d38", // Burgundy
+        secondary: "#9e8034", // Gold
+        tertiary: "#030000", // Black
+        paragraph: "#58595b", // Grey
       },
-      backgroundImage: {
-        herosection: "url('/images/contact-bg.jpg')",
-        intro_overly: "url('/images/intro-overly.png')",
-        testimonials_overly: "url('/images/testimonials-overly.png')",
-        elipse1: "url('/images/Ellipse-140.png')",
-        elipse2: "url('/images/Ellipse-139.png')",
-        services_bg_1: "url('/images/services_bg_1.png')",
-        services_bg_2: "url('/images/services_bg_2.png')",
-        services_bg_3: "url('/images/services_bg_3.png')",
-        banner_bg: "url('/images/banner_bg.jpg')",
-        testi_bg: "url('/images/demo.png')",
-      },
+      backgroundImage: (theme) => ({
+        "hero-section": "url('/images/contact-bg.jpg')",
+        "intro-overlay": "url('/images/intro-overly.png')",
+        "testimonials-overlay": "url('/images/testimonials-overly.png')",
+        "ellipse-1": "url('/images/Ellipse-140.png')",
+        "ellipse-2": "url('/images/Ellipse-139.png')",
+        "services-bg-1": "url('/images/services_bg_1.png')",
+        "services-bg-2": "url('/images/services_bg_2.png')",
+        "services-bg-3": "url('/images/services_bg_3.png')",
+        "banner-bg": "url('/images/banner_bg.jpg')",
+      }),
     },
   },
   plugins: [],

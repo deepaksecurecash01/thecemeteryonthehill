@@ -120,8 +120,8 @@ const TestimonialSection = () => {
 
   return (
     <div className="relative overflow-hidden w-full">
-      <div className="absolute bg-elipse1 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10" />
-      <div className="absolute bg-elipse2 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10" />
+      <div className="absolute bg-ellipse-1 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10" />
+      <div className="absolute bg-ellipse-2 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10" />
       <div className="absolute bg-testimonials_overly bg-no-repeat object-right w-72 h-full -z-20 bg-contain " />
       <div className="flex justify-center items-center">
         <div className="px-8 space-y-2 w-full pl-64">
