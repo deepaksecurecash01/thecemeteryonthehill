@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+'use client'
+import React from "react";
 import Slider from "react-slick";
 import { IoStar, IoStarOutline } from "react-icons/io5";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";

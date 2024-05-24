@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -9,8 +8,8 @@ const TestimonialSection = () => {
 
 
   return (
-    <div className="min-h-screen w-full overflow-hidden">
-      <div className="relative overflow-hidden flex justify-start items-start lg:items-center">
+    <div className="min-h-screen w-full overflow-hidden flex flex-col justify-between">
+      <div className="relative overflow-hidden h-full flex justify-start items-start lg:items-center">
         <div className="absolute bg-ellipse-1 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10" />
         <div className="absolute bg-ellipse-2 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10" />
         <div className="hidden absolute bg-testimonials-overlay bg-no-repeat bg-left w-full h-full -z-20 bg-contain md:block" />
@@ -27,7 +26,7 @@ const TestimonialSection = () => {
               </p>
             </div>
           </div>
-          <div className="flex md:justify-end lg:justify-center items-center py-8 lg:px-8 space-x-4 w-full h-full">
+          <div className="flex md:justify-end lg:justify-center items-center py-8 6xl:py-24 lg:px-8 space-x-4 w-full h-full">
             <div className="w-full md:w-[80vw] lg:w-[85vw] 4xl:w-[70vw] 5xl:w-[60vw] px-4 md:ml-10 lg:ml-0">
               <Simple />
             </div>
