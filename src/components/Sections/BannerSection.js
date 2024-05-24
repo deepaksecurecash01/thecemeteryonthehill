@@ -3,7 +3,7 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 const BannerSection = () => {
   return (
-    <div className="relative 6xl:h-[500px] flex justify-center items-center">
+    <div className="relative 6xl:min-h-[550px] flex justify-center items-center">
       <div className="absolute bg-banner-bg bg-no-repeat w-full h-full bg-cover bg-center -z-20" />
       <div className="absolute bg-tertiary bg-opacity-60 w-full h-full -z-10" />
       <div className="grid place-items-center gap-6 py-16 px-4 md:px-8">
