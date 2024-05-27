@@ -10,11 +10,11 @@ import {
 
 const IntroSection = () => {
   return (
-    <div className="relative min-h-screen grid grid-cols-1 lg:grid-cols-7 place-items-center overflow-hidden">
+    <div className="relative h-full lg:min-h-screen grid grid-cols-1 lg:grid-cols-7 place-items-center lg:overflow-hidden">
       <div className="absolute top-0 left-0 h-full w-full bg-ellipse-1 bg-cover bg-no-repeat -z-10" />
       <div className="absolute bottom-0 right-0 h-full w-full bg-ellipse-2 bg-cover bg-no-repeat -z-10" />
 
-      <div className="relative col-span-1 lg:col-span-4 h-72 md:h-[30rem] lg:h-full w-full flex justify-end items-end order-1 lg:order-2">
+      <div className="relative col-span-1 h-[30vh]  lg:col-span-4 lg:h-full w-full flex justify-end items-end order-1 lg:order-2">
         <div className="absolute w-full h-full bg-intro-overlay bg-cover bg-no-repeat object-right -z-20" />
         <Image
           src="/images/intro-statue.png"
@@ -25,7 +25,7 @@ const IntroSection = () => {
         />
       </div>
 
-      <div className="col-span-1 lg:col-span-3 h-full w-full py-6 px-8 lg:px-12 md:pr-4 space-y-6 md:flex md:flex-col justify-center items-start order-2 lg:order-1">
+      <div className="col-span-1 lg:col-span-3 lg:h-full w-full py-6 px-8 xl:px-12 md:pr-4 space-y-6 md:flex md:flex-col justify-start lg:justify-center items-start order-2 lg:order-1">
         <h2 className="text-[1.75rem] md:text-[4rem] font-bold text-start text-primary font-display">
           The Historic Cemetery on the Hill
         </h2>

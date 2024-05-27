@@ -13,17 +13,20 @@
 /* General slide styling */
 .slick-slide>div {
     margin: 0 10px;
+    display: flex;
+        justify-content: center;
+        align-items: center;
 }
 
 .slide-item {
-    width: 340px !important;
+    width: 100% !important;
     height: 400px !important;
     position: relative;
     margin: 1rem !important;
 }
 
 /* Styling for screens with a max-width of 419px */
-@media (max-width: 419px) {
+@media (max-width: 460px) {
     .slick-slide>div {
         margin: 0;
     }
@@ -34,85 +37,93 @@
 }
 
 /* Styling for screens between 420px and 768px */
-@media (min-width: 420px) and (max-width: 768px) {
+@media (min-width: 461px)  {
     .slick-slide>div {
         margin: 0;
+     
     }
 
     .slide-item {
-        width: 380px !important;
+        width: 350px !important;
         height: 400px !important;
         margin: 0.5rem !important;
     }
 }
 
 /* Styling for screens between 769px and 1024px */
-@media (min-width: 769px) and (max-width: 1024px) {
+@media (min-width: 768px)  {
     .slick-slide>div {
         margin: 0;
     }
 
     .slide-item {
-        width: 300px !important;
+        width: 350px !important;
         height: 440px !important;
-        margin: 0.3rem !important;
     }
 }
 
 /* Styling for screens between 1025px and 1440px */
-@media (min-width: 1025px) and (max-width: 1440px) {
+@media (min-width: 1024px) {
     .slick-slide>div {
         margin: 0 10px;
     }
 
     .slide-item {
-        width: 350px !important;
-        height: 440px !important;
-        margin: 2em !important;
+        width: 440px !important;
+        height: 500px !important;
     }
 }
 
 /* Styling for screens between 1441px and 1600px */
-@media (min-width: 1441px) and (max-width: 1600px) {
+@media (min-width: 1281px) {
     .slick-slide>div {
         margin: 0 10px;
     }
 
     .slide-item {
-        width: 350px !important;
-        height: 440px !important;
-        margin: 0.3rem !important;
+        width: 440px !important;
+        height: 500px !important;
+    }
+}
+
+/* Styling for screens between 1441px and 1600px */
+@media (min-width: 1440px)  {
+    .slick-slide>div {
+        margin: 0 10px;
+    }
+
+    .slide-item {
+        width: 440px !important;
+        height: 500px !important;
     }
 }
 
 /* Styling for screens between 1601px and 1920px */
-@media (min-width: 1601px) and (max-width: 1920px) {
+@media (min-width: 1600px)  {
     .slick-slide>div {
         margin: 0 10px !important;
     }
 
     .slide-item {
-        width: 320px !important;
+        width: 440px !important;
         height: 500px !important;
-        margin: 0.5rem !important;
     }
 }
 
 /* Styling for screens between 1921px and 2560px */
-@media (min-width: 1921px) and (max-width: 2560px) {
+@media (min-width: 1920px)  {
     .slick-slide>div {
         margin: 0 !important;
     }
 
     .slide-item {
-        width: 340px !important;
+        width: 400px !important;
         height: 500px !important;
-        margin: 0.5rem !important;
     }
 }
 
 /* Styling for screens between 2561px and 3200px */
-@media (min-width: 2561px) and (max-width: 3200px) {
+@media (min-width: 2560px) {
     .slick-slide>div {
         margin: auto !important;
     }
@@ -120,19 +131,40 @@
     .slide-item {
         width: 400px !important;
         height: 500px !important;
-        margin: 0.5rem !important;
     }
 }
 
 /* Styling for screens larger than 3200px */
-@media (min-width: 3201px) {
+@media (min-width: 3200px) {
     .slick-slide>div {
-        margin: 0 10px !important;
+        margin: auto !important;
     }
 
     .slide-item {
-        width: 400px !important;
+        width: 440px !important;
         height: 500px !important;
-        margin: 0.5rem !important;
     }
+}
+
+
+
+/* components/Header.module.css */
+.navbar {
+    -webkit-box-shadow: 1px 1px 5px 0px rgba(13, 59, 95, 1);
+    -moz-box-shadow: 1px 1px 5px 0px rgba(13, 59, 95, 1);
+    box-shadow: 1px 1px 5px 0px rgba(13, 59, 95, 1);
+}
+
+.navbar-show {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.navbar-hide {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.nav-link {
+    /* Your nav link styles */
 }

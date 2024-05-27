@@ -6,7 +6,7 @@ import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
 const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
-    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[6rem] xl:-top-[6.8rem] lg:right-[6rem] ${
+    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[6rem] xl:-top-[4.8rem] lg:right-[6rem] ${
       currentSlide === 0 ? "bg-secondary/50" : "bg-secondary/75 cursor-pointer"
     }`}
     style={{ animation: "moveRightLeft 1.5s infinite", zIndex: 1 }}
@@ -22,7 +22,7 @@ const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
 
 const CustomNextArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
-    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[2rem] xl:-top-[6.8rem] xl:right-[2rem] ${
+    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[2rem]  xl:-top-[4.8rem] xl:right-[2rem] ${
       currentSlide === slideCount - 1
         ? "bg-secondary/50"
         : "bg-secondary/75 cursor-pointer"
@@ -162,25 +162,16 @@ function Resizable() {
           infinite: true,
         },
       },
+ 
       {
-        breakpoint: 768,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 1,
-          initialSlide: 0,
-          infinite: true,
-        },
-      },
-      {
-        breakpoint: 600,
+        breakpoint: 767,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
-          infinite: true,
         },
       },
       {
-        breakpoint: 480,
+        breakpoint: 700,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
@@ -197,7 +188,7 @@ function Resizable() {
   };
 
   return (
-    <div className="slider-container space-x-2 py-10 relative">
+    <div className="slider-container space-x-2 py-10 relative ">
       <div className="">
         <Slider {...settings}>
           {testimonials.map(

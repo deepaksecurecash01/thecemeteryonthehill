@@ -3,7 +3,7 @@ import React from "react";
 
 const HeroSection = () => {
   return (
-    <div className="relative min-h-[90vh]">
+    <div className="relative h-[95vh]">
       <div className="absolute bg-hero-section bg-no-repeat bg-cover bg-center w-full h-full opacity-30 -z-10" />
       <div className="flex flex-col justify-between items-center w-full h-[95vh] overflow-hidden pt-20 px-4 sm:px-8">
         <div className="flex flex-col justify-center items-center max-w-2xl lg:max-w-2xl lg:pt-16 sm:space-y-6 md:space-y-6 lg:space-y-4 gap-4 lg:h-[28rem] text-center">
@@ -21,42 +21,42 @@ const HeroSection = () => {
             European settlement in the area around the 1840s.
           </p>
         </div>
-        <div className="grid grid-cols-4 sm:grid-cols-4 h-full md:grid-cols-6 lg:grid-cols-8 gap-4 place-items-end overflow-hidden w-full mt-8">
-          <div className="relative col-span-1 flex justify-center items-end w-full h-[16rem] sm:h-[16rem] md:h-[22rem] lg:h-[24rem]">
+        <div className="grid grid-cols-3 sm:grid-cols-3 h-full md:grid-cols-6 xl:grid-cols-8 gap-4 place-items-end overflow-hidden w-full mt-8">
+          <div className="relative col-span-1 flex justify-center items-end w-full h-[22rem] sm:h-[16rem] md:h-[22rem] lg:h-[24rem]">
             <Image
-              src="/images/image-80.png"
+              src="/images/hero-1.jpg"
               fill
               alt="Historic Cemetery Image 1"
               className="rounded-t-2xl absolute w-fit object-cover"
             />
           </div>
-          <div className="hidden col-span-2 relative md:flex justify-center items-end w-full h-60 md:h-[30rem] lg:h-[36rem]">
+          <div className="flex col-span-2 relative  justify-center items-end w-full h-[26rem] md:h-[30rem] xl:h-[36rem]">
             <Image
-              src="/images/image-80.jpg"
+              src="/images/hero-2.jpg"
               fill
               alt="Historic Cemetery Image 2"
               className="rounded-t-2xl absolute w-fit object-cover object-top"
             />
           </div>
-          <div className="relative col-span-2 flex justify-center items-end w-full h-[22rem] sm:h-[22rem] md:h-[28rem] lg:h-[30rem]">
+          <div className="hidden md:flex col-span-2 relative justify-center items-end w-full h-[22rem] sm:h-[22rem] md:h-[28rem] xl:h-[34rem]">
             <Image
-              src="/images/image-77.png"
+              src="/images/hero-3.jpg"
               fill
               alt="Historic Cemetery Image 3"
               className="rounded-t-2xl absolute w-fit object-cover"
             />
           </div>
-          <div className="hidden col-span-2 relative lg:flex justify-center items-end w-full h-60 md:h-[30rem] lg:h-[36rem]">
+          <div className="hidden col-span-2 relative xl:flex justify-center items-end w-full h-60 md:h-[30rem] xl:h-[36rem]">
             <Image
-              src="/images/image-81.jpg"
+              src="/images/hero-4.jpg"
               fill
               alt="Historic Cemetery Image 4"
               className="rounded-t-2xl absolute w-fit object-cover object-top"
             />
           </div>
-          <div className="relative col-span-1 flex justify-center items-end w-full h-[16rem] sm:h-[16rem] md:h-[22rem] lg:h-[24rem]">
+          <div className="hidden relative col-span-1 md:flex justify-center items-end w-full h-[16rem] sm:h-[16rem] md:h-[22rem] xl:h-[24rem]">
             <Image
-              src="/images/image-79.jpg"
+              src="/images/hero-5.jpg"
               fill
               alt="Historic Cemetery Image 5"
               className="absolute rounded-t-2xl w-full object-cover"
