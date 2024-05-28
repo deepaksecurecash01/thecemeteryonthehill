@@ -1,9 +1,10 @@
-'use client'
+"use client";
 import React from "react";
 import Slider from "react-slick";
 import { IoStar, IoStarOutline } from "react-icons/io5";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
+
 const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
     className={`absolute rounded-sm p-4 -top-[3.8rem] right-[6rem] xl:-top-[4.8rem] lg:right-[6rem] ${
@@ -37,6 +38,7 @@ const CustomNextArrow = ({ currentSlide, slideCount, onClick }) => (
     <FaArrowRight className="text-xl text-paragraph" />
   </div>
 );
+
 function Resizable() {
   const testimonials = [
     {
@@ -162,7 +164,7 @@ function Resizable() {
           infinite: true,
         },
       },
- 
+
       {
         breakpoint: 767,
         settings: {
@@ -197,10 +199,7 @@ function Resizable() {
                 .fill()
                 .map((_, starIndex) =>
                   starIndex < rating ? (
-                    <IoStar
-                      key={starIndex}
-                      className="text-4xl text-primary"
-                    />
+                    <IoStar key={starIndex} className="text-4xl text-primary" />
                   ) : (
                     <IoStarOutline
                       key={starIndex}
@@ -237,7 +236,8 @@ function Resizable() {
                       <Image
                         src={image}
                         fill
-                        alt={`Picture of ${fullname}`}
+                        loading="lazy"
+                        alt={`${fullname}'s review about 'The Cemetery on the hill'`}
                         className="absolute rounded-full object-cover"
                       />
                     </div>

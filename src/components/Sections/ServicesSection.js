@@ -5,10 +5,8 @@ import Link from "next/link";
 const servicesData = [
   {
     title: "Burials",
-    description: `We may offer reserved burial sites, purchase and renewal of Burial
-      Interment Rights, all necessities to give your loved one a pleasant and
-      memorable burial service. With our future focus being predominantly on
-      ashes interments, few burial sites are available.`,
+    description: `We offer reserved burial sites, purchase and renewal of Burial
+      Interment Rights, and all necessities for a pleasant and memorable burial service. With our future focus predominantly on ashes interments, few burial sites are available.`,
     backgroundClass: "bg-services-bg-1",
     link: "/burials",
   },
@@ -16,9 +14,7 @@ const servicesData = [
     title: "Ashes",
     description: `All ashes interments are offered for one of our renovated and
       beautifully landscaped ashes interment locations. We handle the physical
-      interment of ashes and take pride in making this a pleasant experience,
-      purchase and renewal of ashes interment rights, as well as managing lost
-      interment rights.`,
+      interment of ashes and take pride in making this a pleasant experience, purchase and renewal of ashes interment rights, as well as managing lost interment rights.`,
     backgroundClass: "bg-services-bg-2",
     link: "/ashes",
   },
@@ -40,23 +36,23 @@ const ServiceCard = ({ title, description, backgroundClass, link }) => (
   >
     <div className="row-span-1"></div>
     <div className="h-full w-full flex flex-col justify-evenly px-10  sm:px-16 pb-12 md:px-28 lg:px-28 xl:px-10 items-center space-y-4 row-span-1">
-      <h2 className="text-2xl md:text-4xl lg:text-3xl font-bold text-primary font-display text-start">
+      <h3 className="text-2xl md:text-4xl lg:text-3xl font-bold text-primary font-display ">
         {title}
-      </h2>
-      <p className="text-center text-base md:text-lg text-paragraph tracking-wide">
+      </h3>
+      <p className="text-base md:text-lg text-paragraph tracking-wide text-center">
         {description}
       </p>
       <Link href={link} passHref>
-        <button className="flex items-center justify-center px-4 py-2 text-white bg-secondary border border-secondary rounded-md cursor-pointer font-roboto uppercase hover:bg-primary hover:border-primary">
+        <span className="flex items-center justify-center px-4 py-2 text-white bg-secondary border border-secondary rounded-md cursor-pointer font-roboto uppercase hover:bg-primary hover:border-primary">
           Learn More <FaArrowRightLong className="ml-2 text-lg" />
-        </button>
+        </span>
       </Link>
     </div>
   </div>
 );
 
 const ServicesSection = () => (
-  <div className="min-h-screen py-[5rem] space-y-8">
+  <section className="min-h-screen py-[5rem] space-y-8">
     <h2 className="text-center text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
       Our Services
     </h2>
@@ -65,7 +61,7 @@ const ServicesSection = () => (
         <ServiceCard key={index} {...service} />
       ))}
     </div>
-  </div>
+  </section>
 );
 
 export default ServicesSection;
