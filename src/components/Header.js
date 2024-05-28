@@ -19,7 +19,7 @@ const Header = () => {
   return (
     <>
       {/* Main Navigation */}
-      <Headroom>
+      <Headroom className="z-50">
         <nav
           className={`relative px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center bg-white font-roboto`}
         >
@@ -46,7 +46,7 @@ const Header = () => {
             <Image
               src="/images/logo.png"
               width={200}
-              height={200}
+              height={64}
               alt="Logo"
               className="text-3xl font-bold leading-none"
             />
@@ -96,15 +96,15 @@ const Header = () => {
           className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"
           onClick={toggleMenu}
         />
-        <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+        <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-hidden mobile-menu">
           <div className="flex justify-between items-center mb-8">
             <Link href="/" passHref>
               <Image
                 src="/images/logo.png"
                 width={200}
-                height={200}
+                height={64}
                 alt="Logo"
-                className="mr-auto text-3xl font-bold leading-none"
+                className=" text-3xl font-bold leading-none"
               />
             </Link>
             <button className="navbar-close" onClick={toggleMenu}>

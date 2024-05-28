@@ -188,7 +188,7 @@ function Resizable() {
   };
 
   return (
-    <div className="slider-container space-x-2 py-10 relative ">
+    <div className="slider-container space-x-2 py-10 relative cursor-grab">
       <div className="">
         <Slider {...settings}>
           {testimonials.map(

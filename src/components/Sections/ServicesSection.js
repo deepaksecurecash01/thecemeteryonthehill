@@ -39,7 +39,7 @@ const ServiceCard = ({ title, description, backgroundClass, link }) => (
     className={`${backgroundClass} bg-center bg-contain bg-no-repeat h-[52rem] xs:w-[23rem] sm:w-[28rem] md:w-[36rem] xl:h-[56rem] md:h-[62rem] xl:w-[26rem] grid grid-rows-2 place-items-center`}
   >
     <div className="row-span-1"></div>
-    <div className="h-full w-full flex flex-col justify-evenly px-10  sm:px-16 pb-12 md:px-24 lg:px-28 xl:px-10 items-center space-y-4 row-span-1">
+    <div className="h-full w-full flex flex-col justify-evenly px-10  sm:px-16 pb-12 md:px-28 lg:px-28 xl:px-10 items-center space-y-4 row-span-1">
       <h2 className="text-2xl md:text-4xl lg:text-3xl font-bold text-primary font-display text-start">
         {title}
       </h2>

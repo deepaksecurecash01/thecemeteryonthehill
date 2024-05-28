@@ -10,7 +10,7 @@ const TestimonialSection = () => {
       <div className="absolute bg-ellipse-1 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10" />
       <div className="absolute bg-ellipse-2 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10" />
       <div className="hidden absolute bg-testimonials-overlay -left-16 bg-no-repeat bg-left w-full h-full -z-20 bg-contain md:block" />
-      <div className=" w-full min-h-screen z-10 flex flex-col justify-between items-center">
+      <div className=" w-full min-h-screen z-20 flex flex-col justify-between items-center">
         <div className="pt-10 6xl:min-h-[65vh] h-full flex flex-col justify-center items-start w-full space-y-2">
           <div className="flex flex-col justify-center items-center lg:flex-row w-full h-full gap-6">
             <div className="px-8 space-y-2 w-full md:pl-64">

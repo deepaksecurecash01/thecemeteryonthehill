@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 import {
   FaEnvelope,
@@ -14,93 +15,104 @@ const Footer = () => {
     <div className="relative w-full overflow-hidden">
       <div className="absolute bg-ellipse-1 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10" />
       <div className="absolute bg-ellipse-2 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10" />
-      <div className="flex flex-col md:flex-row justify-between py-10 px-6 md:px-12 lg:px-20 space-y-10 md:space-y-0">
-        <div className="w-full md:w-1/3 flex flex-col items-center">
+      <div className=" grid md:grid-cols-3 lg:grid-cols-4 py-8 px-6 md:px-6 lg:px-20 space-y-6 md:space-y-0">
+        <div className=" col-span-1 w-full flex flex-col items-center ">
           <Image
             src="/images/logo-full.png"
-            width={250}
+            width={300}
             height={250}
             alt="Logo"
             className="rounded-t-2xl object-cover"
           />
-          <div className="flex flex-col mt-6 md:hidden">
-            <h3 className="text-2xl font-bold font-display text-primary text-center">
-              Explore
-            </h3>
-            <ul className="font-roboto text-lg text-secondary font-normal space-y-2 text-center">
-              <li>Home</li>
-              <li>Our Vision & History</li>
-              <li>Services</li>
-              <li>Pricing</li>
-              <li>Purchase a Plot</li>
-              <li>Contact</li>
-            </ul>
+        </div>
+        <div className=" col-span-1 lg:col-span-2 flex md:flex-col md:space-y-2  lg:flex-row w-full items-start justify-between">
+          <div className="w-full flex justify-center">
+            <div className="lg:space-y-8 space-y-4 md:space-y-2 md:w-36 lg:w-auto">
+              <h3 className="text-2xl md:text-xl lg:text-2xl font-bold font-display text-primary">
+                Explore
+              </h3>
+              <ul className="font-roboto text-base md:text-sm lg:text-base text-secondary font-normal space-y-2 md:space-y-1 lg:space-y-4">
+                {[
+                  { href: "/", label: "Home" },
+                  {
+                    href: "/ourhistoryandvision",
+                    label: "Our Vision & History",
+                  },
+                  { href: "/services", label: "Services" },
+                  { href: "/pricing", label: "Pricing" },
+                  { href: "/purchaseplot", label: "Purchase a Plot" },
+                  { href: "/expiredleases", label: "Expired Leases" },
+                ].map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} passHref>
+                      <span className={` cursor-pointer hover:text-primary `}>
+                        {item.label}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+
+          <div className=" w-full flex justify-center">
+            <div className="lg:space-y-8 space-y-4 md:space-y-2 md:w-36 lg:auto">
+              <h3 className="text-2xl md:text-xl lg:text-2xl font-bold font-display text-primary">
+                Services
+              </h3>
+              <ul className="font-roboto text-base md:text-sm lg:text-base text-secondary font-normal space-y-2 md:space-y-1 lg:space-y-4">
+                {[
+                  { href: "/burials", label: "Burials" },
+                  { href: "/ashes", label: "Ashes" },
+                  { href: "/pet-interments", label: "Pet Interments" },
+                ].map((item) => (
+                  <li key={item.href}>
+                    <Link href={item.href} passHref>
+                      <span className={` cursor-pointer hover:text-primary `}>
+                        {item.label}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
-        <div className="hidden md:flex flex-col w-full md:w-1/3 items-center">
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold font-display text-primary text-center md:text-left">
-              Explore
-            </h3>
-            <ul className="font-roboto text-lg text-secondary font-normal space-y-2 text-center md:text-left">
-              <li>Home</li>
-              <li>Our Vision & History</li>
-              <li>Services</li>
-              <li>Pricing</li>
-              <li>Purchase a Plot</li>
-              <li>Contact</li>
-            </ul>
-          </div>
-        </div>
-        <div className="flex flex-col w-full md:w-1/3 items-center">
-          <div className="space-y-6">
-            <h3 className="text-2xl font-bold font-display text-primary text-center md:text-left">
-              Services
-            </h3>
-            <ul className="font-roboto text-lg text-secondary font-normal space-y-2 text-center md:text-left">
-              <li>Burials</li>
-              <li>Ashes</li>
-              <li>Pet Interments</li>
-            </ul>
-          </div>
-        </div>
-        <div className="flex flex-col w-full md:w-1/3 items-start">
+        <div className=" col-span-1 flex flex-col  items-start">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3261.1477849003113!2d138.50003237665305!3d-35.17786897275395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ab1242340d6e6fb%3A0xac8894133a19b671!2s30%20Church%20Hill%20Rd%2C%20Old%20Noarlunga%20SA%205168%2C%20Australia!5e0!3m2!1sen!2s!4v1715746856781!5m2!1sen!2s"
-            width="100%"
-            height="270"
             allowFullScreen=""
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            className="rounded-md"
+            className="rounded-md w-full h-full md:h-40 lg:h-full"
           ></iframe>
-          <div className="space-y-4 mt-4">
-            <p className="flex items-center space-x-3 text-paragraph hover:text-secondary cursor-pointer">
-              <FaLocationArrow className="text-base" />
-              <span className="text-base">
-                <a href="tel:08-8317-6044">
+          <div className="space-y-4 mt-4 md:mr-8">
+            <p className="flex items-center space-x-3 md:space-x-1 xl:space-x-3 text-paragraph hover:text-primary cursor-pointer">
+              <FaLocationArrow className="text-base md:text-sm lg:text-base" />
+              <span className="text-base md:text-sm lg:text-base">
+                <Link target="_blank" href="https://maps.app.goo.gl/c8CpaK84pwKiaBGZA">
                   30 Church Hill Road, Old Noarlunga, SA 5168
-                </a>
+                </Link>
               </span>
             </p>
-            <p className="flex items-center space-x-3 text-paragraph hover:text-secondary cursor-pointer">
-              <FaPhoneAlt className="text-base" />
-              <span className="text-base">
-                <a href="tel:08-8317-6044">08 8317 6044</a>
+            <p className="flex items-center space-x-3 md:space-x-1 xl:space-x-3 text-paragraph hover:text-primary cursor-pointer">
+              <FaPhoneAlt className="text-base md:text-sm lg:text-base" />
+              <span className="text-base md:text-sm lg:text-base">
+                <Link href="tel:08-8317-6044">08 8317 6044</Link>
               </span>
             </p>
-            <p className="flex items-center space-x-3 text-paragraph hover:text-secondary cursor-pointer">
-              <FaEnvelope className="text-base" />
-              <span className="text-base text-paragraph">
-                <a href="mailto:hello@thecemeteryonthehill.com.au">
+            <p className="flex items-center space-x-3 md:space-x-1 xl:space-x-3 text-paragraph hover:text-primary cursor-pointer">
+              <FaEnvelope className="text-base md:text-sm lg:text-base" />
+              <span className="text-base md:text-sm lg:text-base">
+                <Link href="mailto:hello@thecemeteryonthehill.com.au">
                   hello@thecemeteryonthehill.com.au
-                </a>
+                </Link>
               </span>
             </p>
             <div className="flex items-center gap-4">
-              <FaFacebook className="text-lg text-paragraph hover:text-secondary cursor-pointer" />
-              <FaInstagram className="text-lg text-paragraph hover:text-secondary cursor-pointer" />
-              <FaTiktok className="text-lg text-paragraph hover:text-secondary cursor-pointer" />
+              <FaFacebook className="text-lg md:text-base lg:text-lg text-paragraph hover:text-primary cursor-pointer" />
+              <FaInstagram className="text-lg md:text-base lg:text-lg text-paragraph hover:text-primary cursor-pointer" />
+              <FaTiktok className="ttext-lg md:text-base lg:text-lg text-paragraph hover:text-primary cursor-pointer" />
             </div>
           </div>
         </div>

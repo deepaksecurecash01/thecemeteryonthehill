@@ -1,3 +1,4 @@
+import Link from "next/link";
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
@@ -12,9 +13,11 @@ const BannerSection = () => {
             "Don't just take our word for it - see what actual users of our service have to say about their experience."
           }
         </p>
-        <button className="bg-secondary text-white font-roboto uppercase rounded-md border cursor-pointer border-secondary px-4 py-2 flex justify-center items-center hover:bg-primary hover:border-primary text-sm sm:text-base md:text-lg">
-          Contact Us <FaArrowRightLong className="text-xl sm:text-2xl ml-2" />
-        </button>
+        <Link href="/contact" passHref>
+          <span className="bg-secondary text-white font-roboto uppercase rounded-md border cursor-pointer border-secondary px-4 py-2 flex justify-center items-center hover:bg-primary hover:border-primary text-sm sm:text-base md:text-lg">
+            Contact Us <FaArrowRightLong className="text-xl sm:text-2xl ml-2" />
+          </span>
+        </Link>
       </div>
     </div>
   );

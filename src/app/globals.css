@@ -9,13 +9,19 @@
 .testimonials_overly {
     background-size: 300px;
 }
+.mobile-menu {
+    z-index: 9999 !important;
+}
+.headroom {
+    z-index: 30 !important;
+}
 
 /* General slide styling */
 .slick-slide>div {
     margin: 0 10px;
     display: flex;
-        justify-content: center;
-        align-items: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .slide-item {
@@ -37,10 +43,10 @@
 }
 
 /* Styling for screens between 420px and 768px */
-@media (min-width: 461px)  {
+@media (min-width: 461px) {
     .slick-slide>div {
         margin: 0;
-     
+
     }
 
     .slide-item {
@@ -51,7 +57,7 @@
 }
 
 /* Styling for screens between 769px and 1024px */
-@media (min-width: 768px)  {
+@media (min-width: 768px) {
     .slick-slide>div {
         margin: 0;
     }
@@ -87,7 +93,7 @@
 }
 
 /* Styling for screens between 1441px and 1600px */
-@media (min-width: 1440px)  {
+@media (min-width: 1440px) {
     .slick-slide>div {
         margin: 0 10px;
     }
@@ -99,7 +105,7 @@
 }
 
 /* Styling for screens between 1601px and 1920px */
-@media (min-width: 1600px)  {
+@media (min-width: 1600px) {
     .slick-slide>div {
         margin: 0 10px !important;
     }
@@ -111,7 +117,7 @@
 }
 
 /* Styling for screens between 1921px and 2560px */
-@media (min-width: 1920px)  {
+@media (min-width: 1920px) {
     .slick-slide>div {
         margin: 0 !important;
     }
