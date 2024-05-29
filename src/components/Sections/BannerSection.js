@@ -17,7 +17,7 @@ const BannerSection = () => {
       <div className="grid place-items-center gap-6 py-16 px-4 md:px-8">
         <h2
           id="banner-heading"
-          className="text-lg sm:text-lg md:text-xl 6xl:text-2xl text-white text-center max-w-3xl"
+          className="text-lg sm:text-lg lg:text-xl 6xl:text-2xl text-white text-center max-w-3xl"
         >
           {
             "Don't just take our word for it - see what actual users of our service have to say about their experience."

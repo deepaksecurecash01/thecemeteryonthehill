@@ -2,7 +2,7 @@ import React from "react";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import BannerSection from "./BannerSection";
-import Simple from "../Slider/Simple";
+import TestimonialSlider from "../Slider/TestimonialsSlider";
 
 const TestimonialSection = () => {
   return (
@@ -32,8 +32,8 @@ const TestimonialSection = () => {
             </div>
           </div>
           <div className="flex justify-center md:justify-end lg:justify-center items-center py-10 lg:px-8 space-x-4 w-full h-full">
-            <div className="w-[90vw] sm:w-[80vw] md:w-[85vw] lg:w-[75vw] xl:w-[90vw] 4xl:w-[70vw] 5xl:w-[60vw] px-4 md:ml-10 lg:ml-24">
-              <Simple />
+            <div className="w-[100vw] sm:w-[80vw] md:w-[85vw] lg:w-[75vw] xl:w-[80vw] 4xl:w-[70vw] 5xl:w-[60vw] px-4 md:ml-10 lg:ml-24">
+              <TestimonialSlider />
             </div>
           </div>
         </div>

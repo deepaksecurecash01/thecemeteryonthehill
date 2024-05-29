@@ -151,7 +151,7 @@ const Footer = () => {
       {/* Footer copyright */}
       <p className="tracking-wider font-roboto text-center text-[0.85rem] lg:text-sm bg-primary text-white py-4 px-6">
         {
-          '©2024 THE CEMETERY ON THE HILL PRESERVATION SOCIETY LIMITED ABN 33672485442 "Trading as The Cemetery on The Hill"'
+          '©2024 THE CEMETERY ON THE HILL PRESERVATION SOCIETY LIMITED ABN 33672485442 - Trading as "The Cemetery on The Hill"'
         }
       </p>
     </div>

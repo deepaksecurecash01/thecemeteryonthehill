@@ -2,13 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.intro_overly {
-    background-size: 850px 600px;
-}
-
-.testimonials_overly {
-    background-size: 300px;
-}
 .mobile-menu {
     z-index: 9999 !important;
 }
@@ -25,7 +18,7 @@
 }
 
 .slide-item {
-    width: 100% !important;
+    width: 90% !important;
     height: 400px !important;
     position: relative;
     margin: 1rem !important;
@@ -153,24 +146,3 @@
 }
 
 
-
-/* components/Header.module.css */
-.navbar {
-    -webkit-box-shadow: 1px 1px 5px 0px rgba(13, 59, 95, 1);
-    -moz-box-shadow: 1px 1px 5px 0px rgba(13, 59, 95, 1);
-    box-shadow: 1px 1px 5px 0px rgba(13, 59, 95, 1);
-}
-
-.navbar-show {
-    opacity: 1;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.navbar-hide {
-    opacity: 0;
-    transition: opacity 0.5s ease-in-out;
-}
-
-.nav-link {
-    /* Your nav link styles */
-}

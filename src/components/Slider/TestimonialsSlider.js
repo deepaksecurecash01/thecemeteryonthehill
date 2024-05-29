@@ -1,13 +1,47 @@
-import Image from "next/image";
-import { useState } from "react";
-import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+"use client";
+import React from "react";
+import Slider from "react-slick";
 import { IoStar, IoStarOutline } from "react-icons/io5";
-import { motion, AnimatePresence } from "framer-motion";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import Image from "next/image";
+import TestimonialSection from "../Sections/TestimonialSection";
 
-const TestimonialsSlider = () =>
-{
-  
-  const [items] = useState([
+const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
+  <div
+    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[6rem] xl:-top-[4.8rem] lg:right-[6rem] ${
+      currentSlide === 0 ? "bg-secondary/50" : "bg-secondary/75 cursor-pointer"
+    }`}
+    style={{ animation: "moveRightLeft 1.5s infinite", zIndex: 1 }}
+    onClick={() => {
+      if (currentSlide !== 0) {
+        onClick();
+      }
+    }}
+  >
+    <FaArrowLeft className="text-xl text-paragraph" />
+  </div>
+);
+
+const CustomNextArrow = ({ currentSlide, slideCount, onClick }) => (
+  <div
+    className={`absolute rounded-sm p-4 -top-[3.8rem] right-[2rem]  xl:-top-[4.8rem] xl:right-[2rem] ${
+      currentSlide === slideCount - 1
+        ? "bg-secondary/50"
+        : "bg-secondary/75 cursor-pointer"
+    }`}
+    style={{ animation: "moveRightLeft 1.5s infinite", zIndex: 1 }}
+    onClick={() => {
+      if (currentSlide !== slideCount - 1) {
+        onClick();
+      }
+    }}
+  >
+    <FaArrowRight className="text-xl text-paragraph" />
+  </div>
+);
+
+function TestimonialSlider() {
+  const testimonials = [
     {
       review:
         "This platform has transformed our business processes. The intuitive design and robust features make it a must-have for any enterprise.",
@@ -18,15 +52,7 @@ const TestimonialsSlider = () =>
     },
     {
       review:
-        "Excellent customer service and a product that truly delivers on its promises. We’ve seen significant improvements in efficiency.",
-      rating: 5,
-      fullname: "Bob Smith",
-      position: "Senior Developer",
-      image: "/images/testimonials/download.jpeg",
-    },
-    {
-      review:
-        "A fantastic solution for our team's collaboration needs. The seamless integration with our existing tools is a game-changer.",
+        "A fantastic solution for our team's collaboration needs. The seamless integration with our existing tools is a game-changer. ",
       rating: 4,
       fullname: "Charlie Brown",
       position: "Product Owner",
@@ -34,7 +60,15 @@ const TestimonialsSlider = () =>
     },
     {
       review:
-        "User-friendly interface and outstanding performance. It’s been a vital tool for our day-to-day operations.",
+        "Excellent customer service and a product that truly delivers on its promises. We’ve seen significant improvements in efficiency. ",
+      rating: 4,
+      fullname: "Dylan Cross",
+      position: "Senior Developer",
+      image: "/images/testimonials/download.jpeg",
+    },
+    {
+      review:
+        "User-friendly interface and outstanding performance. It’s been a vital tool for our day-to-day operations. ",
       rating: 5,
       fullname: "Dana White",
       position: "Business Analyst",
@@ -42,7 +76,7 @@ const TestimonialsSlider = () =>
     },
     {
       review:
-        "The best investment we’ve made this year. The features are exactly what we needed, and the support team is phenomenal.",
+        "The best investment we’ve made this year. The features are exactly what we needed, and the support team is phenomenal. ",
       rating: 5,
       fullname: "Eli Martinez",
       position: "IT Director",
@@ -50,175 +84,181 @@ const TestimonialsSlider = () =>
     },
     {
       review:
-        "Highly recommend this software to any organization looking to streamline their workflows. It’s both powerful and easy to use.",
+        "User-friendly interface and outstanding performance. It’s been a vital tool for our day-to-day operations. ",
       rating: 5,
-      fullname: "Fiona Clark",
-      position: "Operations Manager",
-      image: "/images/testimonials/images (2).jpeg",
+      fullname: "Dana White",
+      position: "Business Analyst",
+      image: "/images/testimonials/images.jpeg",
     },
-  ]);
+    {
+      review:
+        "The best investment we’ve made this year. The features are exactly what we needed, and the support team is phenomenal. ",
+      rating: 5,
+      fullname: "Eli Martinez",
+      position: "IT Director",
+      image: "/images/testimonials/images (1).jpeg",
+    },
+  ];
 
-  const [active, setActive] = useState(0);
-  const [direction, setDirection] = useState("");
-
-  const moveLeft = () => {
-    setDirection("left");
-    setActive((prev) => (prev - 1 + items.length) % items.length);
-  };
-
-  const moveRight = () => {
-    setDirection("right");
-    setActive((prev) => (prev + 1) % items.length);
-  };
-
-  const generateItems = () => {
-    const levelSettings = [
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    nextArrow: <CustomNextArrow />,
+    prevArrow: <CustomPrevArrow />,
+    responsive: [
       {
-        level: -2,
-        boxShadow: "-.2em .0em .9em #212121",
-        height: "400px",
-        width: "300px",
-        zIndex: 1,
+        breakpoint: 3200,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+        },
       },
       {
-        level: -1,
-        boxShadow: "-.1em .0em .8em #212121",
-        height: "450px",
-        width: "300px",
-        zIndex: 2,
+        breakpoint: 2560,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+        },
       },
       {
-        level: 0,
-        boxShadow: "0 .1em .8em #212121",
-        height: "500px",
-        width: "350px",
-        zIndex: 3,
+        breakpoint: 1919,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+        },
       },
       {
-        level: 1,
-        boxShadow: ".1em .0em .8em #212121",
-        height: "450px",
-        width: "300px",
-        zIndex: 2,
+        breakpoint: 1600,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+        },
       },
       {
-        level: 2,
-        boxShadow: ".2em .0em .9em #212121",
-        height: "400px",
-        width: "300px",
-        zIndex: 1,
+        breakpoint: 1440,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+          infinite: true,
+        },
       },
-    ];
+      {
+        breakpoint: 1280,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
 
-    const displayedItems = [-2, -1, 0, 1, 2].map((level) => {
-      const index = (active + level + items.length) % items.length;
-      const { left, boxShadow, height, width, zIndex } =
-        levelSettings.find((setting) => setting.level === level) || {};
-      const item = items[index];
-      const ratingStar = Math.floor(parseFloat(item.rating));
-      const stars = Array(5)
-        .fill()
-        .map((_, index) => {
-          if (index < ratingStar) {
-            return <IoStar key={index} className="h-5 text-burgundy" />;
-          } else {
-            return <IoStarOutline key={index} className="h-5 text-burgundy" />;
-          }
-        });
-
-      return (
-        <motion.div
-          key={index}
-          className={`item level${level} space-y-4 overflow-hidden bg-[#CEBA94] backdrop-blur-2xl`}
-          initial={{
-            opacity: 0,
-            x: direction === "left" ? 100 : -100,
-            rotateY: direction === "left" ? 100 : -100,
-            scale: 0.5,
-          }}
-          animate={{
-            opacity: 1,
-            x: 0,
-            rotateY: 0,
-            scale: 1,
-          }}
-          exit={{
-            opacity: 0,
-            x: direction === "left" ? -100 : 100,
-            rotateY: direction === "left" ? 100 : -100,
-            scale: 0.5,
-          }}
-          transition={{ duration: 0.5 }}
-          style={{
-            height,
-            width,
-            left,
-            boxShadow,
-            zIndex,
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-            padding: "1em",
-            borderRadius: "10px",
-          }}
-        >
-          <q className="text-grey text-lg">{item.review}</q>
-          <div className="flex justify-center items-center">{stars}</div>
-          <div className="space-y-1 flex flex-col justify-center items-center">
-            <div className="h-24 w-24 flex justify-center items-center relative">
-              <Image
-                src={item.image}
-                fill
-                alt={`Picture of ${item.fullname}`}
-                className="absolute rounded-full object-cover"
-              />
-            </div>
-            <h3 className="text-3xl font-semibold font-trajanpro3">
-              {item.fullname}
-            </h3>
-            <p className="text-lg font-medium text-grey">{item.position}</p>
-          </div>
-        </motion.div>
-      );
-    });
-
-    return displayedItems;
+      {
+        breakpoint: 767,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 700,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 320,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
 
   return (
-    <>
-      <style>{`
-        .carousel-container {
-          perspective: 1000px;
-        }
-        .item {
-          backface-visibility: hidden;
-          transform-style: ease-in-out;
-        }
-      `}</style>
-      <div className="relative h-full grid lg:grid-cols-3 md:gap-24 lg">
-        <div className="col-span-1 flex justify-center items-center gap-4 w-full">
-          <div
-            className=" cursor-pointer rounded-sm p-4 bg-gold/50 hover:bg-gold/75  z-10"
-            onClick={moveLeft}
-          >
-            <FaArrowLeft className="text-grey text-4xl" />
-          </div>
-          <div
-            className="arrow arrow-right cursor-pointer rounded-sm p-4 bg-gold/50  hover:bg-gold/75 z-10"
-            onClick={moveRight}
-          >
-            <FaArrowRight className="text-grey text-4xl" />
-          </div>
-        </div>
-        <div className=" col-span-2 carousel-container relative h-[28rem] w-full flex justify-center items-center -space-x-20">
-          <AnimatePresence>{generateItems()}</AnimatePresence>
-        </div>
-      </div>
-    </>
-  );
-};
+    <div className="slider-container space-x-2 py-10 relative cursor-grab">
+      <div className="">
+        <Slider {...settings}>
+          {testimonials.map(
+            ({ fullname, review, rating, position, image }, index) => {
+              const stars = Array(5)
+                .fill()
+                .map((_, starIndex) =>
+                  starIndex < rating ? (
+                    <IoStar key={starIndex} className="text-4xl text-primary" />
+                  ) : (
+                    <IoStarOutline
+                      key={starIndex}
+                      className="text-4xl text-primary"
+                    />
+                  )
+                );
+              return (
+                <div
+                  key={index}
+                  className="bg-secondary/50 backdrop-blur-lg px-8 py-8 rounded-md flex flex-col items-center justify-evenly w-full slide-item"
+                  style={{
+                    boxShadow: "0 .1em .8em #212121",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    textAlign: "center",
+                    padding: "1em",
+                    borderRadius: "10px",
+                  }}
+                >
+                  <div className="h-20 4xl:h-24 flex justify-center items-center">
+                    <q className="text-paragraph text-base tracking-wide h-full lg:text-lg">
+                      {review}
+                    </q>
+                  </div>
 
-export default TestimonialsSlider;
+                  <div className="space-y-4 flex flex-col justify-center items-center h-full">
+                    <div className="flex justify-center items-center">
+                      {stars}
+                    </div>
+                    <div className="h-16 w-16 md:h-24 md:w-24 flex justify-center items-center relative">
+                      <Image
+                        src={image}
+                        fill
+                        loading="lazy"
+                        alt={`${fullname}'s review about 'The Cemetery on the hill'`}
+                        className="absolute rounded-full object-cover"
+                      />
+                    </div>
+                    <div className=" space-y-2 flex flex-col justify-center items-center">
+                      <h3 className="text-2xl text-tertiary font-semibold font-display">
+                        {fullname}
+                      </h3>
+                      <p className="text-base font-medium text-paragraph lg:text-lg">
+                        {position}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            }
+          )}
+        </Slider>
+      </div>
+    </div>
+  );
+}
+
+export default TestimonialSlider;
