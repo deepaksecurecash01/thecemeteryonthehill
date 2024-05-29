@@ -1,5 +1,15 @@
+'use client'
 import Image from "next/image";
 import React from "react";
+import { motion } from "framer-motion";
+
+const imageVariants = {
+  hidden: { y: "100vh" }, // Start from the bottom of the viewport
+  visible: (i) => ({
+    y: 0,
+    transition: { delay: i * 0.3, duration: 0.6 }, // Smooth animation
+  }),
+};
 
 const HeroSection = () => {
   return (
@@ -25,51 +35,34 @@ const HeroSection = () => {
           </p>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-3 h-full md:h-auto xl:h-full md:grid-cols-6 xl:grid-cols-8 gap-4 place-items-end overflow-hidden w-full mt-8">
-          <div className="relative col-span-1 flex justify-center items-end w-full h-[22rem] sm:h-[16rem] md:h-[22rem] lg:h-[26rem] xl:h-[28rem]">
-            <Image
-              src="/images/hero-1.jpg"
-              fill
-              alt="Hero-Section Image-1 | The Cemetery on the Hill"
-              loading="lazy"
-              className="rounded-t-2xl absolute w-full h-full object-cover"
-            />
-          </div>
-          <div className="flex col-span-2 relative justify-center items-end w-full h-[26rem] md:h-[30rem] xl:h-[36rem]">
-            <Image
-              src="/images/hero-2.jpg"
-              fill
-              alt="Hero-Section Image-2 | The Cemetery on the Hill"
-              loading="lazy"
-              className="rounded-t-2xl absolute w-full h-full object-cover object-top"
-            />
-          </div>
-          <div className="hidden md:flex col-span-2 relative justify-center items-end w-full h-[22rem] sm:h-[22rem] md:h-[28rem] xl:h-[34rem]">
-            <Image
-              src="/images/hero-3.jpg"
-              fill
-              alt="Hero-Section Image-3 | The Cemetery on the Hill"
-              loading="lazy"
-              className="rounded-t-2xl absolute w-full h-full object-cover"
-            />
-          </div>
-          <div className="hidden col-span-2 relative xl:flex justify-center items-end w-full h-60 md:h-[30rem] xl:h-[36rem]">
-            <Image
-              src="/images/hero-4.jpg"
-              fill
-              alt="Hero-Section Image-4 | The Cemetery on the Hill"
-              loading="lazy"
-              className="rounded-t-2xl absolute w-full h-full object-cover object-top"
-            />
-          </div>
-          <div className="hidden relative col-span-1 md:flex justify-center items-end w-full h-[16rem] sm:h-[16rem] md:h-[22rem] lg:h-[26rem] xl:h-[28rem]">
-            <Image
-              src="/images/hero-5.jpg"
-              fill
-              alt="Hero-Section Image-5 | The Cemetery on the Hill"
-              loading="lazy"
-              className="absolute rounded-t-2xl w-full h-full object-cover"
-            />
-          </div>
+          {[0, 1, 2, 3, 4].map((i) => (
+            <motion.div
+              key={i}
+              custom={i}
+              initial="hidden"
+              animate="visible"
+              variants={imageVariants}
+              className={
+                i === 0
+                  ? "relative col-span-1 flex justify-center items-end w-full h-[22rem] sm:h-[16rem] md:h-[22rem] lg:h-[26rem] xl:h-[28rem]"
+                  : i === 1
+                  ? "flex col-span-2 relative justify-center items-end w-full h-[26rem] md:h-[30rem] xl:h-[36rem]"
+                  : i === 2
+                  ? "hidden md:flex col-span-2 relative justify-center items-end w-full h-[22rem] sm:h-[22rem] md:h-[28rem] xl:h-[34rem]"
+                  : i === 3
+                  ? "hidden col-span-2 relative xl:flex justify-center items-end w-full h-60 md:h-[30rem] xl:h-[36rem]"
+                  : "hidden relative col-span-1 md:flex justify-center items-end w-full h-[16rem] sm:h-[16rem] md:h-[22rem] lg:h-[26rem] xl:h-[28rem]"
+              }
+            >
+              <Image
+                src={`/images/hero-${i + 1}.jpg`}
+                fill
+                alt={`Hero-Section Image-${i + 1} | The Cemetery on the Hill`}
+                loading="lazy"
+                className="rounded-t-2xl absolute w-full h-full object-cover"
+              />
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
