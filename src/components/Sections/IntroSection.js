@@ -1,6 +1,8 @@
+'use client'
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { motion } from "framer-motion";
 import {
   FaArrowRightLong,
   FaFacebook,
@@ -25,14 +27,20 @@ const IntroSection = () => {
           className="absolute w-full h-full bg-intro-overlay bg-cover bg-no-repeat object-right -z-20"
           aria-hidden="true"
         />
-        <Image
-          src="/images/intro-statue.png"
-          layout="fill"
-          loading="lazy"
-          objectFit="contain"
-          alt="Historic Cemetery Statue"
-          className="object-bottom rounded-t-2xl"
-        />
+        <motion.div
+          initial={{ x: "100%" }}
+          whileInView={{ x: 0 }}
+          transition={{ type: "spring", stiffness: 120, damping: 20 }}
+          className="object-bottom rounded-t-2xl w-full h-full"
+        >
+          <Image
+            src="/images/intro-statue.png"
+            layout="fill"
+            loading="lazy"
+            objectFit="contain"
+            alt="Historic Cemetery Statue"
+          />
+        </motion.div>
       </div>
 
       <div className="col-span-1 lg:col-span-3 lg:h-full w-full py-6 px-8 xl:px-12 md:pr-4 space-y-6 md:flex md:flex-col justify-start lg:justify-center items-start order-2 lg:order-1">
