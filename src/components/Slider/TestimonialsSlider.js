@@ -4,7 +4,6 @@ import Slider from "react-slick";
 import { IoStar, IoStarOutline } from "react-icons/io5";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
-import TestimonialSection from "../Sections/TestimonialSection";
 
 const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
