@@ -145,3 +145,10 @@
         height: 500px !important;
     }
 }
+input,
+select {
+    -webkit-text-fill-color: #933d38;
+    -webkit-background-clip: text !important;
+    background-clip: text !important;
+    caret-color: #933d38;
+}

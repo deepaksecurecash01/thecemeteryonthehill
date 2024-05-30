@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -24,6 +24,7 @@ const ContactForm = () => {
     <form
       className="w-full lg:w-[24rem] xl:w-[26rem] mx-auto py-10 flex flex-col justify-evenly h-full"
       onSubmit={handleSubmit(onSubmit)}
+      autoComplete="off"
     >
       <div className="relative z-0 w-full mb-5 group">
         <input
@@ -32,6 +33,7 @@ const ContactForm = () => {
           className="block py-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
           placeholder=" "
           required
+          autoComplete="new-password"
         />
         <label
           htmlFor="name"
@@ -48,6 +50,7 @@ const ContactForm = () => {
           className="block py-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
           placeholder=" "
           required
+          autoComplete="new-password"
         />
         <label
           htmlFor="email"
@@ -64,6 +67,7 @@ const ContactForm = () => {
           className="block py-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
           placeholder=" "
           required
+          autoComplete="new-password"
         />
         <label
           htmlFor="phone"
@@ -81,6 +85,8 @@ const ContactForm = () => {
           className="block py-6 px-0 w-full text-lg font-roboto text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
           placeholder=" "
           required
+          rows="4"
+          autoComplete="off"
         ></textarea>
         <label
           htmlFor="message"
@@ -95,7 +101,7 @@ const ContactForm = () => {
       <div className="flex justify-end items-center">
         <button
           type="submit"
-          className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-tertiary hover:border-tertiary text-sm sm:text-base md:text-lg"
+          className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
         >
           Submit
         </button>
