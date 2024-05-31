@@ -22,7 +22,7 @@ const Page = () => {
             Let us know how we can help you
           </p>
         </div>
-        <div className="relative h-full w-full grid grid-cols-1 lg:grid-cols-2 place-items-center overflow-hidden">
+        <div className="relative h-full w-full grid grid-cols-1 lg:grid-cols-2 place-items-center overflow-hidden pt-10 lg:pt-0">
           <div className="relative col-span-1 h-[30vh] lg:col-span-1 lg:h-full w-full flex justify-end items-end order-1">
             <div
               className="absolute w-full h-full bg-contact-overlay -left-12 bg-left bg-cover lg:bg-bottom lg:bg-contain xl:-left-16 xl:-bottom-72 bg-no-repeat -z-20"
