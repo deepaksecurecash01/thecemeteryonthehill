@@ -1,28 +1,58 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const schema = z.object({
   name: z.string().nonempty(),
   email: z.string().email(),
-  phone: z.string().regex(/^\(?(?:0[1-9]|[1-9][0-9])\)?(?:[ ]?[0-9]){8}$/), // Australian phone number pattern
+  phone: z.string().regex(/^\(?(?:0[1-9]|[1-9][0-9])\)?(?:[ ]?[0-9]){8}$/, {
+    message: "Invalid phone number",
+  }),
   message: z.string().nonempty(),
 });
 
 const ContactForm = () => {
-  const onSubmit = (data) => {
-    console.log(data);
-  };
+  const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
+  const [errorMessage, setErrorMessage] = useState("");
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm();
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    try {
+      // Simulate a form submission
+      await new Promise((resolve, reject) => {
+        // Change to resolve() for success simulation, reject() for error simulation
+        setTimeout(resolve, 1000);
+      });
+      setSubmissionStatus("success");
+      setErrorMessage("");
+      reset(); // Reset form fields
+    } catch (error) {
+      setSubmissionStatus("error");
+      setErrorMessage("Failed to submit the form. Please try again.");
+    }
+  };
+
+
+  useEffect(() => {
+    if (submissionStatus) {
+      const timer = setTimeout(() => {
+        setSubmissionStatus(null);
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [submissionStatus]);
 
   return (
     <form
-      className="w-full lg:w-[24rem] xl:w-[26rem] mx-auto py-10 flex flex-col justify-evenly h-full"
+      className="w-[18rem] md:w-[24rem] lg:w-[22rem] 2xl:w-[26rem] mx-auto py-10 flex flex-col justify-evenly h-full relative"
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
     >
@@ -82,7 +112,7 @@ const ContactForm = () => {
       <div className="relative z-0 w-full mb-5 group">
         <textarea
           {...register("message")}
-          className="block py-6 px-0 w-full text-lg font-roboto text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+          className="block py-6 px-0 w-full mt-4 text-lg font-roboto text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
           placeholder=" "
           required
           rows="4"
@@ -106,6 +136,14 @@ const ContactForm = () => {
           Submit
         </button>
       </div>
+      {submissionStatus === "success" && (
+        <p className="text-primary text-center bottom-1 left-1/2 transform -translate-x-1/2 w-full  absolute">
+          Your form is successfully submitted
+        </p>
+      )}
+      {submissionStatus === "error" && (
+        <p className="text-red-500 mt-4">{errorMessage}</p>
+      )}
     </form>
   );
 };

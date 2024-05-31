@@ -145,10 +145,23 @@
         height: 500px !important;
     }
 }
+
 input,
 select {
     -webkit-text-fill-color: #933d38;
     -webkit-background-clip: text !important;
     background-clip: text !important;
     caret-color: #933d38;
+}
+
+@media (max-width: 460px) {
+    .contact-form-bg{
+        background-size: 24rem 42rem !important;
+    }
+}
+
+@media (min-width: 461px) and (max-width: 767px) {
+    .contact-form-bg {
+        background-size: 26rem 40rem !important;
+    }
 }
