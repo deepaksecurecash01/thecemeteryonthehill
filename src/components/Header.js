@@ -152,7 +152,10 @@ const Header = () => {
           <div className="mt-auto">
             <div className="pt-6">
               <Link href="/contact" passHref>
-                <span className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-secondary hover:bg-primary rounded-xl">
+                <span
+                  onClick={toggleMenu}
+                  className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-secondary hover:bg-primary rounded-xl"
+                >
                   Contact us
                 </span>
               </Link>
