@@ -14,7 +14,7 @@ const Page = () => {
         aria-hidden="true"
       />
       <div className="lg:h-screen w-full flex flex-col items-center pt-10 lg:pt-2 xl:pt-10">
-        <div className="h-[25vh] flex flex-col justify-center items-center">
+        <div className="lg:h-[25vh] xl:h-auto flex flex-col justify-center items-center">
           <h1 className="text-[1.75rem] md:text-[2.75rem] font-bold font-display text-primary">
             Get in Touch with Us!
           </h1>
