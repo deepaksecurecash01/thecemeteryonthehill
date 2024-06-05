@@ -165,3 +165,7 @@ select {
         background-size: 26rem 40rem !important;
     }
 }
+
+.history-overlay{
+    background-size: 300px auto !important;
+}

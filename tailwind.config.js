@@ -44,6 +44,9 @@ module.exports = {
         "services-bg-2": "url('/images/services_bg_2.png')",
         "services-bg-3": "url('/images/services_bg_3.png')",
         "banner-bg": "url('/images/banner_bg.jpg')",
+        "banner-bg-2": "url('/images/banner_bg_2.jpeg')",
+        "ourhistoryandvision-bg": "url('/images/ourhistoryandvision_bg.jpeg')",
+
         "contact-form-bg": "url('/images/contact_form_bg.png')",
       }),
     },

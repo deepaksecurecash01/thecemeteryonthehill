@@ -2,15 +2,14 @@ import Link from "next/link";
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
-const BannerSection = async () =>
-{
+const BannerSection = async () => {
   return (
     <section
       className="relative 6xl:min-h-[35vh] flex justify-center items-center"
       aria-labelledby="banner-heading"
     >
       <div
-        className={`absolute bg-banner-bg bg-no-repeat w-full h-full bg-cover bg-center -z-20`}
+        className={`absolute bg-banner-bg-2 bg-no-repeat w-full h-full bg-cover bg-center -z-20`}
         role="img"
         aria-label="Decorative background image"
       />
@@ -24,9 +23,12 @@ const BannerSection = async () =>
             "Don't just take our word for it - see what actual users of our service have to say about their experience."
           }
         </h2>
-        <Link href="/contact" passHref
-           className="bg-secondary text-white font-roboto uppercase rounded-md border cursor-pointer border-secondary px-4 py-2 flex justify-center items-center hover:bg-primary hover:border-primary text-sm sm:text-base md:text-lg">
-            Contact Us <FaArrowRightLong className="text-xl sm:text-2xl ml-2" />
+        <Link
+          href="/contact"
+          passHref
+          className="bg-secondary text-white font-roboto uppercase rounded-md border cursor-pointer border-secondary px-4 py-2 flex justify-center items-center hover:bg-primary hover:border-primary text-sm sm:text-base md:text-lg"
+        >
+          Contact Us <FaArrowRightLong className="text-xl sm:text-2xl ml-2" />
         </Link>
       </div>
     </section>
