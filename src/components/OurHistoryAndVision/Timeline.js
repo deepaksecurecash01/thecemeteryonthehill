@@ -5,11 +5,17 @@ const Timeline = () => {
   return (
     <>
       <section className="relative max-w-[1200px] my-[100px] timeline">
-        <div className="flex">
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
+        <div className="flex container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
             <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -right-[20px] top-0 z-10 circle" />
-            <div className="text-box flex flex-col justify-center items-center relative py-[20px] px-[30px] rounded-[6px] ">
-              <p className="text-base tracking-wide md:text-xl text-end text-paragraph ">
+            <div className="text-box flex flex-col justify-center items-end gap-2 relative py-[20px] px-[30px] rounded-[6px] ">
+              <h3 className="text-2xl md:text-4xl lg:text-4xl text-end font-bold text-primary font-display ">
+                1840
+              </h3>
+              <h5 className="text-2xl md:text-4xl lg:text-2xl text-end font-bold text-primary font-display ">
+                Early Settlers
+              </h5>
+              <p className="text-base tracking-wide md:text-lg text-end text-paragraph ">
                 In 1840, the Horseshoe Section, No-orlunga Township, known today
                 as Old Noarlunga, was the first township to be successfully
                 established in the Noarlunga district. Early settlers were
@@ -20,42 +26,48 @@ const Timeline = () => {
               </p>
             </div>
           </div>
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
             <div className="absolute bg-primary w-[50%] h-[6px] left-0" />
             <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] ">
-              <div className="relative w-56 h-56 rounded-full border-primary border-solid border-[6px]">
+              <div className="relative w-96 h-64 rounded-lg border-primary border-solid ">
                 <Image
-                  src="/images/hero-3.jpg"
+                  src="/images/History-Image-Test.png"
                   fill
                   loading="lazy"
-                  objectFit="cover"
+                  objectFit="contain"
                   alt="Historic Cemetery Statue"
-                  className="absolute rounded-full"
+                  className="absolute"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
+        <div className="flex container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
             <div className="absolute bg-primary w-[50%] h-[6px] right-0" />
             <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] ">
-              <div className="relative w-56 h-56 rounded-full border-primary border-solid border-[6px]">
+              <div className="relative w-96 h-64 rounded-lg border-primary border-solid ">
                 <Image
-                  src="/images/hero-3.jpg"
+                  src="/images/History-Image-Test.png"
                   fill
                   loading="lazy"
-                  objectFit="cover"
+                  objectFit="contain"
                   alt="Historic Cemetery Statue"
-                  className="absolute rounded-full"
+                  className="absolute"
                 />
               </div>
             </div>
           </div>
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
             <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -left-[20px] top-0 z-10 circle" />
-            <div className="text-box flex flex-col justify-center items-center relative py-[20px] px-[30px] rounded-[6px] ">
-              <p className="text-base tracking-wide md:text-xl text-start text-paragraph ">
+            <div className="text-box flex flex-col justify-center items-start gap-2 relative py-[20px] px-[30px] rounded-[6px] ">
+              <h3 className="text-2xl md:text-4xl lg:text-4xl text-end font-bold text-primary font-display ">
+                1851
+              </h3>
+              <h5 className="text-2xl md:text-4xl lg:text-2xl text-end font-bold text-primary font-display ">
+                Colony Growth
+              </h5>
+              <p className="text-base tracking-wide md:text-lg text-start text-paragraph ">
                 Year after year, despite the challenges in farming and the
                 economic depression, the colony had seen growth. In 1851, the
                 population had increased, with the addition of a new store and
@@ -64,11 +76,17 @@ const Timeline = () => {
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
-            <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -right-[20px] top-0 z-10 circle" />
-            <div className="text-box flex flex-col justify-center items-center relative py-[20px] px-[30px] rounded-[6px] ">
-              <p className="text-base tracking-wide md:text-xl text-end text-paragraph ">
+        <div className="flex container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
+            <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -right-[20px] top-0 z-10 circle " />
+            <div className="text-box flex flex-col justify-center items-end gap-2 relative py-[20px] px-[30px] rounded-[6px] ">
+              <h3 className="text-2xl md:text-4xl lg:text-4xl text-end font-bold text-primary font-display ">
+                1850
+              </h3>
+              <h5 className="text-2xl md:text-4xl lg:text-2xl text-end font-bold text-primary font-display ">
+                The Church & Cemetery on the Hil
+              </h5>
+              <p className="text-base tracking-wide md:text-lg text-end text-paragraph ">
                 The foundation stone for The Church and Cemetery on the Hill was
                 laid in 1850 by Bishop Augustus Short, the first Church of
                 England Bishop in the colony. It was not until 1851 that The
@@ -78,42 +96,48 @@ const Timeline = () => {
               </p>
             </div>
           </div>
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
             <div className="absolute bg-primary w-[50%] h-[6px] left-0" />
             <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] ">
-              <div className="relative w-56 h-56 rounded-full border-primary border-solid border-[6px]">
+              <div className="relative w-96 h-64 rounded-lg border-primary border-solid ">
                 <Image
-                  src="/images/hero-3.jpg"
+                  src="/images/History-Image-Test.png"
                   fill
                   loading="lazy"
-                  objectFit="cover"
+                  objectFit="contain"
                   alt="Historic Cemetery Statue"
-                  className="absolute rounded-full"
+                  className="absolute"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
+        <div className="flex container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
             <div className="absolute bg-primary w-[50%] h-[6px] right-0" />
             <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] ">
-              <div className="relative w-56 h-56 rounded-full border-primary border-solid border-[6px]">
+              <div className="relative w-96 h-64 rounded-lg border-primary border-solid ">
                 <Image
-                  src="/images/hero-3.jpg"
+                  src="/images/History-Image-Test.png"
                   fill
                   loading="lazy"
-                  objectFit="cover"
+                  objectFit="contain"
                   alt="Historic Cemetery Statue"
-                  className="absolute rounded-full"
+                  className="absolute"
                 />
               </div>
             </div>
           </div>
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
             <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -left-[20px] top-0 z-10 circle" />
-            <div className="text-box flex flex-col justify-center items-center relative py-[20px] px-[30px] rounded-[6px] ">
-              <p className="text-base tracking-wide md:text-xl text-start text-paragraph ">
+            <div className="text-box flex flex-col justify-center items-start gap-2 relative py-[20px] px-[30px] rounded-[6px] ">
+              <h3 className="text-2xl md:text-4xl lg:text-4xl text-start font-bold text-primary font-display">
+                1850
+              </h3>
+              <h5 className="text-2xl md:text-4xl lg:text-2xl text-start font-bold text-primary font-display">
+                First Burial at The Cemetery
+              </h5>
+              <p className="text-base tracking-wide md:text-lg text-start text-paragraph ">
                 The first burial in The Cemetery on the Hill was on the 16th of
                 August 1850 for John William Scott. He worked as a teacher in
                 Noarlunga and as a poundkeeper in the council. John was married
@@ -123,11 +147,17 @@ const Timeline = () => {
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
+        <div className="flex container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
             <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -right-[20px] top-0 z-10 circle" />
-            <div className="text-box flex flex-col justify-center items-center relative py-[20px] px-[30px] rounded-[6px] ">
-              <p className="text-base tracking-wide md:text-xl text-end text-paragraph ">
+            <div className="text-box flex flex-col justify-center items-end gap-2 relative py-[20px] px-[30px] rounded-[6px] ">
+              <h3 className="text-2xl md:text-4xl lg:text-4xl text-start font-bold text-primary font-display">
+                1851
+              </h3>
+              <h5 className="text-2xl md:text-4xl lg:text-2xl text-start font-bold text-primary font-display">
+                Mary Davey's Burial
+              </h5>
+              <p className="text-base tracking-wide md:text-lg text-end text-paragraph ">
                 Today, the oldest grave still in existence, within our state
                 heritage-listed cemetery, is that of Mary Davey. Mary and her
                 husband John arrived in Adelaide in 1848 and settled in
@@ -138,53 +168,69 @@ const Timeline = () => {
               </p>
             </div>
           </div>
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
+
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
             <div className="absolute bg-primary w-[50%] h-[6px] left-0" />
             <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] ">
-              <div className="relative w-56 h-56 rounded-full border-primary border-solid border-[6px]">
+              <div className="relative w-96 h-64 rounded-lg border-primary border-solid ">
                 <Image
-                  src="/images/hero-3.jpg"
+                  src="/images/History-Image-Test.png"
                   fill
                   loading="lazy"
-                  objectFit="cover"
+                  objectFit="contain"
                   alt="Historic Cemetery Statue"
-                  className="absolute rounded-full"
+                  className="absolute"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
+        <div className="flex container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
             <div className="absolute bg-primary w-[50%] h-[6px] right-0" />
             <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] ">
-              <div className="relative w-56 h-56 rounded-full border-primary border-solid border-[6px]">
+              <div className="relative w-96 h-64 rounded-lg border-primary border-solid ">
                 <Image
-                  src="/images/hero-3.jpg"
+                  src="/images/History-Image-Test.png"
                   fill
                   loading="lazy"
-                  objectFit="cover"
+                  objectFit="contain"
                   alt="Historic Cemetery Statue"
-                  className="absolute rounded-full"
+                  className="absolute"
                 />
               </div>
             </div>
           </div>
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
             <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -left-[20px] top-0 z-10 circle" />
-            <div className="text-box flex flex-col justify-center items-center relative py-[20px] px-[30px] rounded-[6px] ">
-              <p className="text-base tracking-wide md:text-xl text-start text-paragraph ">
+            <div className="text-box flex flex-col justify-center items-start gap-2 relative py-[20px] px-[30px] rounded-[6px] ">
+              <h3 className="text-2xl md:text-4xl lg:text-4xl font-bold text-primary font-display">
+                1850
+              </h3>
+              <h5 className="text-2xl md:text-4xl lg:text-2xl  font-bold text-primary font-display">
+                Founding Pioneer Families
+              </h5>
+              <p className="text-base tracking-wide md:text-lg text-paragraph ">
                 Several members of the founding pioneer families are interred in
-                The Cemetery.
+                The Cemetery. These families played a vital role in the early
+                development of the colony, contributing to its growth and
+                prosperity. Their legacies live on through their descendants and
+                the historical landmarks they helped establish.
               </p>
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
+        <div className="flex container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
             <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -right-[20px] top-0 z-10 circle" />
-            <div className="text-box flex flex-col justify-center items-center relative py-[20px] px-[30px] rounded-[6px] ">
-              <p className="text-base tracking-wide md:text-xl text-end text-paragraph ">
+            <div className="text-box flex flex-col justify-center items-end gap-2 relative py-[20px] px-[30px] rounded-[6px] ">
+              <h3 className="text-2xl md:text-4xl lg:text-4xl font-bold text-primary font-display ">
+                1866
+              </h3>
+              <h5 className="text-2xl md:text-4xl lg:text-2xl font-bold text-primary font-display ">
+                Richard Bosworth's Burial
+              </h5>
+              <p className="text-base tracking-wide md:text-lg text-end text-paragraph ">
                 Richard Bosworth, one of the appointed trustees for the
                 construction and maintenance of The Church and Cemetery on the
                 Hill was buried in the cemetery on the 21st of May 1866. Richard
@@ -198,42 +244,49 @@ const Timeline = () => {
               </p>
             </div>
           </div>
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
+
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
             <div className="absolute bg-primary w-[50%] h-[6px] left-0" />
             <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] ">
-              <div className="relative w-56 h-56 rounded-full border-primary border-solid border-[6px]">
+              <div className="relative w-96 h-64 rounded-lg border-primary border-solid ">
                 <Image
-                  src="/images/hero-3.jpg"
+                  src="/images/History-Image-Test.png"
                   fill
                   loading="lazy"
-                  objectFit="cover"
+                  objectFit="contain"
                   alt="Historic Cemetery Statue"
-                  className="absolute rounded-full"
+                  className="absolute"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
+        <div className="flex container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
             <div className="absolute bg-primary w-[50%] h-[6px] right-0" />
             <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] ">
-              <div className="relative w-56 h-56 rounded-full border-primary border-solid border-[6px]">
+              <div className="relative w-96 h-64 rounded-lg border-primary border-solid ">
                 <Image
-                  src="/images/hero-3.jpg"
+                  src="/images/History-Image-Test.png"
                   fill
                   loading="lazy"
-                  objectFit="cover"
+                  objectFit="contain"
                   alt="Historic Cemetery Statue"
-                  className="absolute rounded-full"
+                  className="absolute"
                 />
               </div>
             </div>
           </div>
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
             <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -left-[20px] top-0 z-10 circle" />
-            <div className="text-box flex flex-col justify-center items-center relative py-[20px] px-[30px] rounded-[6px] ">
-              <p className="text-base tracking-wide md:text-xl text-start text-paragraph ">
+            <div className="text-box flex flex-col justify-center items-start gap-2 relative py-[20px] px-[30px] rounded-[6px] ">
+              <h3 className="text-2xl md:text-4xl lg:text-4xl text-start font-bold text-primary font-display ">
+                1840
+              </h3>
+              <h5 className="text-2xl md:text-4xl lg:text-2xl text-start font-bold text-primary font-display ">
+                The Holly Family's Arrival
+              </h5>
+              <p className="text-base tracking-wide md:text-lg text-start text-paragraph ">
                 Another one of the early pioneering families in the colony was
                 the Holly family. Together with his wife and two children,
                 William Holly came to South Australia aboard the Apolline in
@@ -248,11 +301,17 @@ const Timeline = () => {
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
+        <div className="flex container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
             <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -right-[20px] top-0 z-10 circle" />
-            <div className="text-box flex flex-col justify-center items-center relative py-[20px] px-[30px] rounded-[6px] ">
-              <p className="text-base tracking-wide md:text-xl text-start text-paragraph ">
+            <div className="text-box flex flex-col justify-center items-end gap-2 relative py-[20px] px-[30px] rounded-[6px] ">
+              <h3 className="text-2xl md:text-4xl lg:text-4xl text-end font-bold text-primary font-display ">
+                1986
+              </h3>
+              <h5 className="text-2xl md:text-4xl lg:text-2xl text-end font-bold text-primary font-display ">
+                State Heritage Listing
+              </h5>
+              <p className="text-base tracking-wide md:text-lg text-end text-paragraph ">
                 The cemetery was granted a State Heritage listing on the 20th of
                 November 1986. A number of people buried in the cemetery were
                 recipients of the prestigious Medal of the Order of Australia
@@ -263,42 +322,49 @@ const Timeline = () => {
               </p>
             </div>
           </div>
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
+
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
             <div className="absolute bg-primary w-[50%] h-[6px] left-0" />
             <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] ">
-              <div className="relative w-56 h-56 rounded-full border-primary border-solid border-[6px]">
+              <div className="relative w-96 h-64 rounded-lg border-primary border-solid ">
                 <Image
-                  src="/images/hero-3.jpg"
+                  src="/images/History-Image-Test.png"
                   fill
                   loading="lazy"
-                  objectFit="cover"
+                  objectFit="contain"
                   alt="Historic Cemetery Statue"
-                  className="absolute rounded-full"
+                  className="absolute"
                 />
               </div>
             </div>
           </div>
         </div>
-        <div className="flex">
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
+        <div className="flex container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container flex justify-center items-center">
             <div className="absolute bg-primary w-[50%] h-[6px] right-0" />
             <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] ">
-              <div className="relative w-56 h-56 rounded-full border-primary border-solid border-[6px]">
+              <div className="relative w-96 h-64 rounded-lg border-primary border-solid ">
                 <Image
-                  src="/images/hero-3.jpg"
+                  src="/images/History-Image-Test.png"
                   fill
                   loading="lazy"
-                  objectFit="cover"
+                  objectFit="contain"
                   alt="Historic Cemetery Statue"
-                  className="absolute rounded-full"
+                  className="absolute"
                 />
               </div>
             </div>
           </div>
-          <div className="container relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
+          <div className=" relative py-[10px] px-[50px] w-[50%]  left-0 left-container">
             <div className="h-10 w-10 bg-white rounded-full bg-transparent border-4 border-primary absolute -left-[20px] top-0 z-10 circle" />
-            <div className="text-box flex flex-col justify-center items-center relative py-[20px] px-[30px] rounded-[6px] ">
-              <p className="text-base tracking-wide md:text-xl text-start text-paragraph ">
+            <div className="text-box flex flex-col justify-center items-start gap-2 relative py-[20px] px-[30px] rounded-[6px] ">
+              <h3 className="text-2xl md:text-4xl lg:text-4xl text-start font-bold text-primary font-display ">
+                2020
+              </h3>
+              <h5 className="text-2xl md:text-4xl lg:text-2xl text-start font-bold text-primary font-display ">
+                Church and Cemetery Ownership Change
+              </h5>
+              <p className="text-base tracking-wide md:text-lg text-start text-paragraph ">
                 After over 160 years, The Church and Cemetery on the Hill was
                 put on the market and is now under the care of the Bacchus
                 Family. The Cemetery was rebranded from St Philip and St James

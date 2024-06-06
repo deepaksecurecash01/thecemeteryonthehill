@@ -50,6 +50,22 @@
     animation-delay: 5s;
 }
 
+.container:nth-child(7) {
+    animation-delay: 6s;
+}
+
+.container:nth-child(8) {
+    animation-delay: 7s;
+}
+
+.container:nth-child(9) {
+    animation-delay: 8s;
+}
+
+.container:nth-child(10) {
+    animation-delay: 9s;
+}
+
 @keyframes movedown {
     0% {
         opacity: 1;
@@ -71,11 +87,6 @@
         left: 31px;
     }
 
-    .container {
-        width: 100%;
-        padding-left: 80px;
-        padding-right: 25px;
-    }
 
     .text-box {
         font-size: 13px;

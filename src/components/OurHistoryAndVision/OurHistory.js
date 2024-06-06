@@ -6,11 +6,11 @@ const OurHistory = () => {
   return (
     <div className="flex flex-col items-center relative w-full overflow-hidden py-10 gap-8">
       <div
-        className="absolute bg-ellipse-2 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10"
+        className="absolute bg-ellipse-1 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10"
         aria-hidden="true"
       />
       <div
-        className="absolute bg-ellipse-1 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10"
+        className="absolute bg-ellipse-2 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10"
         aria-hidden="true"
       />
       <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
