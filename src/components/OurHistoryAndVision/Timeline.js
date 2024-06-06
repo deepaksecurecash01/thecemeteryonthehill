@@ -155,7 +155,7 @@ const Timeline = () => {
                 1851
               </h3>
               <h5 className="text-2xl md:text-4xl lg:text-2xl text-start font-bold text-primary font-display">
-                Mary Davey's Burial
+                {"Mary Davey's Burial"}
               </h5>
               <p className="text-base tracking-wide md:text-lg text-end text-paragraph ">
                 Today, the oldest grave still in existence, within our state
@@ -228,7 +228,7 @@ const Timeline = () => {
                 1866
               </h3>
               <h5 className="text-2xl md:text-4xl lg:text-2xl font-bold text-primary font-display ">
-                Richard Bosworth's Burial
+                {"Richard Bosworth's Burial"}
               </h5>
               <p className="text-base tracking-wide md:text-lg text-end text-paragraph ">
                 Richard Bosworth, one of the appointed trustees for the
@@ -284,7 +284,7 @@ const Timeline = () => {
                 1840
               </h3>
               <h5 className="text-2xl md:text-4xl lg:text-2xl text-start font-bold text-primary font-display ">
-                The Holly Family's Arrival
+                {"The Holly Family's Arrival"}
               </h5>
               <p className="text-base tracking-wide md:text-lg text-start text-paragraph ">
                 Another one of the early pioneering families in the colony was
