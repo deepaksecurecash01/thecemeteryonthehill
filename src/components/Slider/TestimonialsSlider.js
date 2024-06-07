@@ -223,7 +223,7 @@ function TestimonialSlider() {
                   }}
                 >
                   <div className="h-20 4xl:h-24 flex justify-center items-center">
-                    <q className="text-paragraph text-base tracking-wide h-full lg:text-lg">
+                    <q className="text-paragraph font-semibold text-base tracking-wide h-full lg:text-lg">
                       {review}
                     </q>
                   </div>

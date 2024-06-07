@@ -13,6 +13,11 @@ const opensans = Open_Sans({
   weight: ["300", "400", "500", "600", "700", "800"],
 });
 
+const jolydisplay = localFont({
+  src: "../../public/fonts/JolyDisplay/fonnts.com-Joly_Display_Regular.otf",
+  variable: "--font-jolydisplay",
+});
+
 const roboto = Roboto({
   subsets: ["latin"],
   display: "swap",
@@ -50,11 +55,11 @@ export default function RootLayout({ children }) {
         <meta name="keywords" content={metadata.keywords} />
         <meta name="author" content={metadata.author} />
         <link rel="canonical" href={metadata.canonical} />
-   
+
         {/* Update with actual image */}
       </Head>
       <body
-        className={`${opensans.className} ${roboto.variable} ${eliyamoliscript.variable} ${trajanpro3.variable}`}
+        className={`${jolydisplay.className} ${roboto.variable} ${eliyamoliscript.variable} ${trajanpro3.variable}`}
       >
         <Header />
         {children}

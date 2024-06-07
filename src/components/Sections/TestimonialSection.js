@@ -26,7 +26,7 @@ const TestimonialSection = () => {
               <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-start font-display text-primary">
                 Testimonials
               </h2>
-              <p className="text-paragraph text-base text-start tracking-wide md:pr-10 lg:text-lg">
+              <p className="text-paragraph text-base font-bold text-start tracking-wide md:pr-10 lg:text-lg">
                {" Don't just take our word for it - see what actual users of our service have to say about their experience."}
               </p>
             </div>

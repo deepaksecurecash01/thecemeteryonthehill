@@ -14,13 +14,13 @@ const OurVision = () => {
         aria-hidden="true"
       />
       <div
-        className="hidden absolute bg-testimonials-overlay history-overlay rotate-180 -right-16 bg-no-repeat bg-left w-full h-full -z-20 bg-contain md:block"
+        className="hidden absolute bg-testimonials-overlay history-overlay rotate-180 -right-16 bg-no-repeat bg-left w-full h-full -z-20 bg-contain lg:block"
         aria-hidden="true"
       />
 
-      <div className="flex justify-center items-center w-full h-full overflow-hidden relative">
-        <div className="w-[70vw] md:w-[60vw] flex justify-evenly items-center py-20 gap-10 h-full">
-          <div className="relative h-[48rem] w-full bg-black">
+      <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative">
+        <div className="w-[70vw] md:w-[60vw] flex flex-col xl:flex-row justify-evenly items-center py-20 gap-10 h-full">
+          <div className="relative h-96 md:h-[48rem] w-full bg-black">
             <Image
               src={`/images/ourvision.jpg`}
             fill
@@ -32,11 +32,11 @@ const OurVision = () => {
           </div>
 
           <div className="flex w-full h-full justify-center">
-            <div className=" flex flex-col justify-center items-start gap-6 ">
-              <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary text-start font-display">
+            <div className=" flex flex-col justify-center items-center xl:items-start gap-6 ">
+              <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary text-center xl:text-start font-display">
                 Our Vision
               </h2>
-              <div className=" flex flex-col justify-center font-sans items-start space-y-6">
+              <div className=" flex flex-col justify-center items-start space-y-6">
                 <p className="text-base tracking-wide md:text-xl text-justify text-paragraph ">
                   Dealing with loss will never be easy. It can be painful to say
                   goodbye to a loved one. And it is equally difficult to find a

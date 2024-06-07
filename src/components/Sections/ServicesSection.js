@@ -35,11 +35,11 @@ const ServiceCard = ({ title, description, backgroundClass, link }) => (
     className={`${backgroundClass} bg-center bg-contain bg-no-repeat h-[52rem] xs:w-[23rem] sm:w-[28rem] md:w-[36rem] lg:h-[48rem] xl:h-[56rem] md:h-[62rem] xl:w-[26rem] lg:w-[22rem] grid grid-rows-2 place-items-center`}
   >
     <div className="row-span-1"></div>
-    <div className="h-full w-full flex flex-col justify-evenly px-10  sm:px-16 pb-12 md:px-28 lg:px-6 xl:px-10 items-center space-y-4 lg:space-y-2 xl:space-y-4  row-span-1">
+    <div className="h-full w-full flex flex-col justify-evenly px-10  sm:px-20 pb-12 md:px-28 lg:px-10 xl:px-16 items-center space-y-4 lg:space-y-2 xl:space-y-4  row-span-1">
       <h3 className="text-2xl md:text-4xl lg:text-2xl font-bold text-primary font-display ">
         {title}
       </h3>
-      <p className="text-base md:text-lg text-paragraph tracking-wide text-center lg:text-base">
+      <p className="text-base md:text-lg text-paragraph font-semibold tracking-wide text-center lg:text-base">
         {description}
       </p>
       <Link href={link} passHref>
