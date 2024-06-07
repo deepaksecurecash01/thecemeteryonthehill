@@ -45,7 +45,7 @@ const OurVision = () => {
           aria-hidden="true"
         />
         <div className="flex w-full justify-center">
-          <div className="w-[90vw] md:w-[80vw] flex flex-col justify-center items-center gap-6 ">
+          <div className="w-[70vw] md:w-[60vw] flex flex-col justify-center items-center gap-6 ">
             <div className=" flex flex-col justify-center items-center space-y-6">
               <p className="text-base tracking-wide md:text-xl text-justify text-paragraph ">
                 Dealing with loss will never be easy. It can be painful to say

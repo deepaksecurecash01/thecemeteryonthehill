@@ -4,7 +4,8 @@ import Timeline from "@/components/OurHistoryAndVision/Timeline";
 
 const OurHistory = () => {
   return (
-    <div className="flex flex-col items-center relative w-full overflow-hidden py-10 gap-8">
+    <div className="flex flex-col items-center relative w-full overflow-hidden pt-10 gap-8">
+      
       <div
         className="absolute bg-ellipse-1 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10"
         aria-hidden="true"
@@ -16,7 +17,7 @@ const OurHistory = () => {
       <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
         Our History
       </h2>
-      <div className="flex justify-center items-center w-[90vw] md:w-[80vw] -space-x-56">
+      <div className="flex justify-center items-center w-[90vw] py-2 md:w-[80vw] -space-x-56">
         {[0, 1, 2].map((i) => (
           <div
             key={i}
@@ -39,7 +40,7 @@ const OurHistory = () => {
           </div>
         ))}
       </div>
-      <div className="flex justify-center items-center w-full h-full overflow-hidden relative">
+      <div className="flex justify-center items-center w-full h-full mt-4 overflow-hidden relative">
         <div
           className="hidden absolute bg-testimonials-overlay history-overlay -left-16 bg-no-repeat bg-left w-full h-full -z-20 bg-contain lg:block"
           aria-hidden="true"
