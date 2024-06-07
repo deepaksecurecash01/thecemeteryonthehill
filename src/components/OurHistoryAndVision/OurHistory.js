@@ -16,7 +16,7 @@ const OurHistory = () => {
       <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
         Our History
       </h2>
-      <div className="flex justify-center items-center w-[80vw] -space-x-56">
+      <div className="flex justify-center items-center w-[90vw] md:w-[80vw] -space-x-56">
         {[0, 1, 2].map((i) => (
           <div
             key={i}
@@ -41,7 +41,11 @@ const OurHistory = () => {
       </div>
       <div className="flex justify-center items-center w-full h-full overflow-hidden relative">
         <div
-          className="hidden absolute bg-testimonials-overlay history-overlay -left-16 bg-no-repeat bg-left w-full h-full -z-20 bg-contain md:block"
+          className="hidden absolute bg-testimonials-overlay history-overlay -left-16 bg-no-repeat bg-left w-full h-full -z-20 bg-contain lg:block"
+          aria-hidden="true"
+        />
+        <div
+          className="hidden absolute bg-testimonials-overlay history-overlay -right-16 rotate-180 bg-no-repeat bg-left w-full h-full -z-20 bg-contain lg:block"
           aria-hidden="true"
         />
         <Timeline />
