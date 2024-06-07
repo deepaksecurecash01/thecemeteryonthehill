@@ -2,6 +2,7 @@
   "name": "thecemeteryonthehill",
   "version": "0.1.0",
   "private": true,
+  "author": "Deepak Kumar",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

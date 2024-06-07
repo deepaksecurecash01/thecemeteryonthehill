@@ -20,14 +20,14 @@ const OurVision = () => {
 
       <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative">
         <div className="w-[70vw] md:w-[60vw] flex flex-col xl:flex-row justify-evenly items-center py-20 gap-10 h-full">
-          <div className="relative h-96 md:h-[48rem] w-full bg-black">
+          <div className="relative h-96 md:h-[48rem] w-full">
             <Image
               src={`/images/ourvision.jpg`}
             fill
               alt={`Hero-Section Image-1 | The Cemetery on the Hill`}
               loading="lazy"
               objectFit="cover"
-              className="  object-cover"
+              className=" rounded-lg object-center"
             />
           </div>
 
