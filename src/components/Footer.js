@@ -74,9 +74,9 @@ const Footer = () => {
               <ul className="font-roboto text-base md:text-sm lg:text-base text-secondary font-normal space-y-2 md:space-y-1 lg:space-y-4">
                 {/* Service links */}
                 {[
-                  { href: "/burials", label: "Burials" },
-                  { href: "/ashes", label: "Ashes" },
-                  { href: "/pet-interments", label: "Pet Interments" },
+                  { href: "/services/burials", label: "Burials" },
+                  { href: "/services/ashes", label: "Ashes" },
+                  { href: "/services/pet-interments", label: "Pet Interments" },
                 ].map((item) => (
                   <li key={item.href}>
                     <Link href={item.href} passHref>

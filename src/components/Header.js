@@ -1,5 +1,5 @@
-'use client'
-import React, { useState, useEffect } from "react";
+"use client";
+import React, { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -7,6 +7,7 @@ import Headroom from "react-headroom";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const pathname = usePathname();
 
@@ -14,7 +15,9 @@ const Header = () => {
     setMenuOpen(!menuOpen);
   };
 
-
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
   return (
     <>
@@ -53,12 +56,84 @@ const Header = () => {
           </Link>
 
           <ul
-            className={`absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2  lg:mx-auto lg:items-center lg:w-auto lg:space-x-6 xl:flex xl:space-x-6 ${"hidden"}`}
+            className={`absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2  lg:mx-auto lg:items-center lg:w-auto lg:space-x-6 xl:flex xl:space-x-6 ${
+              menuOpen ? "flex flex-col items-center" : "hidden"
+            }`}
           >
             {[
               { href: "/", label: "Home" },
               { href: "/ourhistoryandvision", label: "Our Vision & History" },
-              { href: "/services", label: "Services" },
+            ].map((item) => (
+              <li key={item.href}>
+                <Link href={item.href} passHref>
+                  <span
+                    className={`text-base ${
+                      pathname === item.href
+                        ? "text-primary font-bold"
+                        : "text-paragraph hover:text-secondary"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                </Link>
+              </li>
+            ))}
+            {/* Dropdown menu */}
+            <li
+              className="relative"
+              onClick={toggleDropdown}
+              //onMouseLeave={toggleDropdown}
+            >
+              <span
+                className={`text-base cursor-pointer ${
+                  dropdownOpen ? "text-secondary " : "text-paragraph"
+                }`}
+              >
+                Services
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-5 w-5 inline-block ml-1"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 5.293a1 1 0 011.414 0L10 9.586l4.293-4.293a1 1 0 111.414 1.414l-5 5a1 1 0 01-1.414 0l-5-5a1 1 0 010-1.414zM10 14a1 1 0 100-2 1 1 0 000 2z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+              </span>
+              {/* Dropdown content */}
+              {dropdownOpen && (
+                <div className="absolute bg-white py-2 mt-2 space-y-2 w-44 shadow-lg rounded-md">
+                  <Link href="/services/burials" passHref>
+                    <span
+                      className="block px-4 py-2 text-base text-gray-800 hover:bg-gray-200"
+                      onClick={toggleDropdown}
+                    >
+                      Burials
+                    </span>
+                  </Link>
+                  <Link href="/services/ashes" passHref>
+                    <span
+                      className="block px-4 py-2 text-base text-gray-800 hover:bg-gray-200"
+                      onClick={toggleDropdown}
+                    >
+                      Ashes
+                    </span>
+                  </Link>
+                  <Link href="/memorials" passHref>
+                    <span
+                      className="block px-4 py-2 text-base text-gray-800 hover:bg-gray-200"
+                      onClick={toggleDropdown}
+                    >
+                      Memorials
+                    </span>
+                  </Link>
+                </div>
+              )}
+            </li>
+            {[
               { href: "/pricing", label: "Pricing" },
               { href: "/purchaseplot", label: "Purchase a Plot" },
               { href: "/expiredleases", label: "Expired Leases" },
@@ -78,6 +153,7 @@ const Header = () => {
               </li>
             ))}
           </ul>
+          {/* Contact link */}
           <Link href="/contact" passHref>
             <span className="hidden xl:inline-block py-2 px-6 bg-secondary hover:bg-primary text-sm text-white font-bold rounded-md transition duration-200">
               Contact us
@@ -85,87 +161,6 @@ const Header = () => {
           </Link>
         </nav>
       </Headroom>
-
-      {/* Mobile Menu */}
-      <div
-        className={`navbar-menu fixed inset-0 z-50 ${
-          menuOpen ? "block" : "hidden"
-        } xl:hidden`}
-      >
-        <div
-          className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"
-          onClick={toggleMenu}
-        />
-        <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-hidden mobile-menu">
-          <div className="flex justify-between items-center mb-8">
-            <Link href="/" passHref>
-              <Image
-                src="/images/logo.png"
-                width={200}
-                height={64}
-                alt="Logo"
-                className=" text-3xl font-bold leading-none"
-              />
-            </Link>
-            <button className="navbar-close" onClick={toggleMenu}>
-              <svg
-                className="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
-          </div>
-          <ul>
-            {[
-              { href: "/", label: "Home" },
-              { href: "/ourhistoryandvision", label: "Our Vision & History" },
-              { href: "/services", label: "Services" },
-              { href: "/pricing", label: "Pricing" },
-              { href: "/purchaseplot", label: "Purchase a Plot" },
-              { href: "/expiredleases", label: "Expired Leases" },
-            ].map((item) => (
-              <li key={item.href}>
-                <Link href={item.href} passHref>
-                  <span
-                    className={`block p-4 text-sm font-semibold rounded ${
-                      pathname === item.href
-                        ? "text-primary font-bold"
-                        : "text-paragraph hover:bg-secondary/10 hover:text-primary"
-                    }`}
-                    onClick={toggleMenu}
-                  >
-                    {item.label}
-                  </span>
-                </Link>
-              </li>
-            ))}
-          </ul>
-          <div className="mt-auto">
-            <div className="pt-6">
-              <Link href="/contact" passHref>
-                <span
-                  onClick={toggleMenu}
-                  className="block px-4 py-3 mb-2 leading-loose text-xs text-center text-white font-semibold bg-secondary hover:bg-primary rounded-xl"
-                >
-                  Contact us
-                </span>
-              </Link>
-            </div>
-            <p className="my-4 text-xs text-center text-gray-400">
-              <span>Copyright © 2024</span>
-            </p>
-          </div>
-        </nav>
-      </div>
     </>
   );
 };

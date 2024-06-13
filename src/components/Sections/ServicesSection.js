@@ -9,7 +9,7 @@ const servicesData = [
       beautifully landscaped ashes interment locations. We handle the physical
       interment of ashes and take pride in making this a pleasant experience, purchase and renewal of ashes interment rights, as well as managing lost interment rights.`,
     backgroundClass: "bg-services-bg-1",
-    link: "/ashes",
+    link: "/services/ashes",
   },
   {
     title: "Pet Interments",
@@ -19,14 +19,14 @@ const servicesData = [
       compassionate team is dedicated to providing support during this
       difficult time.`,
     backgroundClass: "bg-services-bg-2",
-    link: "/pet-interments",
+    link: "/services/pet-interments",
   },
   {
     title: "Burials",
     description: `We offer reserved burial sites, purchase and renewal of Burial
       Interment Rights, and all necessities for a pleasant and memorable burial service. With our future focus predominantly on ashes interments, few burial sites are available.`,
     backgroundClass: "bg-services-bg-3",
-    link: "/burials",
+    link: "/services/burials",
   },
 ];
 

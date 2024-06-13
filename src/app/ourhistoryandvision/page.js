@@ -1,9 +1,7 @@
 import BannerSection from "@/components/OurHistoryAndVision/BannerSection";
 import OurHistory from "@/components/OurHistoryAndVision/OurHistory";
 import OurVision from "@/components/OurHistoryAndVision/OurVision";
-import Timeline from "@/components/OurHistoryAndVision/Timeline";
-import Image from "next/image";
-import React from "react";
+
 
 const page = () => {
   return (

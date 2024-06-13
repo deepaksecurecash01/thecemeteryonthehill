@@ -75,7 +75,7 @@ const Timeline = () => {
         {timelineData.map((item, index) => (
           <div
             key={index}
-            className={`relative flex flex-col md:flex-row items-center container ${
+            className={`relative flex flex-col md:flex-row items-center card ${
               index % 2 === 0 ? "" : "md:flex-row-reverse"
             }`}
           >
@@ -119,7 +119,7 @@ const Timeline = () => {
               } order-first md:order-none`}
             >
               <div
-                className={`absolute bg-primary w-[50%] h-[6px] ${
+                className={`absolute hidden md:block bg-primary w-[50%] h-[6px] ${
                   index % 2 === 0 ? "md:left-0" : "md:right-0"
                 }`}
               />
