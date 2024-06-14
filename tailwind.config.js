@@ -5,6 +5,9 @@ module.exports = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  variants: {
+    display: ["responsive", "group-hover", "group-focus"],
+  },
   theme: {
     screens: {
       xs: { max: "460px" },
