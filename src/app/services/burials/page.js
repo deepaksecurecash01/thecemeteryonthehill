@@ -1,6 +1,6 @@
 import ContentSection from '@/components/Burials/ContentSetion';
 import HeroSection from '@/components/Burials/HeroSection';
-import TextSection from '@/components/Burials/TextSection';
+import BannerSection from '@/components/OurHistoryAndVision/BannerSection';
 import React from 'react'
 
 const page = () => {
@@ -8,6 +8,7 @@ const page = () => {
     <div className="relative">
       <HeroSection />
       <ContentSection />
+      <BannerSection />
     </div>
   );
 }
