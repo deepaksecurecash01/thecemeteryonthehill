@@ -50,7 +50,7 @@ module.exports = {
         "banner-bg-2": "url('/images/banner_bg_2.jpeg')",
         "ourhistoryandvision-bg": "url('/images/ourhistoryandvision_bg.jpeg')",
         "service-overlay-bg": "url('/images/service-page-overly.png')",
-
+        "expiredleases-overlay-bg": "url('/images/expiredleases-overlay.png')",
         "contact-form-bg": "url('/images/contact_form_bg.png')",
       }),
     },

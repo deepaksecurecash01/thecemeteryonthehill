@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Head from "next/head";
+import ReduxProvider from "@/redux/provider";
 
 // Font imports
 const opensans = Open_Sans({
@@ -61,9 +62,11 @@ export default function RootLayout({ children }) {
       <body
         className={`${jolydisplay.className} ${roboto.variable} ${eliyamoliscript.variable} ${trajanpro3.variable}`}
       >
-        <Header />
-        {children}
-        <Footer />
+        <ReduxProvider>
+          <Header />
+          {children}
+          <Footer />
+        </ReduxProvider>
       </body>
     </html>
   );

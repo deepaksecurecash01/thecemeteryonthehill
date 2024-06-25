@@ -94,10 +94,10 @@ const RelinquishForm = () => {
 
   return (
     <>
-      <div className=" lg:h-full w-full py-6 lg:py-0 xl:py-6 sm:px-8 xl:px-12 md:pr-4 space-y-6 md:flex md:flex-col justify-start lg:justify-center items-center order-2 ">
-        <div className="bg-contact-form-bg popup-form-bg bg-center bg-contain bg-no-repeat h-full w-full lg:h-[70vh] xl:h-[80vh] 2xl:h-[90vh] xl:w-full flex flex-col justify-center lg:justify-between items-center py-20 md:py-10 2xl:py-24 ">
+      <div className="w-full max-h-screen overflow-y-auto no-scrollbar overflow-x-hidden">
+        <div className="h-[52rem] md:max-h-[1024px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center  py-24 md:py-14 lg:py-20 xl:py-24">
           <form
-            className="w-[18rem] md:w-[24rem] lg:w-[50%] 2xl:w-[32rem] mx-auto py-10 flex flex-col justify-evenly h-full relative z-10"
+            className="w-[70%] md:w-auto md:py-10 xl:py-2 mx-auto  flex flex-col justify-between h-full relative z-10  "
             onSubmit={handleSubmit(onSubmit)}
             autoComplete="off"
           >
@@ -152,9 +152,10 @@ const RelinquishForm = () => {
               />
               <label
                 htmlFor="dateOfBirth"
-                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Date of Birth of Deceased
+                Date of Birth&nbsp;
+                <span className="hidden md:block">of Deceased</span>
               </label>
               {errors.dateOfBirth && (
                 <span className="text-red-500">
@@ -173,9 +174,10 @@ const RelinquishForm = () => {
               />
               <label
                 htmlFor="dateOfDeath"
-                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Date of Death of Deceased
+                Date of Death&nbsp;
+                <span className="hidden md:block">of Deceased</span>
               </label>
               {errors.dateOfDeath && (
                 <span className="text-red-500">
@@ -194,9 +196,9 @@ const RelinquishForm = () => {
                 />
                 <label
                   htmlFor="row"
-                  className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  Located in Row
+                  <span className="hidden md:block">Located</span>&nbsp;In Row
                 </label>
               </div>
               <div className="relative z-0 w-full group contact">
@@ -246,7 +248,7 @@ const RelinquishForm = () => {
               <SignatureCanvas
                 penColor="#933d38"
                 canvasProps={{
-                  className: "w-full h-40 border-2 border-primary mt-8",
+                  className: "w-full h-32 border-2 border-primary mt-4",
                 }}
                 ref={(ref) => setSignature(ref)}
               />

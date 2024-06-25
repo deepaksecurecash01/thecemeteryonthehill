@@ -56,7 +56,7 @@ const ContactForm = () => {
       onSubmit={handleSubmit(onSubmit)}
       autoComplete="off"
     >
-      <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group">
+      <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
         <input
           type="text"
           {...register("name")}
@@ -73,7 +73,7 @@ const ContactForm = () => {
         </label>
         {errors.name && <span className="text-red-500">Name is required</span>}
       </div>
-      <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group">
+      <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
         <input
           type="email"
           {...register("email")}
@@ -90,7 +90,7 @@ const ContactForm = () => {
         </label>
         {errors.email && <span className="text-red-500">Invalid email</span>}
       </div>
-      <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group">
+      <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
         <input
           type="tel"
           {...register("phone")}
@@ -109,7 +109,7 @@ const ContactForm = () => {
           <span className="text-red-500">Invalid phone number</span>
         )}
       </div>
-      <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group">
+      <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
         <textarea
           {...register("message")}
           className="block py-6 px-0 w-full mt-4 text-lg font-roboto text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
