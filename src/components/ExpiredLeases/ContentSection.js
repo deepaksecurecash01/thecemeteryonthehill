@@ -43,7 +43,7 @@ const ServiceCard = ({ title, description, backgroundClass, link, button }) => {
 
         <button type="button" onClick={handleButtonClick}>
           <span className="flex items-center justify-center text-sm md:text-base px-4 py-2 text-white bg-secondary border border-secondary rounded-md cursor-pointer font-roboto uppercase hover:bg-primary hover:border-primary">
-            {button} 'Now' <FaArrowRightLong className="ml-2 md:text-lg" />
+            {button} {' Now'} <FaArrowRightLong className="ml-2 md:text-lg" />
           </span>
         </button>
       </div>
