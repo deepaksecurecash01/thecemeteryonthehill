@@ -51,10 +51,14 @@ const PopupForm = () => {
           exit={{ backdropFilter: "blur(0px)" }} // Remove blur when modal is closing
           onClick={closeModal} // Close the modal when clicking outside of it
         >
-          <button
+          <motion.button
             type="button"
             className="navbar-close absolute top-6 right-6 bg-primary h-12 w-12 rounded-full flex justify-center items-center z-50"
             onClick={closeModal}
+            variants={dropIn}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
           >
             <svg
               className="h-6 w-6 text-white cursor-pointer"
@@ -70,7 +74,7 @@ const PopupForm = () => {
                 d="M6 18L18 6M6 6l12 12"
               />
             </svg>
-          </button>
+          </motion.button>
           <motion.div
             className="w-full h-full "
             onClick={(e) => e.stopPropagation()}

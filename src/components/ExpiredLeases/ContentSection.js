@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useDispatch } from "react-redux";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { setPopupForm } from "@/redux/slice";
@@ -32,18 +32,16 @@ const ServiceCard = ({ title, description, backgroundClass, link, button }) => {
       className={`${backgroundClass} backgroundClass bg-center bg-contain bg-no-repeat h-[20rem] w-full sm:w-[28rem] md:w-[40rem] lg:h-[22rem] xl:h-[24rem] md:h-[32rem] xl:w-[36rem] lg:w-[30rem]`}
     >
       <div className="h-full w-full pb-8 pt-10 flex flex-col justify-evenly px-10  sm:px-20  md:px-28 lg:px-10 xl:px-24 items-center space-y-4 lg:space-y-2 xl:space-y-0  row-span-1">
-        <div className="flex flex-col gap-1 justify-center items-center">
-          <h3 className="text-xl md:text-3xl lg:text-2xl font-bold text-primary font-display ">
-            {title}
-          </h3>
-          <p className="text-sm md:h-44 flex justify-center items-center md:text-lg text-paragraph font-semibold tracking-wide text-center lg:text-base">
-            {description}
-          </p>
-        </div>
+        <h3 className="text-xl md:text-3xl lg:text-2xl font-bold text-primary font-display ">
+          {title}
+        </h3>
+        <p className="text-sm md:h-28 lg:h-44 flex justify-center items-center md:text-lg text-paragraph font-semibold tracking-wide text-center lg:text-base">
+          {description}
+        </p>
 
         <button type="button" onClick={handleButtonClick}>
           <span className="flex items-center justify-center text-sm md:text-base px-4 py-2 text-white bg-secondary border border-secondary rounded-md cursor-pointer font-roboto uppercase hover:bg-primary hover:border-primary">
-            {button} {' Now'} <FaArrowRightLong className="ml-2 md:text-lg" />
+            {button} {" Now"} <FaArrowRightLong className="ml-2 md:text-lg" />
           </span>
         </button>
       </div>

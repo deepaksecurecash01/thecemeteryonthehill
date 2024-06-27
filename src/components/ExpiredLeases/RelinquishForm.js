@@ -1,8 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import SignatureCanvas from "react-signature-canvas";
+import { MdDelete } from "react-icons/md";
 
 const schema = z.object({
   fullName: z
@@ -49,6 +50,15 @@ const RelinquishForm = () => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
   const [errorMessage, setErrorMessage] = useState("");
   const [signature, setSignature] = useState(null);
+  const signCanvas = useRef();
+
+  const handleSignatureEnd = () => {
+    setSignature(signCanvas.current.toDataURL())
+  };
+    const clearSignature = () => {
+      signCanvas.current.clear();
+      setSignature(null)
+  };
 
   const {
     register,
@@ -114,7 +124,7 @@ const RelinquishForm = () => {
                 htmlFor="fullName"
                 className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Full Name
+                Full Name of Lease Holder
               </label>
               {errors.fullName && (
                 <span className="text-red-500">{errors.fullName.message}</span>
@@ -219,23 +229,21 @@ const RelinquishForm = () => {
             </div>
             <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
               <input
-                type="text"
-                {...register("leaseHolderName")}
+                type="email"
+                {...register("email")}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=" "
+                placeholder=""
                 required
                 autoComplete="new-password"
               />
               <label
-                htmlFor="leaseHolderName"
+                htmlFor="email"
                 className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Lease Holder Name
+                Email
               </label>
-              {errors.leaseHolderName && (
-                <span className="text-red-500">
-                  {errors.leaseHolderName.message}
-                </span>
+              {errors.email && (
+                <span className="text-red-500">{errors.email.message}</span>
               )}
             </div>
             <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
@@ -245,13 +253,25 @@ const RelinquishForm = () => {
               >
                 Lease Holder Signature
               </label>
-              <SignatureCanvas
-                penColor="#933d38"
-                canvasProps={{
-                  className: "w-full h-32 border-2 border-primary mt-4",
-                }}
-                ref={(ref) => setSignature(ref)}
-              />
+              <div>
+                <SignatureCanvas
+                  penColor="#933d38"
+                  canvasProps={{
+                    className:
+                      "w-full h-32 border-2 border-primary mt-4 relative",
+                  }}
+                  ref={signCanvas}
+                  onEnd={handleSignatureEnd}
+                />
+                <button
+                  type="button"
+                  onClick={clearSignature}
+                  className="  py-2 px-4 rounded absolute top-4 right-0 flex justify-center items-center"
+                >
+                  <MdDelete className="text-2xl text-primary" />
+                </button>
+              </div>
+
               {errors.signature && (
                 <span className="text-red-500">{errors.signature.message}</span>
               )}

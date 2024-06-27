@@ -21,7 +21,7 @@ const HeroSection = () => (
         className="hidden absolute bg-testimonials-overlay bg-contain bg-no-repeat bg-left w-full h-full -z-20 xl:block"
         aria-hidden="true"
       />
-      <div className="max-w-[90%] md:max-w-[75%] xl:max-w-[60%]">
+      <div className="max-w-[90%] md:max-w-[75%] xl:max-w-[60%] 2xl:max-w-6xl">
         <div className="flex flex-col justify-center items-center gap-8">
           <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
             Expired Leases
@@ -40,14 +40,14 @@ const HeroSection = () => (
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8">
           <div className="w-full flex justify-center items-center">
             <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
-              <p className="text-base md:text-lg text-justify text-paragraph">
+              <p className="text-base md:text-lg font-bold text-justify text-paragraph">
                 If an Interment Right expires and no arrangements have been made
                 for renewal or relinquishment, an expiration notice will be
                 placed on the plot advising the family of the deceased to get in
                 contact with The Cemetery on The Hill to discuss options. An
                 expiry notice will be posted in the Advertiser as well.
               </p>
-              <p className="text-base md:text-lg text-justify text-paragraph">
+              <p className="text-base md:text-lg font-bold text-justify text-paragraph">
                 If a period of 2 years has passed since these efforts to notify
                 the interment right holder were made, the plot will be reclaimed
                 by The Cemetery on The Hill. In accordance with the Burial and
