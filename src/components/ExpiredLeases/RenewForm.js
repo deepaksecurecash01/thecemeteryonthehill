@@ -31,7 +31,7 @@ const schema = z.object({
   rowPlot: z.string().optional(),
   preferredContactMethod: z
     .string()
-    .nonempty("Preferred Contact Method is required."),
+    .nonempty("Contact Method is required."),
   preferredContactDate: z
     .string()
     .nonempty("Preferred Contact Date is required."),
@@ -184,7 +184,7 @@ const RenewForm = () => {
               type="date"
               {...register("dateOfBirth")}
               className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase selection:bg-black"
-              placeholder=""
+              placeholder="DD/MM/YYYY"
               autoComplete="new-password"
             />
             <label
