@@ -45,7 +45,16 @@ const schema = z.object({
     .nonempty("Date is required")
     .regex(/^\d{2}\/\d{2}\/\d{4}$/, "Date must be in DD/MM/YYYY format"),
 });
-
+const WarningPopup = ({ error }) => {
+  return (
+    <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm">
+      <span className="bg-primary p-1 rounded-sm mr-1">
+        <FaExclamation className="text-xs text-white" />
+      </span>
+      {error}
+    </span>
+  );
+};
 const RelinquishForm = () => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
   const [errorMessage, setErrorMessage] = useState("");
@@ -105,19 +114,19 @@ const RelinquishForm = () => {
   return (
     <>
       <div className="w-full max-h-screen overflow-y-auto no-scrollbar overflow-x-hidden">
-        <div className="h-[52rem] md:max-h-[1024px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center  py-24 md:py-14 lg:py-20 xl:py-24">
+        <div className=" md:max-h-[1024px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center py-28 md:py-24 lg:py-24">
           <form
-            className="w-[70%] md:w-auto md:py-10 xl:py-2 mx-auto  flex flex-col justify-between h-full relative z-10  "
+            className="w-[70%] md:w-auto lg:w-auto sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10"
             onSubmit={handleSubmit(onSubmit)}
             autoComplete="off"
           >
-            <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
               <input
                 type="text"
                 {...register("fullName")}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
-                required
+                
                 autoComplete="new-password"
               />
               <label
@@ -127,16 +136,16 @@ const RelinquishForm = () => {
                 Full Name of Lease Holder
               </label>
               {errors.fullName && (
-                <span className="text-red-500">{errors.fullName.message}</span>
+                <WarningPopup error={errors.fullName.message} />
               )}
             </div>
-            <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
               <input
                 type="text"
                 {...register("nameOfDeceased")}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
-                required
+                
                 autoComplete="new-password"
               />
               <label
@@ -146,18 +155,16 @@ const RelinquishForm = () => {
                 Name of Deceased
               </label>
               {errors.nameOfDeceased && (
-                <span className="text-red-500">
-                  {errors.nameOfDeceased.message}
-                </span>
+                <WarningPopup error={errors.nameOfDeceased.message} />
               )}
             </div>
-            <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
               <input
                 type="date"
                 {...register("dateOfBirth")}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase selection:bg-black"
                 placeholder=""
-                required
+                
                 autoComplete="new-password"
               />
               <label
@@ -168,18 +175,16 @@ const RelinquishForm = () => {
                 <span className="hidden md:block">of Deceased</span>
               </label>
               {errors.dateOfBirth && (
-                <span className="text-red-500">
-                  {errors.dateOfBirth.message}
-                </span>
+                <WarningPopup error={errors.dateOfBirth.message} />
               )}
             </div>
-            <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
               <input
                 type="date"
                 {...register("dateOfDeath")}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
                 placeholder="DD/MM/YYYY"
-                required
+                
                 autoComplete="new-password"
               />
               <label
@@ -190,12 +195,10 @@ const RelinquishForm = () => {
                 <span className="hidden md:block">of Deceased</span>
               </label>
               {errors.dateOfDeath && (
-                <span className="text-red-500">
-                  {errors.dateOfDeath.message}
-                </span>
+                <WarningPopup error={errors.dateOfDeath.message} />
               )}
             </div>
-            <div className="flex space-x-4 mb-5 lg:mb-2 xl:mb-5">
+            <div className="flex space-x-4 mb-5  xl:mb-5">
               <div className="relative z-0 w-full group contact">
                 <input
                   type="text"
@@ -227,13 +230,13 @@ const RelinquishForm = () => {
                 </label>
               </div>
             </div>
-            <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
               <input
                 type="email"
                 {...register("email")}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=""
-                required
+                
                 autoComplete="new-password"
               />
               <label
@@ -242,11 +245,9 @@ const RelinquishForm = () => {
               >
                 Email
               </label>
-              {errors.email && (
-                <span className="text-red-500">{errors.email.message}</span>
-              )}
+              {errors.email && <WarningPopup error={errors.email.message} />}
             </div>
-            <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
               <label
                 htmlFor="signature"
                 className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -277,13 +278,13 @@ const RelinquishForm = () => {
               )}
             </div>
 
-            <div className="relative z-0 w-full mb-5 lg:mb-2 xl:mb-5 group contact">
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
               <input
                 type="date"
                 {...register("date")}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
                 placeholder="DD/MM/YYYY"
-                required
+                
                 autoComplete="new-password"
               />
               <label
@@ -292,9 +293,7 @@ const RelinquishForm = () => {
               >
                 Date
               </label>
-              {errors.date && (
-                <span className="text-red-500">{errors.date.message}</span>
-              )}
+              {errors.date && <WarningPopup error={errors.date.message} />}
             </div>
             <div className="flex justify-end items-center">
               <button

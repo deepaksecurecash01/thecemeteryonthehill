@@ -45,7 +45,7 @@ const PopupForm = () => {
     <AnimatePresence>
       {popupFormValue && (
         <motion.div
-          className="fixed md:px-6 m-auto bottom-0 right-0 left-0 z-40 w-full max-w-screen min-h-full flex justify-center items-center"
+          className="fixed md:px-6 m-auto bottom-0 right-0 left-0 z-40 w-full max-w-screen min-h-screen flex justify-center items-center"
           initial={{ backdropFilter: "blur(0px)" }} // Apply initial blur of 0px
           animate={{ backdropFilter: "blur(10px)" }} // Apply blur when modal is open
           exit={{ backdropFilter: "blur(0px)" }} // Remove blur when modal is closing
@@ -53,7 +53,7 @@ const PopupForm = () => {
         >
           <motion.button
             type="button"
-            className="navbar-close absolute top-6 right-6 bg-primary h-12 w-12 rounded-full flex justify-center items-center z-50"
+            className="navbar-close absolute top-16 lg:top-6 right-6 bg-primary h-12 w-12 rounded-full flex justify-center items-center z-50"
             onClick={closeModal}
             variants={dropIn}
             initial="hidden"
