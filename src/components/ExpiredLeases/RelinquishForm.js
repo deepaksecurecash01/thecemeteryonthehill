@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import SignatureCanvas from "react-signature-canvas";
 import { MdDelete } from "react-icons/md";
+import { FaExclamation } from "react-icons/fa";
 
 const schema = z.object({
   fullName: z
