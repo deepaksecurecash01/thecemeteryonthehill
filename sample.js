@@ -1,77 +1,91 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
+import SignatureCanvas from "react-signature-canvas";
+import { MdDelete } from "react-icons/md";
 import { FaExclamation } from "react-icons/fa";
-import DatePicker from "react-date-picker";
-import "react-date-picker/dist/DatePicker.css";
 
 const schema = z.object({
   fullName: z
     .string()
-    .nonempty("Full Name is required.")
-    .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-  email: z
-    .string()
-    .nonempty("Email is required.")
-    .email("Please enter a valid email address."),
-  phoneNumber: z
-    .string()
-    .nonempty("Phone Number is required.")
-    .regex(/^[0-9]+$/, "Phone Number must contain only digits."),
+    .nonempty("Full Name is required")
+    .regex(/^\S+\s\S+$/, "Full Name must include both first and last name"),
   nameOfDeceased: z
     .string()
-    .nonempty("Name of Deceased is required.")
-    .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-  dob: z.date({
-    required_error: "Date of Birth is required",
-    invalid_type_error: "Date of Birth is required",
-  }),
-  dateOfDeath: z.date({
-    required_error: "Date of Death is required",
-    invalid_type_error: "Date of Death is required",
-  }),
+    .nonempty("Name of Deceased is required")
+    .regex(
+      /^\S+\s\S+$/,
+      "Name of Deceased must include both first and last name"
+    ),
+  dateOfBirth: z
+    .string()
+    .nonempty("Date of Birth is required")
+    .regex(
+      /^\d{2}\/\d{2}\/\d{4}$/,
+      "Date of Birth must be in DD/MM/YYYY format"
+    ),
+  dateOfDeath: z
+    .string()
+    .nonempty("Date of Death is required")
+    .regex(
+      /^\d{2}\/\d{2}\/\d{4}$/,
+      "Date of Death must be in DD/MM/YYYY format"
+    ),
   rowPlot: z.string().optional(),
-  preferredContactMethod: z.string().nonempty("Contact Method is required."),
-  preferredContactDate: z.date({
-    required_error: "Preferred Contact Date is required.",
-    invalid_type_error: "Preferred Contact Date is required.",
-  }),
+  leaseHolderName: z
+    .string()
+    .nonempty("Lease Holder Name is required")
+    .regex(
+      /^\S+\s\S+$/,
+      "Lease Holder Name must include both first and last name"
+    ),
+  signature: z.string().nonempty("Lease Holder Signature is required"),
+  date: z
+    .string()
+    .nonempty("Date is required")
+    .regex(/^\d{2}\/\d{2}\/\d{4}$/, "Date must be in DD/MM/YYYY format"),
 });
-
-const WarningPopup = ({ error, isFirstError }) => {
+const WarningPopup = ({ error }) => {
   return (
-    isFirstError && (
-      <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm">
-        <span className="bg-primary p-1 rounded-sm mr-1">
-          <FaExclamation className="text-xs text-white" />
-        </span>
-        {error}
+    <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm">
+      <span className="bg-primary p-1 rounded-sm mr-1">
+        <FaExclamation className="text-xs text-white" />
       </span>
-    )
+      {error}
+    </span>
   );
 };
-
-const RenewForm = () => {
+const RelinquishForm = () => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
   const [errorMessage, setErrorMessage] = useState("");
-  const [currentErrorField, setCurrentErrorField] = useState(null);
+  const [signature, setSignature] = useState(null);
+  const signCanvas = useRef();
+
+  const handleSignatureEnd = () => {
+    setSignature(signCanvas.current.toDataURL())
+  };
+    const clearSignature = () => {
+      signCanvas.current.clear();
+      setSignature(null)
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
-    watch,
     reset,
-  } = useForm({ resolver: zodResolver(schema) });
-
-  const selectedDateOfBirth = watch("dob");
-  const selectedDateOfDeath = watch("dateOfDeath");
-  const selectedContactDate = watch("preferredContactDate");
+  } = useForm();
 
   const onSubmit = async (data) => {
+    if (signature) {
+      data.signature = signature.toDataURL();
+    } else {
+      setSubmissionStatus("error");
+      setErrorMessage("Lease Holder Signature is required");
+      return;
+    }
+
     console.log(data);
     try {
       // Simulate a form submission
@@ -82,6 +96,7 @@ const RenewForm = () => {
       setSubmissionStatus("success");
       setErrorMessage("");
       reset(); // Reset form fields
+      setSignature(null); // Reset signature
     } catch (error) {
       setSubmissionStatus("error");
       setErrorMessage("Failed to submit the form. Please try again.");
@@ -98,285 +113,210 @@ const RenewForm = () => {
   }, [submissionStatus]);
 
   return (
-    <div className="w-full max-h-screen overflow-y-auto no-scrollbar overflow-x-hidden">
-      <div className="md:max-h-[1024px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center py-28 md:py-24 lg:py-20">
-        <form
-          className="w-[70%] md:w-auto sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10"
-          onSubmit={handleSubmit(onSubmit)}
-          autoComplete="off"
-        >
-          <div className="relative w-full mb-5  xl:mb-5 group contact">
-            <input
-              type="text"
-              {...register("fullName")}
-              className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer ${
-                currentErrorField === "fullName" && "border-red-500"
-              }`}
-              placeholder=" "
-              autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("fullName")}
-              onBlur={() => setCurrentErrorField(null)}
-            />
-            <label
-              htmlFor="fullName"
-              className={`peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
-                currentErrorField === "fullName" && "text-red-500"
-              }`}
-            >
-              Full Name
-            </label>
-            <WarningPopup
-              error={errors.fullName?.message}
-              isFirstError={currentErrorField === "fullName"}
-            />
-          </div>
-
-          <div className="relative w-full mb-5  xl:mb-5 group contact">
-            <input
-              type="email"
-              {...register("email")}
-              className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer ${
-                currentErrorField === "email" && "border-red-500"
-              }`}
-              placeholder=" "
-              autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("email")}
-              onBlur={() => setCurrentErrorField(null)}
-            />
-            <label
-              htmlFor="email"
-              className={`peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
-                currentErrorField === "email" && "text-red-500"
-              }`}
-            >
-              Email
-            </label>
-            <WarningPopup
-              error={errors.email?.message}
-              isFirstError={currentErrorField === "email"}
-            />
-          </div>
-
-          <div className="relative w-full mb-5  xl:mb-5 group contact">
-            <input
-              type="tel"
-              {...register("phoneNumber")}
-              className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer ${
-                currentErrorField === "phoneNumber" && "border-red-500"
-              }`}
-              placeholder=" "
-              autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("phoneNumber")}
-              onBlur={() => setCurrentErrorField(null)}
-            />
-            <label
-              htmlFor="phoneNumber"
-              className={`peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
-                currentErrorField === "phoneNumber" && "text-red-500"
-              }`}
-            >
-              Phone Number
-            </label>
-            <WarningPopup
-              error={errors.phoneNumber?.message}
-              isFirstError={currentErrorField === "phoneNumber"}
-            />
-          </div>
-
-          <div className="relative w-full mb-5  xl:mb-5 group contact">
-            <input
-              type="text"
-              {...register("nameOfDeceased")}
-              className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer ${
-                currentErrorField === "nameOfDeceased" && "border-red-500"
-              }`}
-              placeholder=" "
-              autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("nameOfDeceased")}
-              onBlur={() => setCurrentErrorField(null)}
-            />
-            <label
-              htmlFor="nameOfDeceased"
-              className={`peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
-                currentErrorField === "nameOfDeceased" && "text-red-500"
-              }`}
-            >
-              Full Name of Deceased
-            </label>
-            <WarningPopup
-              error={errors.nameOfDeceased?.message}
-              isFirstError={currentErrorField === "nameOfDeceased"}
-            />
-          </div>
-
-          <div className="relative w-full mb-5  xl:mb-5 group contact">
-            <DatePicker
-              value={selectedDateOfBirth || null}
-              onChange={(date) =>
-                setValue("dob", date, { shouldValidate: true })
-              }
-              dayPlaceholder="DD"
-              monthPlaceholder="MM"
-              yearPlaceholder="YYYY"
-              format="dd/MM/yyyy"
-              className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase ${
-                currentErrorField === "dob" && "border-red-500"
-              }`}
-              autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("dob")}
-              onBlur={() => setCurrentErrorField(null)}
-            />
-            <label
-              htmlFor="dateOfBirth"
-              className={`peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
-                currentErrorField === "dob" && "text-red-500"
-              }`}
-            >
-              Date of Birth&nbsp;
-              <span className="hidden md:block">of Deceased</span>
-            </label>
-            <WarningPopup
-              error={errors.dob?.message}
-              isFirstError={currentErrorField === "dob"}
-            />
-          </div>
-
-          <div className="relative w-full mb-5  xl:mb-5 group contact wrapper">
-            <DatePicker
-              value={selectedDateOfDeath || null}
-              onChange={(date) =>
-                setValue("dateOfDeath", date, { shouldValidate: true })
-              }
-              dayPlaceholder="DD"
-              monthPlaceholder="MM"
-              yearPlaceholder="YYYY"
-              format="dd/MM/yyyy"
-              className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase ${
-                currentErrorField === "dateOfDeath" && "border-red-500"
-              }`}
-              autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("dateOfDeath")}
-              onBlur={() => setCurrentErrorField(null)}
-            />
-            <label
-              htmlFor="dateOfDeath"
-              className={`peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
-                currentErrorField === "dateOfDeath" && "text-red-500"
-              }`}
-            >
-              Date of Death
-            </label>
-            <WarningPopup
-              error={errors.dateOfDeath?.message}
-              isFirstError={currentErrorField === "dateOfDeath"}
-            />
-          </div>
-
-          <div className="flex space-x-4 mb-5  xl:mb-5">
-            <div className="relative w-full group contact">
+    <>
+      <div className="w-full max-h-screen overflow-y-auto no-scrollbar overflow-x-hidden">
+        <div className=" md:max-h-[1024px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center py-28 md:py-24 lg:py-24">
+          <form
+            className="w-[70%] md:w-auto lg:w-auto sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10"
+            onSubmit={handleSubmit(onSubmit)}
+            autoComplete="off"
+          >
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
               <input
                 type="text"
-                {...register("rowPlot")}
-                className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer ${
-                  currentErrorField === "rowPlot" && "border-red-500"
-                }`}
+                {...register("fullName")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
+                
                 autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("rowPlot")}
-                onBlur={() => setCurrentErrorField(null)}
               />
               <label
-                htmlFor="rowPlot"
-                className={`peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
-                  currentErrorField === "rowPlot" && "text-red-500"
-                }`}
+                htmlFor="fullName"
+                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                <span className="hidden md:block">Located</span>&nbsp;In
-                Row/Plot
+                Full Name of Lease Holder
               </label>
+              {errors.fullName && (
+                <WarningPopup error={errors.fullName.message} />
+              )}
             </div>
-          </div>
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
+              <input
+                type="text"
+                {...register("nameOfDeceased")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                placeholder=" "
+                
+                autoComplete="new-password"
+              />
+              <label
+                htmlFor="nameOfDeceased"
+                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Name of Deceased
+              </label>
+              {errors.nameOfDeceased && (
+                <WarningPopup error={errors.nameOfDeceased.message} />
+              )}
+            </div>
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
+              <input
+                type="date"
+                {...register("dateOfBirth")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase selection:bg-black"
+                placeholder=""
+                
+                autoComplete="new-password"
+              />
+              <label
+                htmlFor="dateOfBirth"
+                className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Date of Birth&nbsp;
+                <span className="hidden md:block">of Deceased</span>
+              </label>
+              {errors.dateOfBirth && (
+                <WarningPopup error={errors.dateOfBirth.message} />
+              )}
+            </div>
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
+              <input
+                type="date"
+                {...register("dateOfDeath")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
+                placeholder="DD/MM/YYYY"
+                
+                autoComplete="new-password"
+              />
+              <label
+                htmlFor="dateOfDeath"
+                className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Date of Death&nbsp;
+                <span className="hidden md:block">of Deceased</span>
+              </label>
+              {errors.dateOfDeath && (
+                <WarningPopup error={errors.dateOfDeath.message} />
+              )}
+            </div>
+            <div className="flex space-x-4 mb-5  xl:mb-5">
+              <div className="relative z-0 w-full group contact">
+                <input
+                  type="text"
+                  {...register("row")}
+                  className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                  placeholder=" "
+                  autoComplete="new-password"
+                />
+                <label
+                  htmlFor="row"
+                  className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  <span className="hidden md:block">Located</span>&nbsp;In Row
+                </label>
+              </div>
+              <div className="relative z-0 w-full group contact">
+                <input
+                  type="text"
+                  {...register("plot")}
+                  className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                  placeholder=" "
+                  autoComplete="new-password"
+                />
+                <label
+                  htmlFor="plot"
+                  className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Plot
+                </label>
+              </div>
+            </div>
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
+              <input
+                type="email"
+                {...register("email")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                placeholder=""
+                
+                autoComplete="new-password"
+              />
+              <label
+                htmlFor="email"
+                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Email
+              </label>
+              {errors.email && <WarningPopup error={errors.email.message} />}
+            </div>
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
+              <label
+                htmlFor="signature"
+                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Lease Holder Signature
+              </label>
+              <div>
+                <SignatureCanvas
+                  penColor="#933d38"
+                  canvasProps={{
+                    className:
+                      "w-full h-32 border-2 border-primary mt-4 relative",
+                  }}
+                  ref={signCanvas}
+                  onEnd={handleSignatureEnd}
+                />
+                <button
+                  type="button"
+                  onClick={clearSignature}
+                  className="  py-2 px-4 rounded absolute top-4 right-0 flex justify-center items-center"
+                >
+                  <MdDelete className="text-2xl text-primary" />
+                </button>
+              </div>
 
-          <div className="relative w-full mb-5  xl:mb-5 group contact">
-            <label
-              htmlFor="preferredContactMethod"
-              className={`peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
-                currentErrorField === "preferredContactMethod" && "text-red-500"
-              }`}
-            >
-              <span className="hidden md:block">Preferred</span>&nbsp;Contact
-              Method
-            </label>
-            <select
-              {...register("preferredContactMethod")}
-              className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer ${
-                currentErrorField === "preferredContactMethod" &&
-                "border-red-500"
-              }`}
-              onFocus={() => setCurrentErrorField("preferredContactMethod")}
-              onBlur={() => setCurrentErrorField(null)}
-            >
-              <option value="">Select Method</option>
-              <option value="Phone">Phone</option>
-              <option value="Email">Email</option>
-            </select>
-            <WarningPopup
-              error={errors.preferredContactMethod?.message}
-              isFirstError={currentErrorField === "preferredContactMethod"}
-            />
-          </div>
+              {errors.signature && (
+                <span className="text-red-500">{errors.signature.message}</span>
+              )}
+            </div>
 
-          <div className="relative w-full mb-5  xl:mb-5 group contact">
-            <DatePicker
-              value={selectedContactDate || null}
-              onChange={(date) =>
-                setValue("preferredContactDate", date, { shouldValidate: true })
-              }
-              dayPlaceholder="DD"
-              monthPlaceholder="MM"
-              yearPlaceholder="YYYY"
-              format="dd/MM/yyyy"
-              className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase ${
-                currentErrorField === "preferredContactDate" && "border-red-500"
-              }`}
-              autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("preferredContactDate")}
-              onBlur={() => setCurrentErrorField(null)}
-            />
-            <label
-              htmlFor="preferredContactDate"
-              className={`peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 placeholder:text-primary peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ${
-                currentErrorField === "preferredContactDate" && "text-red-500"
-              }`}
-            >
-              Preferred Contact Date
-            </label>
-            <WarningPopup
-              error={errors.preferredContactDate?.message}
-              isFirstError={currentErrorField === "preferredContactDate"}
-            />
-          </div>
-
-          <div className="flex justify-end items-center mt-3">
-            <button
-              type="submit"
-              className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
-            >
-              Submit
-            </button>
-          </div>
-          {submissionStatus === "success" && (
-            <p className="text-primary text-center bottom-1 left-1/2 transform -translate-x-1/2 w-full absolute">
-              Your message has successfully sent!
-            </p>
-          )}
-          {submissionStatus === "error" && (
-            <p className="text-red-500 mt-4">{errorMessage}</p>
-          )}
-        </form>
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
+              <input
+                type="date"
+                {...register("date")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
+                placeholder="DD/MM/YYYY"
+                
+                autoComplete="new-password"
+              />
+              <label
+                htmlFor="date"
+                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Date
+              </label>
+              {errors.date && <WarningPopup error={errors.date.message} />}
+            </div>
+            <div className="flex justify-end items-center">
+              <button
+                type="submit"
+                className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
+              >
+                Submit
+              </button>
+            </div>
+            {submissionStatus === "success" && (
+              <p className="text-primary text-center bottom-1 left-1/2 transform -translate-x-1/2 w-full  absolute">
+                Your message has successfully sent!
+              </p>
+            )}
+            {submissionStatus === "error" && (
+              <p className="text-red-500 mt-4">{errorMessage}</p>
+            )}
+          </form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default RenewForm;
+export default RelinquishForm;
