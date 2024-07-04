@@ -49,7 +49,7 @@ const schema = z.object({
 const WarningPopup = ({ error, isFirstError }) => {
   return (
     isFirstError && (
-      <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm">
+      <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm z-10" >
         <span className="bg-primary p-1 rounded-sm mr-1">
           <FaExclamation className="text-xs text-white" />
         </span>
@@ -184,7 +184,7 @@ const RelinquishForm = () => {
           </div>
 
           <form
-            className={`w-[70%]  md:w-auto sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10  ${
+            className={`w-[70%]  md:w-auto pt-6 sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10  ${
               submissionStatus === null ? "opacity-100" : "opacity-0"
             } transition-opacity ease-in-out delay-250 duration-300 `}
             onSubmit={handleSubmit(onSubmit)}
@@ -193,15 +193,17 @@ const RelinquishForm = () => {
             {[
               {
                 label: "Full Name of Lease Holder",
+                shortLabel: "Full Name",
                 name: "fullName",
                 type: "text",
               },
               {
                 label: "Name of Deceased",
+                shortLabel: "Name of Deceased",
                 name: "nameOfDeceased",
                 type: "text",
               },
-            ].map(({ label, name, type }) => (
+            ].map(({ label, shortLabel, name, type }) => (
               <div
                 key={name}
                 className="relative w-full mb-5 xl:mb-5 group contact"
@@ -219,7 +221,8 @@ const RelinquishForm = () => {
                   htmlFor={name}
                   className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
-                  {label}
+                  <span className="hidden md:block">{label}</span>
+                  <span className="block md:hidden">{shortLabel}</span>
                 </label>
                 {errors[name] && (
                   <WarningPopup
@@ -231,7 +234,7 @@ const RelinquishForm = () => {
             ))}
             <div className="relative w-full mb-5  xl:mb-5 group contact">
               <input
-                type="email"
+                type="text"
                 {...register("email")}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
@@ -243,7 +246,7 @@ const RelinquishForm = () => {
                 htmlFor="email"
                 className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                Email
+                Email Address
               </label>
               {errors.email && (
                 <WarningPopup

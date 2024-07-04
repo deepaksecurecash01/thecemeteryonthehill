@@ -50,7 +50,7 @@ const schema = z.object({
 const WarningPopup = ({ error, isFirstError }) => {
   return (
     isFirstError && (
-      <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm">
+      <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm z-10">
         <span className="bg-primary p-1 rounded-sm mr-1">
           <FaExclamation className="text-xs text-white" />
         </span>
@@ -164,7 +164,7 @@ const RenewForm = () => {
         </div>
 
         <form
-          className={`w-[70%]  md:w-auto sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10  ${
+          className={`w-[70%]  md:w-auto pt-6 sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10  ${
             submissionStatus === null ? "opacity-100" : "opacity-0"
           } transition-opacity ease-in-out delay-250 duration-300 `}
           onSubmit={handleSubmit(onSubmit)}
@@ -172,8 +172,8 @@ const RenewForm = () => {
         >
           {[
             { label: "Full Name", name: "fullName", type: "text" },
-            { label: "Email", name: "email", type: "email" },
-            { label: "Phone Number", name: "phoneNumber", type: "tel" },
+            { label: "Email Address", name: "email", type: "text" },
+            { label: "Phone Number", name: "phoneNumber", type: "text" },
             {
               label: "Full Name of Deceased",
               name: "nameOfDeceased",

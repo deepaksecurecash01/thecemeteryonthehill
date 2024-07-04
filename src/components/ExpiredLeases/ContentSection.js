@@ -31,7 +31,7 @@ const ServiceCard = ({ title, description, backgroundClass, link, button }) => {
     <div
       className={`${backgroundClass} backgroundClass bg-center bg-contain bg-no-repeat h-[20rem] w-full sm:w-[28rem] md:w-[40rem] lg:h-[22rem] xl:h-[24rem] md:h-[32rem] xl:w-[36rem] lg:w-[30rem]`}
     >
-      <div className="h-full w-full pb-8 pt-10 flex flex-col justify-evenly px-10  sm:px-20  md:px-28 lg:px-10 xl:px-24 items-center space-y-4 lg:space-y-2 xl:space-y-0  row-span-1">
+      <div className="h-full w-full pb-8 pt-10 flex flex-col justify-evenly px-10  sm:px-20  md:px-28 lg:px-10 xl:px-24 items-center space-y-0 md:space-y-4 lg:space-y-2 xl:space-y-0  row-span-1">
         <h3 className="text-xl md:text-3xl lg:text-2xl font-bold text-primary font-display ">
           {title}
         </h3>
