@@ -161,8 +161,7 @@ const AdditionalInfoSection = () => (
 const GeneralAdvice = () => (
   <>
     <h3 className="text-3xl font-semibold text-primary font-display">
-      Richard Bosworth's 1854-1866: Land Purchases, Business Endeavors, and
-      Family Events
+      {"Richard Bosworth's 1854-1866: Land Purchases, Business Endeavors, and Family Events"}
     </h3>
     <p className="text-paragraph text-base card tracking-wide lg:text-lg">
       In April of 1854, saw Richard again purchasing land, this time in the
