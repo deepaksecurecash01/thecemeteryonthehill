@@ -40,9 +40,9 @@ const schema = z.object({
   signature: z.string({
     errorMap: () => ({ message: "Lease Holder Signature is required." }),
   }),
-  preferredContactDate: z.date({
-    required_error: "Preferred Contact Date is required.",
-    invalid_type_error: "Preferred Contact Date is required.",
+  Date: z.date({
+    required_error: "Date is required.",
+    invalid_type_error: "Date is required.",
   }),
 });
 
@@ -82,7 +82,7 @@ const RelinquishForm = () => {
 
   const selectedDateOfBirth = watch("dateofBirth");
   const selectedDateOfDeath = watch("dateOfDeath");
-  const selectedContactDate = watch("preferredContactDate");
+  const selectedContactDate = watch("Date");
 
   const handleSignatureEnd = () => {
     const sigDataUrl = signCanvas.current.toDataURL();
@@ -129,7 +129,7 @@ const RelinquishForm = () => {
   const dateofBirthRef = useRef(null);
   const dateOfDeathRef = useRef(null);
   const email = useRef(null);
-  const preferredContactDateRef = useRef(null);
+  const DateRef = useRef(null);
 
   useEffect(() => {
     if (errors) {
@@ -143,7 +143,7 @@ const RelinquishForm = () => {
         case "dateOfDeath":
           focusInput(dateOfDeathRef);
           break;
-        case "preferredContactDate":
+        case "Date":
           focusInput(null); // No specific input ref for this field (consider adding a ref if needed)
           break;
         default:
@@ -396,14 +396,14 @@ const RelinquishForm = () => {
               <DatePicker
                 value={selectedContactDate || null}
                 onChange={(date) =>
-                  setValue("preferredContactDate", date, {
+                  setValue("Date", date, {
                     shouldValidate: true,
                   })
                 }
-                onFocus={() => setCurrentErrorField("preferredContactDate")}
+                onFocus={() => setCurrentErrorField("Date")}
                 onBlur={() => setCurrentErrorField(null)}
                 errors={errors}
-                ref={preferredContactDateRef}
+                ref={DateRef}
                 dayPlaceholder="DD"
                 monthPlaceholder="MM"
                 yearPlaceholder="YYYY"
@@ -412,16 +412,15 @@ const RelinquishForm = () => {
                 autoComplete="new-password"
               />
               <label
-                htmlFor="preferredContactDate"
+                htmlFor="Date"
                 className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 placeholder:text-primary peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
-                <span className="hidden sm:block">Preferred</span>&nbsp;Contact
                 Date
               </label>
-              {errors.preferredContactDate && (
+              {errors.Date && (
                 <WarningPopup
-                  error={errors.preferredContactDate.message}
-                  isFirstError={currentErrorField === "preferredContactDate"}
+                  error={errors.Date.message}
+                  isFirstError={currentErrorField === "Date"}
                 />
               )}
             </div>

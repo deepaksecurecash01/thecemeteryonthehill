@@ -4,6 +4,8 @@ import Slider from "react-slick";
 import { IoStar, IoStarOutline } from "react-icons/io5";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
@@ -190,7 +192,7 @@ function TestimonialSlider() {
   };
 
   return (
-    <div className="slider-container space-x-2 py-10 relative cursor-grab">
+    <div className="slider-container space-x-2 py-10 relative cursor-grab testimonials">
       <div className="">
         <Slider {...settings}>
           {testimonials.map(
