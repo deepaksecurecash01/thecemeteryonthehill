@@ -18,7 +18,7 @@ const page = () => {
       <div className="max-w-[90%] md:max-w-[75%] xl:max-w-[60%] flex flex-col justify-center items-center gap-8">
         <div className="flex flex-col justify-center items-center gap-8 ">
           <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
-            BOSWORTH RICHARD & MARY
+            The Life of Richard and Mary Bosworth
           </h2>
         </div>
       </div>{" "}

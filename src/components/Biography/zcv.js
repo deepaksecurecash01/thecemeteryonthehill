@@ -167,58 +167,74 @@ const Timeline = () => {
     },
   ];
 
+  const evenItems = timelineData.filter((item, index) => index % 2 === 0);
+  const oddItems = timelineData.filter((item, index) => index % 2 !== 0);
+
   return (
-    <section className="relative flex flex-col justify-center items-center w-full md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px] py-6 md:py-2 mb-12 timeline">
-      {timelineData.map(
-        (item, index) =>
-          // Render two items per container
-          index % 2 === 0 && (
+    <section className="relative flex flex-col justify-center gap-0 items-center w-full md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px] py-6 md:py-2 mb-12 timeline">
+      <div className="relative  w-full bg-black flex flex-col md:flex-row items-start justify-center h-full card">
+        {" "}
+        <div className=" columns-1">
+          {evenItems.map((item, index) => (
             <div
               key={index}
-              className="relative flex flex-col md:flex-row items-start h-full card"
+              className="relative lg:px-[50px] md:w-[50%] w-full h-full flex justify-center items-center md:justify-center "
             >
-              <div className="relative lg:px-[50px] w-full h-full md:w-[50%] flex justify-center items-center md:justify-center">
-                {/* First item */}
-                <div className=" py-[10px] px-6">
-                  <div className="h-10 w-10 bg-transparent border-4 border-primary bg-white rounded-full absolute top-8 z-10 circle -right-[20px]" />
-
-                  <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] flex flex-col gap-2 md:text-end">
-                    <h3 className="text-3xl md:text-4xl lg:text-4xl font-bold text-primary font-display">
-                      {item.year}
-                    </h3>
-                    <h5 className="text-xl md:text-2xl lg:text-2xl font-bold text-primary font-display">
-                      {item.title}
-                    </h5>
-                    <p className="text-base md:text-lg text-paragraph">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="relative lg:px-[50px] w-full md:w-[50%] flex justify-center items-end h-full card md:justify-center mt-16">
-                {/* Second item */}
-                {index + 1 < timelineData.length && (
-                  <div className=" py-[10px] px-6">
-                    <div className="h-10 w-10 bg-transparent border-4 border-primary bg-white rounded-full absolute top-8 z-10 circle -left-[20px]" />
-
-                    <div className="text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] flex flex-col gap-2 md:text-start">
-                      <h3 className="text-3xl md:text-4xl lg:text-4xl font-bold text-primary font-display">
-                        {timelineData[index + 1].year}
-                      </h3>
-                      <h5 className="text-xl md:text-2xl lg:text-2xl font-bold text-primary font-display">
-                        {timelineData[index + 1].title}
-                      </h5>
-                      <p className="text-base md:text-lg text-paragraph">
-                        {timelineData[index + 1].description}
-                      </p>
-                    </div>
-                  </div>
-                )}
+              <div
+                className={`h-10 w-10 bg-transparent border-4 border-primary bg-white rounded-full absolute top-8 z-10 circle -right-[20px]`}
+              />
+              <div
+                className={`absolute hidden md:block bg-primary w-[50%] h-[6px] top-12 right-0`}
+              />
+              <div
+                className={`text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] flex flex-col gap-2 ${
+                  index % 2 === 0 ? "md:text-end" : "md:text-start"
+                }`}
+              >
+                <h3 className="text-3xl md:text-4xl lg:text-4xl font-bold text-primary font-display">
+                  {item.year}
+                </h3>
+                <h5 className="text-xl md:text-2xl lg:text-2xl font-bold text-primary font-display">
+                  {item.title}
+                </h5>
+                <p className="text-base md:text-lg text-paragraph">
+                  {item.description}
+                </p>
               </div>
             </div>
-          )
-      )}
+          ))}
+        </div>
+        <div className=" columns-1">
+          {oddItems.map((item, index) => (
+            <div
+              key={index}
+              className="relative lg:px-[50px] w-full h-full flex justify-center items-center md:justify-center"
+            >
+              <div
+                className={`h-10 w-10 bg-transparent border-4 border-primary bg-white rounded-full absolute top-8 z-10 circle -left-[20px]`}
+              />
+              <div
+                className={`absolute hidden md:block bg-primary w-[50%] h-[6px] top-12 left-0`}
+              />
+              <div
+                className={`text-box relative py-[20px] px-[30px] rounded-[6px] text-[15px] flex flex-col gap-2 ${
+                  index % 2 === 0 ? "md:text-end" : "md:text-start"
+                }`}
+              >
+                <h3 className="text-3xl md:text-4xl lg:text-4xl font-bold text-primary font-display">
+                  {item.year}
+                </h3>
+                <h5 className="text-xl md:text-2xl lg:text-2xl font-bold text-primary font-display">
+                  {item.title}
+                </h5>
+                <p className="text-base md:text-lg text-paragraph">
+                  {item.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </section>
   );
 };

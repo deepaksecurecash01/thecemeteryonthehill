@@ -1,4 +1,4 @@
-'use client';
+"use client";
 import React from "react";
 import Slider from "react-slick";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -28,15 +28,16 @@ const CustomNextArrow = ({ onClick }) => (
   </button>
 );
 
+
 function BiographySlider() {
   const images = [
     "/images/Richard-1.jpg",
     "/images/Richard-2.jpg",
     "/images/Richard-3.jpg",
   ];
-const maxSlidesToShow = 5;
-const slidesToShow =
-  images.length > maxSlidesToShow ? maxSlidesToShow : images.length;
+  const maxSlidesToShow = 5;
+  const slidesToShow =
+    images.length > maxSlidesToShow ? maxSlidesToShow : images.length;
 
   const settings = {
     infinite: true,
@@ -76,7 +77,7 @@ const slidesToShow =
               objectFit="cover"
               loading="lazy"
               alt={`Richard's image ${index + 1}`}
-              className="rounded-md object-top" 
+              className="rounded-md object-top"
             />
           </div>
         ))}

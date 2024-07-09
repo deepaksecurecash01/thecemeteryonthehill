@@ -17,7 +17,7 @@ const OurHistory = () => {
       <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
         Our History
       </h2>
-      <div className="flex justify-center items-center w-[90vw] py-2 md:w-[80vw] md:-space-x-56">
+      <div className="flex justify-center items-center w-[80vw] md:max-w-[1536px] py-2 md:w-[80%] md:-space-x-56">
         {[0, 1, 2].map((i) => (
           <div
             key={i}
