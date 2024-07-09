@@ -157,16 +157,16 @@ const Timeline = () => {
 
   return (
     <>
-      <section className="relative flex flex-col justify-center items-center w-full md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px] py-6 md:py-2 timeline">
+      <section className="relative flex flex-col justify-center items-center w-full md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px] mb-16 py-6 md:py-8 timeline">
         {timelineData.map((item, index) => (
           <div
             key={index}
-            className={`relative flex flex-col md:flex-row items-center card ${
+            className={`relative flex flex-col md:flex-row items-center card  ${
               index % 2 === 0 ? "" : "md:flex-row-reverse"
             } ${index === 0 ? "" : "md:-mt-6"}`}
           >
             <div
-              className={`md:relative px-6 lg:px-[50px] w-full md:w-[50%] flex justify-center items-center ${
+              className={`md:relative px-6 lg:px-[50px] w-full md:w-[50%]  flex justify-center items-center ${
                 index % 2 === 0 ? "md:justify-end" : "md:justify-start"
               }`}
             >

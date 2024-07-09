@@ -6,7 +6,7 @@ import React from 'react'
 
 const page = () => {
   return (
-    <div className="flex flex-col items-center justify-center relative w-full overflow-hidden pt-10 gap-8">
+    <div className="flex flex-col items-center justify-center relative w-full overflow-hidden py-10 gap-8">
       <div
         className="absolute bg-ellipse-2 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10"
         aria-hidden="true"

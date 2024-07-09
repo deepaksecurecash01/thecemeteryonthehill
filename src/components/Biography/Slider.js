@@ -28,21 +28,21 @@ const CustomNextArrow = ({ onClick }) => (
   </button>
 );
 
-
 function BiographySlider() {
   const images = [
     "/images/Richard-1.jpg",
     "/images/Richard-2.jpg",
     "/images/Richard-3.jpg",
   ];
-  const maxSlidesToShow = 5;
+
+  const maxSlidesToShow = 3;
   const slidesToShow =
     images.length > maxSlidesToShow ? maxSlidesToShow : images.length;
 
-  const settings = {
+  let settings = {
     infinite: true,
     speed: 500,
-    slidesToShow: slidesToShow, // Show only as many slides as there are images
+    slidesToShow: slidesToShow,
     slidesToScroll: 1,
     initialSlide: 0,
     nextArrow: <CustomNextArrow />,
@@ -57,6 +57,17 @@ function BiographySlider() {
       },
     ],
   };
+
+  // Conditionally disable swipe and arrows if there are 3 or fewer images
+  if (images.length <= 3) {
+    settings = {
+      ...settings,
+      swipe: false, // Disable swipe
+      draggable: false, // Disable dragging
+      touchMove: false, // Disable touch move
+      arrows: false, // Hide arrows
+    };
+  }
 
   return (
     <div className="slider-container space-x-2 py-10 relative cursor-grab biography-slider">
