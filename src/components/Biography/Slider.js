@@ -31,8 +31,6 @@ const CustomNextArrow = ({ onClick }) => (
 function BiographySlider() {
   const images = [
     "/images/Richard-1.jpg",
-    "/images/Richard-2.jpg",
-    "/images/Richard-3.jpg",
   ];
 
   const maxSlidesToShow = 3;
@@ -40,7 +38,7 @@ function BiographySlider() {
     images.length > maxSlidesToShow ? maxSlidesToShow : images.length;
 
   let settings = {
-    infinite: true,
+    infinite: images.length > 1, // Conditionally set infinite to false when there is only one image
     speed: 500,
     slidesToShow: slidesToShow,
     slidesToScroll: 1,
@@ -53,6 +51,11 @@ function BiographySlider() {
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
+          infinite: images.length > 1, // Conditionally set infinite to false when there is only one image
+          swipe: images.length > 1, // Disable swipe if only one image
+          draggable: images.length > 1, // Disable dragging if only one image
+          touchMove: images.length > 1, // Disable touch move if only one image
+          arrows: images.length > 1, // Hide arrows if only one image
         },
       },
     ],
@@ -66,6 +69,7 @@ function BiographySlider() {
       draggable: false, // Disable dragging
       touchMove: false, // Disable touch move
       arrows: false, // Hide arrows
+      slidesToShow: images.length,
     };
   }
 
@@ -75,7 +79,7 @@ function BiographySlider() {
         {images.map((image, index) => (
           <div
             key={index}
-            className={`backdrop-blur-lg rounded-md flex items-center justify-center w-full slide-item`}
+            className="backdrop-blur-lg rounded-md flex items-center justify-center w-full slide-item"
             style={{
               boxShadow: "0 .1em .8em #212121",
               borderRadius: "10px",

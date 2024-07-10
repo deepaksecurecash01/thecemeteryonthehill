@@ -172,7 +172,7 @@ const Timeline = () => {
             >
               <div
                 className={`absolute  p-4 bg-primary h-10 w-10 top-5 md:top-0 z-10 rounded-full overflow-hidden flex justify-center items-center circle ${
-                  index % 2 === 0 ? "-right-[22px]" : "-left-[19px]"
+                  index % 2 === 0 ? "-right-[21.5px]" : "-left-[19px]"
                 }`}
               >
                 <Image
