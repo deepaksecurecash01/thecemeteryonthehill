@@ -29,9 +29,7 @@ const CustomNextArrow = ({ onClick }) => (
 );
 
 function BiographySlider() {
-  const images = [
-    "/images/Richard-1.jpg",
-  ];
+  const images = ["/images/Richard-1.jpg", "/images/Richard-2.jpg","/images/Richard-3.jpg"];
 
   const maxSlidesToShow = 3;
   const slidesToShow =
