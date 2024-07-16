@@ -19,7 +19,6 @@ export default function Lanthanides({ data }) {
           <Element elementData={data[63]} />
           <Element elementData={data[64]} />
           <Element elementData={data[65]} />
-
           <Element elementData={data[66]} />
           <Element elementData={data[67]} />
           <Element elementData={data[68]} />

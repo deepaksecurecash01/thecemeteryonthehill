@@ -1,4 +1,5 @@
 import PlotTable from '@/components/PurchasePlot/PlotTable';
+import PopupForm from '@/components/PurchasePlot/PopupForm';
 import Table from '@/components/PurchasePlot/Table';
 import React from 'react'
 
@@ -9,6 +10,7 @@ const page = () => {
         Purchase a Plot
       </h2>
       <PlotTable />
+      <PopupForm />
     </div>
   );
 }

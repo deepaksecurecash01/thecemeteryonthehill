@@ -1,6 +1,10 @@
+import { setAshesBed } from "@/redux/slice";
 import Element from "../Element";
+import { useDispatch } from "react-redux";
 
-export default function FirstRow({ data }) {
+export default function FirstRow({ data })
+{
+  const dispatch = useDispatch()
   return (
     <div className="">
       <div className="flex gap-1">
@@ -39,7 +43,7 @@ export default function FirstRow({ data }) {
         <div className="lg:w-20 w-full flex flex-col gap-1">
           <p className=" text-xl text-center text-primary font-roboto py-2">
             B
-          </p>{" "}
+          </p>
           <Element elementData={data[10]} />
           <Element elementData={data[11]} />
           <Element elementData={data[12]} />
@@ -64,7 +68,7 @@ export default function FirstRow({ data }) {
         <div className="lg:w-20 w-full flex flex-col gap-1 xl:mr-2">
           <p className=" text-xl text-center text-primary font-roboto py-2">
             C
-          </p>{" "}
+          </p>
           <Element elementData={data[20]} />
           <Element elementData={data[21]} />
           <Element elementData={data[22]} />
@@ -89,7 +93,7 @@ export default function FirstRow({ data }) {
         <div className="lg:w-20 w-full flex flex-col gap-1">
           <p className=" text-xl text-center text-primary font-roboto py-2">
             D
-          </p>{" "}
+          </p>
           <Element elementData={data[30]} />
           <Element elementData={data[31]} />
           <Element elementData={data[32]} />
@@ -115,7 +119,7 @@ export default function FirstRow({ data }) {
         <div className="lg:w-20 w-full flex flex-col gap-1 xl:mr-2">
           <p className=" text-xl text-center text-primary font-roboto py-2">
             E
-          </p>{" "}
+          </p>
           <Element elementData={data[40]} />
           <Element elementData={data[41]} />
           <Element elementData={data[42]} />
@@ -148,7 +152,7 @@ export default function FirstRow({ data }) {
         <div className="lg:w-20 w-full flex flex-col gap-1 mt-12">
           <p className=" text-xl text-center text-primary font-roboto py-2">
             F
-          </p>{" "}
+          </p>
           <Element elementData={data[50]} />
           <Element elementData={data[51]} />
           <Element elementData={data[52]} />
@@ -181,7 +185,12 @@ export default function FirstRow({ data }) {
             G
           </p>
           <div className="flex-grow">
-            <Element elementData={data[60]} colSpan2={true} rounded={true} />
+            <div
+              className=" font-roboto rounded-tr-[80%] h-full w-full justify-center text-start pl-1 m-0 flex items-center cursor-pointer  bg-green-500 text-white border border-green-800 text-sm md:text-base  hover:bg-gray-100 hover:text-primary hover:border hover:border-primary"
+              onClick={() => dispatch(setAshesBed("Rose Garden Ashes Bed"))}
+            >
+              Rose Garden
+            </div>
           </div>
           <Element elementData={data[61]} />
           <Element elementData={data[62]} />

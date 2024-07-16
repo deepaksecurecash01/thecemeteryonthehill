@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
 import { ModalContext } from "./Table";
+import { useDispatch } from "react-redux";
+import { setAshesBed, setAshesWall, setPlot } from "@/redux/slice";
 
 export default function Element({
   elementData,
@@ -11,30 +13,30 @@ export default function Element({
   valueRow = false,
   valueCol = false,
 }) {
-  const modalContext = useContext(ModalContext);
+  const dispatch = useDispatch();
   const [isFocused, setFocus] = useState(false);
   const statusColors = {
     available: "bg-green-500 text-white border border-green-800",
     expired: "bg-orange-500 text-white border border-orange-800",
     assigned: "bg-gray-200 text-primary border border-gray-800",
   };
-
   const getStatusClass = (status) =>
     statusColors[status] || "bg-white text-black";
 
   const statusClass = elementData ? getStatusClass(elementData.status) : "";
 
-  const baseStyle = "cursor-pointer rounded text-primary border border-primary";
+  const baseStyle = "cursor-pointer rounded text-primary border border-primary w-full";
   const hoverStyle = isFocused
     ? "hover:bg-gray-100 hover:text-primary hover:border hover:border-primary"
     : "";
 
   return (
     <div
-      onClick={() =>
-        elementData
-          ? modalContext(elementData)
-          : console.log("no modal will be shown")
+      onClick={() =>{
+         dispatch(setAshesWall("")); // Dispatch blank value when closing modal
+    dispatch(setAshesBed("")); // Dispatch blank value when closing modal
+        dispatch(setPlot([elementData]))
+        }
       }
       onMouseEnter={() => setFocus(true)}
       onMouseLeave={() => setFocus(false)}
