@@ -1,322 +1,122 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import SignatureCanvas from "react-signature-canvas";
-import { MdDelete } from "react-icons/md";
-import { FaExclamation } from "react-icons/fa";
+import React from "react";
+import FirstRow from "./rows/FirstRow";
+import SecondRow from "./rows/SecondRow";
+import ThirdRow from "./rows/ThirdRow";
+import FourthRow from "./rows/FourthRow";
+import data from "./data.json";
+import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { setAshesBed, setAshesWall, setPlot } from "@/redux/slice";
 
-const schema = z.object({
-  fullName: z
-    .string()
-    .nonempty("Full Name is required")
-    .regex(/^\S+\s\S+$/, "Full Name must include both first and last name"),
-  nameOfDeceased: z
-    .string()
-    .nonempty("Name of Deceased is required")
-    .regex(
-      /^\S+\s\S+$/,
-      "Name of Deceased must include both first and last name"
-    ),
-  dateOfBirth: z
-    .string()
-    .nonempty("Date of Birth is required")
-    .regex(
-      /^\d{2}\/\d{2}\/\d{4}$/,
-      "Date of Birth must be in DD/MM/YYYY format"
-    ),
-  dateOfDeath: z
-    .string()
-    .nonempty("Date of Death is required")
-    .regex(
-      /^\d{2}\/\d{2}\/\d{4}$/,
-      "Date of Death must be in DD/MM/YYYY format"
-    ),
-  rowPlot: z.string().optional(),
-  leaseHolderName: z
-    .string()
-    .nonempty("Lease Holder Name is required")
-    .regex(
-      /^\S+\s\S+$/,
-      "Lease Holder Name must include both first and last name"
-    ),
-  signature: z.string().nonempty("Lease Holder Signature is required"),
-  date: z
-    .string()
-    .nonempty("Date is required")
-    .regex(/^\d{2}\/\d{2}\/\d{4}$/, "Date must be in DD/MM/YYYY format"),
-});
-const WarningPopup = ({ error }) => {
-  return (
-    <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm">
-      <span className="bg-primary p-1 rounded-sm mr-1">
-        <FaExclamation className="text-xs text-white" />
-      </span>
-      {error}
-    </span>
-  );
-};
-const RelinquishForm = () => {
-  const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
-  const [errorMessage, setErrorMessage] = useState("");
-  const [signature, setSignature] = useState(null);
-  const signCanvas = useRef();
-
-  const handleSignatureEnd = () => {
-    setSignature(signCanvas.current.toDataURL())
-  };
-    const clearSignature = () => {
-      signCanvas.current.clear();
-      setSignature(null)
-  };
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm();
-
-  const onSubmit = async (data) => {
-    if (signature) {
-      data.signature = signature.toDataURL();
-    } else {
-      setSubmissionStatus("error");
-      setErrorMessage("Lease Holder Signature is required");
-      return;
-    }
-
-    console.log(data);
-    try {
-      // Simulate a form submission
-      await new Promise((resolve, reject) => {
-        // Change to resolve() for success simulation, reject() for error simulation
-        setTimeout(resolve, 1000);
-      });
-      setSubmissionStatus("success");
-      setErrorMessage("");
-      reset(); // Reset form fields
-      setSignature(null); // Reset signature
-    } catch (error) {
-      setSubmissionStatus("error");
-      setErrorMessage("Failed to submit the form. Please try again.");
-    }
-  };
-
-  useEffect(() => {
-    if (submissionStatus) {
-      const timer = setTimeout(() => {
-        setSubmissionStatus(null);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [submissionStatus]);
+const PlotTable = () => {
+  const dispatch = useDispatch();
 
   return (
-    <>
-      <div className="w-full max-h-screen overflow-y-auto no-scrollbar overflow-x-hidden">
-        <div className=" md:max-h-[1024px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center py-28 md:py-24 lg:py-24">
-          <form
-            className="w-[70%] md:w-auto lg:w-auto sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10"
-            onSubmit={handleSubmit(onSubmit)}
-            autoComplete="off"
-          >
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <input
-                type="text"
-                {...register("fullName")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=" "
-                
-                autoComplete="new-password"
-              />
-              <label
-                htmlFor="fullName"
-                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Full Name of Lease Holder
-              </label>
-              {errors.fullName && (
-                <WarningPopup error={errors.fullName.message} />
-              )}
-            </div>
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <input
-                type="text"
-                {...register("nameOfDeceased")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=" "
-                
-                autoComplete="new-password"
-              />
-              <label
-                htmlFor="nameOfDeceased"
-                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Name of Deceased
-              </label>
-              {errors.nameOfDeceased && (
-                <WarningPopup error={errors.nameOfDeceased.message} />
-              )}
-            </div>
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <input
-                type="date"
-                {...register("dateOfBirth")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase selection:bg-black"
-                placeholder=""
-                
-                autoComplete="new-password"
-              />
-              <label
-                htmlFor="dateOfBirth"
-                className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Date of Birth&nbsp;
-                <span className="hidden md:block">of Deceased</span>
-              </label>
-              {errors.dateOfBirth && (
-                <WarningPopup error={errors.dateOfBirth.message} />
-              )}
-            </div>
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <input
-                type="date"
-                {...register("dateOfDeath")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
-                placeholder="DD/MM/YYYY"
-                
-                autoComplete="new-password"
-              />
-              <label
-                htmlFor="dateOfDeath"
-                className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Date of Death&nbsp;
-                <span className="hidden md:block">of Deceased</span>
-              </label>
-              {errors.dateOfDeath && (
-                <WarningPopup error={errors.dateOfDeath.message} />
-              )}
-            </div>
-            <div className="flex space-x-4 mb-5  xl:mb-5">
-              <div className="relative z-0 w-full group contact">
-                <input
-                  type="text"
-                  {...register("row")}
-                  className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                  placeholder=" "
-                  autoComplete="new-password"
-                />
-                <label
-                  htmlFor="row"
-                  className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  <span className="hidden md:block">Located</span>&nbsp;In Row
-                </label>
-              </div>
-              <div className="relative z-0 w-full group contact">
-                <input
-                  type="text"
-                  {...register("plot")}
-                  className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                  placeholder=" "
-                  autoComplete="new-password"
-                />
-                <label
-                  htmlFor="plot"
-                  className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  Plot
-                </label>
-              </div>
-            </div>
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <input
-                type="email"
-                {...register("email")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=""
-                
-                autoComplete="new-password"
-              />
-              <label
-                htmlFor="email"
-                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Email
-              </label>
-              {errors.email && <WarningPopup error={errors.email.message} />}
-            </div>
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <label
-                htmlFor="signature"
-                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Lease Holder Signature
-              </label>
-              <div>
-                <SignatureCanvas
-                  penColor="#933d38"
-                  canvasProps={{
-                    className:
-                      "w-full h-32 border-2 border-primary mt-4 relative",
-                  }}
-                  ref={signCanvas}
-                  onEnd={handleSignatureEnd}
-                />
-                <button
-                  type="button"
-                  onClick={clearSignature}
-                  className="  py-2 px-4 rounded absolute top-4 right-0 flex justify-center items-center"
-                >
-                  <MdDelete className="text-2xl text-primary" />
-                </button>
-              </div>
+    <div className="relative w-full h-full flex justify-center items-center mb-10">
+      <div className="max-w-[90%] lg:max-w-[85%] xl:max-w-[75%] 3xl:max-w-[1280px] ">
+        <div className=" grid grid-cols-1 lg:grid-cols-2 gap-8  my-10 ">
+          <div className="w-full lg:w-[80%] order-2 lg:order-1">
+            <FirstRow data={data.elements} />
+          </div>
+          <div className="flex flex-col gap-0 font-roboto text-paragraph text-lg order-1 lg:order-2">
+            <div className="flex lg:justify-start lg:items-end lg:h-full order-2 lg:order-1">
+              <div className="flex flex-col gap-2">
+                <div className="flex justify-start gap-4 items-center">
+                  <div
+                    className={`  bg-green-500 w-16 h-[6px] rounded-full `}
+                  />
+                  <h2>Available now</h2>
+                </div>
 
-              {errors.signature && (
-                <span className="text-red-500">{errors.signature.message}</span>
-              )}
+                <div className="flex justify-start gap-4 items-center">
+                  <div
+                    className={`  bg-orange-500 w-16 h-[6px] rounded-full `}
+                  />
+                  <h2>Expired, Notifying Period - Register Interest</h2>
+                </div>
+                <div className="flex justify-start gap-4 items-center">
+                  <div className={`  bg-gray-200 w-16 h-[6px] rounded-full `} />
+                  <h2>Leased - Unavailable</h2>
+                </div>
+                <div>
+                  <h5>Click on a plot number to select.</h5>
+                </div>
+              </div>
             </div>
 
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <input
-                type="date"
-                {...register("date")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
-                placeholder="DD/MM/YYYY"
-                
-                autoComplete="new-password"
-              />
-              <label
-                htmlFor="date"
-                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Date
-              </label>
-              {errors.date && <WarningPopup error={errors.date.message} />}
+            <div className="h-[16rem] md:h-[26rem] lg:h-full w-full relative order-1 lg:order-2">
+              <div className=" lg:absolute lg:-left-44 lg:-bottom-20 w-full h-full">
+                <Image
+                  src={`/images/map.png`}
+                  fill
+                  alt={`Hero-Section Image-1 | The Cemetery on the Hill`}
+                  loading="lazy"
+                  objectFit="contain"
+                  className=""
+                />
+              </div>
             </div>
-            <div className="flex justify-end items-center">
-              <button
-                type="submit"
-                className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
+          </div>
+        </div>
+        <div className="relative grid grid-cols-1 lg:grid-cols-5 gap-8 my-20">
+          <div className="fiixed lg:absolute lg:h-[80%] w-full  lg:w-16 lg:-left-16 xl:-left-36 lg:top-12 flex justify-center items-center lg:items-start">
+            <div className="flex lg:flex-col justify-between md:justify-center items-center gap-2 md:gap-1 w-full">
+              <div
+                className="lg:[writing-mode:vertical-lr] lg:rotate-180 font-roboto bg-orange-500 text-white border border-orange-800 text-center text-sm md:text-base cursor-pointer rounded py-2 px-6 lg:py-4 lg:px-2 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary"
+                onClick={() => dispatch(setAshesWall("Ashes Wall 1"))}
               >
-                Submit
-              </button>
+                Ashes Wall 1
+              </div>
+              <div
+                className="lg:[writing-mode:vertical-rl] lg:rotate-180 xl:h-16  xl:w-11 flex justify-center items-center font-roboto bg-orange-500 text-white border border-orange-800 text-center text-sm md:text-base cursor-pointer rounded py-2 px-6 lg:py-4 lg:px-2 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary"
+                onClick={() => dispatch(setAshesWall("Front Fence Bed"))}
+              >
+                <span className=" leading-5">Front Fence</span>
+              </div>
+              <div
+                className="lg:[writing-mode:vertical-lr] lg:rotate-180 font-roboto bg-orange-500 text-white border border-orange-800 text-center text-sm md:text-base cursor-pointer rounded py-2 px-6 lg:py-4 lg:px-2 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary"
+                onClick={() => dispatch(setAshesWall("Ashes Wall 2"))}
+              >
+                Ashes Wall 2
+              </div>
             </div>
-            {submissionStatus === "success" && (
-              <p className="text-primary text-center bottom-1 left-1/2 transform -translate-x-1/2 w-full  absolute">
-                Your message has successfully sent!
-              </p>
-            )}
-            {submissionStatus === "error" && (
-              <p className="text-red-500 mt-4">{errorMessage}</p>
-            )}
-          </form>
+          </div>
+          <div className="absolute w-full lg:-translate-x-0 lg:left-24 -bottom-28 flex justify-center lg:justify-start items-center">
+            <div className="flex justify-between md:justify-center lg:justify-start items-center gap-2 md:gap-12 w-full">
+              <div
+                className=" font-roboto cursor-pointer w-full md:w-auto  bg-green-500 text-white border border-green-800 text-center text-sm md:text-base rounded py-2 px-6  hover:bg-gray-100 hover:text-primary hover:border hover:border-primary"
+                onClick={() => dispatch(setAshesBed("Sandstone Ashes Bed"))}
+              >
+                Sandstone Ashes Bed
+              </div>
+              <div
+                className=" font-roboto cursor-pointer w-full md:w-auto bg-green-500 text-white border border-green-800 text-center text-sm md:text-base rounded py-2 px-6  hover:bg-gray-100 hover:text-primary hover:border hover:border-primary"
+                onClick={() => dispatch(setAshesBed("New Ashes Bed"))}
+              >
+                New Ashes Bed
+              </div>
+              <div
+                className=" font-roboto cursor-pointer w-full md:w-auto bg-green-500 text-white border border-green-800 text-center text-sm md:text-base rounded py-2 px-6  hover:bg-gray-100 hover:text-primary hover:border hover:border-primary"
+                onClick={() => dispatch(setAshesBed("Historic Ashes Bed"))}
+              >
+                Historic Ashes Bed
+              </div>
+            </div>
+          </div>
+          <div className=" col-span-1 lg:col-span-2">
+            <SecondRow data={data.elements} />
+          </div>
+          <div className=" col-span-1 lg:col-span-2 lg:mt-16">
+            <ThirdRow data={data.elements} />
+          </div>
+          <div className=" col-span-1 lg:-mt-48">
+            <FourthRow data={data.elements} />
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
-export default RelinquishForm;
+export default PlotTable;

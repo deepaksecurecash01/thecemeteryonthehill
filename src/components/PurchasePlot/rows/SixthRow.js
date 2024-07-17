@@ -1,4 +1,5 @@
 import Element from "../Element";
+import RoseGarden from "../RoseGarden";
 import Historic from "./Historic";
 import NewAshes from "./NewAshes";
 import Sandstone from "./Sandstone";
@@ -10,7 +11,7 @@ export default function SixthRow({ data, AshesBed }) {
       case "Sandstone Ashes Bed":
         return <Sandstone data={data} />;
       case "Rose Garden Ashes Bed":
-        return <Sandstone data={data} />;
+        return <RoseGarden data={data} />;
       case "New Ashes Bed":
         return <NewAshes data={data} />;
       case "Historic Ashes Bed":
@@ -21,11 +22,23 @@ export default function SixthRow({ data, AshesBed }) {
   };
 
   return (
-    <div className="bg-white shadow-2xl rounded-lg p-6 flex flex-col gap-6 w-[90vw] md:w-[60vw] lg:w-[90vw] xl:w-[80%]">
-      <p className="text-primary text-center font-display text-4xl">
+    <div
+      className={`bg-white shadow-2xl rounded-lg p-6 flex flex-col justify-center items-start w-[90vw] gap-6  ${
+        AshesBed === "Rose Garden Ashes Bed"
+          ? "rounded-br-[80%] md:w-auto"
+          : " md:w-[60vw] lg:w-[90vw] xl:w-[80%]"
+      }`}
+    >
+      <p className="text-primary text-center w-full font-display text-4xl">
         {AshesBed}
       </p>
-      <div className="flex lg:flex-col gap-6 w-full">{renderContent()}</div>
+      <div
+        className={`flex lg:flex-col gap-6 w-full ${
+          AshesBed === "Rose Garden Ashes Bed" && "w-[80%] "
+        }`}
+      >
+        {renderContent()}
+      </div>
     </div>
   );
 }
