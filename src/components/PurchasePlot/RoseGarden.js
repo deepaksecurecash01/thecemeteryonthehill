@@ -14,7 +14,7 @@ const RoseGarden = ({ data }) => {
         <Element elementData={data[20]} />
         <div className=" font-roboto cursor-pointer flex justify-center items-center">
           <span className=" bg-green-500 text-white border border-green-800 text-center text-sm md:text-base  flex justify-center items-center  rounded-full  hover:bg-gray-100 hover:text-primary hover:border hover:border-primary w-16 h-16 lg:w-12 lg:h-12 xl:h-20 xl:w-20">
-            5
+            Rose <br /> Bush
           </span>
         </div>
         <Element elementData={data[20]} />
