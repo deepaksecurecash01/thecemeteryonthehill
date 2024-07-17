@@ -30,17 +30,7 @@ const Legend = () => (
   </div>
 );
 
-const AshesButton = ({ text, onClick, vertical, spanText }) => (
-  <div
-    className={`lg:[writing-mode:${
-      vertical ? "vertical-lr" : "vertical-rl xl:h-16  xl:w-11"
-    }] lg:rotate-180 font-roboto bg-orange-500 text-white border border-orange-800 text-center text-sm md:text-base cursor-pointer rounded py-2 px-6 lg:py-4 lg:px-2 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary`}
-    onClick={onClick}
-    title="Click to expand for more details"
-  >
-    {spanText ? <span className="leading-5">{spanText}</span> : text}
-  </div>
-);
+
 
 const AshesWall = () => {
   const dispatch = useDispatch();
@@ -81,10 +71,9 @@ const AshesBed = ({ setAshesBed }) => (
   <div className="absolute w-full lg:-translate-x-0 lg:left-24 -bottom-28 flex justify-center lg:justify-start items-center">
     <div className="flex justify-between md:justify-center lg:justify-start items-center gap-2 md:gap-12 w-full xl:w-auto">
       {["Sandstone Ashes Bed", "New Ashes Bed", "Historic Ashes Bed"].map(
-        (bed) => (
-          <Tooltip message={"Click to expand for more details"}>
+        (bed, i) => (
+          <Tooltip message={"Click to expand for more details"} key={i}>
             <div
-              key={bed}
               className="font-roboto cursor-pointer md:w-auto bg-green-500 text-white border border-green-800 text-center text-sm md:text-base rounded py-2 px-6 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary"
               onClick={() => setAshesBed(bed)}
               title="Click to expand for more details"

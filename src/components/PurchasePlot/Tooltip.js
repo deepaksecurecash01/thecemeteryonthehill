@@ -1,4 +1,4 @@
-export default function Tooltip({ message, children, vertical }) {
+export default function Tooltip({ message, children, vertical, key }) {
   return (
     <div class="group relative flex">
       {children}
