@@ -1,6 +1,6 @@
 export default function Tooltip({ message, children, vertical, key }) {
   return (
-    <div class="group relative flex">
+    <div class="group relative flex h-full">
       {children}
       <span
         class={`hidden xl:block absolute  ${

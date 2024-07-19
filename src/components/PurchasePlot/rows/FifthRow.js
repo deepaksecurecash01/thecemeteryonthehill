@@ -7,11 +7,11 @@ export default function FifthRow({ data, AshesWall }) {
   const renderContent = () => {
     switch (AshesWall) {
       case "Ashes Wall 1":
-        return <AshesWall1 data={data} AshesWall={AshesWall} />;
+        return <AshesWall1 data={data.AshesWall1} AshesWall={AshesWall} />;
       case "Front Fence Bed":
-        return <FrontFenceBed data={data} AshesWall={AshesWall} />;
+        return <FrontFenceBed data={data.FrontFence} AshesWall={AshesWall} />;
       case "Ashes Wall 2":
-        return <AshesWall2 data={data} AshesWall={AshesWall} />;
+        return <AshesWall2 data={data.AshesWall2} AshesWall={AshesWall} />;
 
       default:
         return null;

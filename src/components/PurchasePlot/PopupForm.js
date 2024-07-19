@@ -13,7 +13,7 @@ import {
 import Receipt from "./Receipt";
 import AshesPlots from "./AshesPlots";
 import AshesBeds from "./AshesBeds";
-import data from "./data.json";
+import Data2 from "./Data2.json";
 
 const PopupForm = () => {
   const dispatch = useDispatch();
@@ -56,9 +56,19 @@ const PopupForm = () => {
       case !!elementData:
         return <Receipt elementData={elementData} />;
       case !!AshesWall:
-        return <AshesPlots data={data.elements} AshesWall={AshesWall} />;
+        return (
+          <AshesPlots
+            data={Data2.thecemeteryonthehill.AshesSections}
+            AshesWall={AshesWall}
+          />
+        );
       case !!AshesBed:
-        return <AshesBeds data={data.elements} AshesBed={AshesBed} />;
+        return (
+          <AshesBeds
+            data={Data2.thecemeteryonthehill.AshesSections}
+            AshesBed={AshesBed}
+          />
+        );
       default:
         return null;
     }

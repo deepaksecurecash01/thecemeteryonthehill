@@ -4,18 +4,17 @@ import Historic from "./Historic";
 import NewAshes from "./NewAshes";
 import Sandstone from "./Sandstone";
 
-
 export default function SixthRow({ data, AshesBed }) {
   const renderContent = () => {
     switch (AshesBed) {
       case "Sandstone Ashes Bed":
-        return <Sandstone data={data} />;
+        return <Sandstone data={data.SandStoneAshesBed} />;
       case "Rose Garden Ashes Bed":
         return <RoseGarden data={data} />;
       case "New Ashes Bed":
-        return <NewAshes data={data} />;
+        return <NewAshes data={data.NewAshesBed} />;
       case "Historic Ashes Bed":
-        return <Historic data={data} />;
+        return <Historic data={data.HistoricAshesBed} />;
       default:
         return null;
     }
@@ -25,7 +24,7 @@ export default function SixthRow({ data, AshesBed }) {
     <div
       className={`bg-white shadow-2xl rounded-lg p-6 flex flex-col justify-center items-start w-[90vw] gap-6  ${
         AshesBed === "Rose Garden Ashes Bed"
-          ? "rounded-br-[80%] md:w-auto"
+          ? "rounded-br-[80%] md:w-auto pb-10 pr-10"
           : " md:w-[60vw] lg:w-[90vw] xl:w-[80%]"
       }`}
     >

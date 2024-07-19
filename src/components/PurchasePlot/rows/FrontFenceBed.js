@@ -9,15 +9,14 @@ const FrontFenceBed = ({ data, AshesWall }) => {
       </p>
       <div className="flex lg:flex-col gap-6">
         <div className="w-full  lg:w-full  flex flex-col xl:h-20 lg:flex-row gap-4 lg:gap-2 2xl:gap-4 ">
-          <Element elementData={data[0]} />
-          <Element elementData={data[1]} />
-          <Element elementData={data[2]} />
+          <Element elementData={data[0]} plot_number={1} />
+          <Element elementData={data[1]} plot_number={2} />
+          <Element elementData={data[2]} plot_number={3} />
         </div>
         <div className="w-full lg:w-full  flex flex-col xl:h-20 lg:flex-row gap-4 justify-between lg:gap-2 2xl:gap-4 relative ">
-          <Element elementData={data[10]} />
+          <Element elementData={data[3]} plot_number={4} />
           <div className="flex-grow w-full"></div>
-
-          <Element elementData={data[20]} />
+          <Element elementData={data[4]} plot_number={5} />
         </div>
       </div>
     </div>

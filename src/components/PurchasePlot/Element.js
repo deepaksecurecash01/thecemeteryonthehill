@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { setAshesBed, setAshesWall, setPlot } from "@/redux/slice";
 
 export default function Element({
+  plot_number,
+  plot_number_2,
   elementData,
   elementData2,
   series,
@@ -24,7 +26,7 @@ export default function Element({
 
   const getStatusClass = (status) =>
     statusColors[status] || "bg-white text-black";
-  const statusClass = elementData ? getStatusClass(elementData.status) : "";
+  const statusClass = elementData ? getStatusClass(elementData.Status) : "";
 
   const baseStyle =
     "cursor-pointer rounded text-primary border border-primary w-full";
@@ -35,7 +37,10 @@ export default function Element({
   const handleClick = () => {
     dispatch(setAshesWall("")); // Dispatch blank value when closing modal
     dispatch(setAshesBed("")); // Dispatch blank value when closing modal
-    dispatch(setPlot([elementData]));
+    if (elementData) {
+          dispatch(setPlot([elementData]));
+
+    }
   };
 
   return (
@@ -54,7 +59,7 @@ export default function Element({
         </div>
       )}
 
-      {elementData && (
+      {plot_number && (
         <div
           className={`${
             valueCol ? "flex flex-col justify-around h-full py-0" : ""
@@ -63,11 +68,11 @@ export default function Element({
           } py-2 m-0`}
         >
           <p className="text-lg font-semibold text-center">
-            {elementData.plot_number}
+            {plot_number}
           </p>
           {elementData2 && (
             <p className="text-lg font-semibold text-center">
-              {elementData2.plot_number}
+              {plot_number_2}
             </p>
           )}
         </div>
