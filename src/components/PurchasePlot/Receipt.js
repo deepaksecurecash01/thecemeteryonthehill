@@ -1,16 +1,3 @@
-"use client";
-
-import React, { useState, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { FaExclamation } from "react-icons/fa";
-import DatePicker from "react-date-picker";
-import "react-date-picker/dist/DatePicker.css";
-import "react-calendar/dist/Calendar.css";
-import { useDispatch } from "react-redux";
-import { setPopupForm } from "@/redux/slice";
-import SuccessMsg from "../ExpiredLeases/SuccessMsg";
 
 
 const Receipt = ({elementData}) => {

@@ -14,13 +14,14 @@ import Receipt from "./Receipt";
 import AshesPlots from "./AshesPlots";
 import AshesBeds from "./AshesBeds";
 import Data2 from "./Data2.json";
+import PurchaseForm from "./PurchaseForm";
+import RegisterInterestForm from "./RegisterInterestForm";
 
 const PopupForm = () => {
   const dispatch = useDispatch();
   const elementData = useSelector(selectPlot);
   const AshesWall = useSelector(selectAshesWall);
   const AshesBed = useSelector(selectAshesBed);
-
   const dropIn = {
     hidden: { y: "-100vh", opacity: 0 },
     visible: {
@@ -53,8 +54,10 @@ const PopupForm = () => {
 
   const renderContent = () => {
     switch (true) {
-      case !!elementData:
-        return <Receipt elementData={elementData} />;
+      case !!elementData && elementData[0]?.Status === "available":
+        return <PurchaseForm elementData={elementData} />;
+      case !!elementData && elementData[0]?.Status === "expired":
+        return <RegisterInterestForm elementData={elementData} />;
       case !!AshesWall:
         return (
           <AshesPlots
@@ -76,7 +79,7 @@ const PopupForm = () => {
 
   return (
     <AnimatePresence>
-      {(elementData || AshesWall || AshesBed) && (
+      {(elementData  || AshesWall || AshesBed) && (
         <motion.div
           className="fixed md:px-6 m-auto bottom-0 right-0 left-0 z-40 w-full max-w-screen min-h-screen flex justify-center items-center"
           initial={{ backdropFilter: "blur(0px)" }}

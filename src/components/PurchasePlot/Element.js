@@ -28,8 +28,7 @@ export default function Element({
     statusColors[status] || "bg-white text-black";
   const statusClass = elementData ? getStatusClass(elementData.Status) : "";
 
-  const baseStyle =
-    "cursor-pointer rounded text-primary border border-primary w-full";
+  const baseStyle = " rounded text-primary border border-primary w-full";
   const hoverStyle = isFocused
     ? "hover:bg-gray-100 hover:text-primary hover:border hover:border-primary"
     : "";
@@ -38,8 +37,12 @@ export default function Element({
     dispatch(setAshesWall("")); // Dispatch blank value when closing modal
     dispatch(setAshesBed("")); // Dispatch blank value when closing modal
     if (elementData) {
-          dispatch(setPlot([elementData]));
-
+      if (
+        elementData.Status === "available" ||
+        elementData.Status === "expired"
+      ) {
+        dispatch(setPlot([elementData]));
+      }
     }
   };
 
@@ -48,9 +51,15 @@ export default function Element({
       onClick={handleClick}
       onMouseEnter={() => setFocus(true)}
       onMouseLeave={() => setFocus(false)}
-      className={`${baseStyle} ${statusClass} ${hoverStyle} ${
-        colSpan2 ? "h-full" : ""
-      } ${rounded ? "rounded-tr-[80%]" : ""} flex justify-center items-center`}
+      className={`${baseStyle} ${statusClass} ${
+        elementData && elementData?.Status !== "assigned" && hoverStyle
+      } ${
+        elementData?.Status === "available" || elementData?.Status === "expired"
+          ? "cursor-pointer"
+          : "cursor-not-allowed	"
+      } ${colSpan2 ? "h-full" : ""} ${
+        rounded ? "rounded-tr-[80%]" : ""
+      } flex justify-center items-center`}
     >
       {from && (
         <div className="border border-white py-6 m-0">
@@ -67,13 +76,9 @@ export default function Element({
             valueRow ? "flex justify-around items-center w-full h-full" : ""
           } py-2 m-0`}
         >
-          <p className="text-lg font-semibold text-center">
-            {plot_number}
-          </p>
+          <p className="text-lg font-semibold text-center">{plot_number}</p>
           {elementData2 && (
-            <p className="text-lg font-semibold text-center">
-              {plot_number_2}
-            </p>
+            <p className="text-lg font-semibold text-center">{plot_number_2}</p>
           )}
         </div>
       )}
