@@ -127,7 +127,7 @@ const CardPayment = ({ totalAmount }) => {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-      <div className="relative w-full flex-grow mb-5 xl:mb-5 group contact">
+      <div className="relative w-full flex-grow mb-5 xl:mb-5 ">
         <CustomCardNumberElement
           options={CARD_ELEMENT_OPTIONS}
           onChange={handleCardNumberChange}
