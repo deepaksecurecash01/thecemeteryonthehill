@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FaExclamation } from "react-icons/fa";
-import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch } from "react-redux";
@@ -25,26 +24,7 @@ const schema = z.object({
     .string()
     .nonempty("Phone Number is required.")
     .regex(/^[0-9]+$/, "Phone Number must contain only digits."),
-  nameOfDeceased: z
-    .string()
-    .nonempty("Name of Deceased is required.")
-    .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-  dateofBirth: z.date({
-    required_error: "Date of Birth is required",
-    invalid_type_error: "Date of Birth is required",
-  }),
-  dateOfDeath: z.date({
-    required_error: "Date of Death is required",
-    invalid_type_error: "Date of Death is required",
-  }),
-  rowPlot: z.string().optional(),
-  preferredContactMethod: z.enum(["email", "phone"], {
-    errorMap: () => ({ message: "Contact Method is required." }),
-  }),
-  preferredContactDate: z.date({
-    required_error: "Preferred Contact Date is required.",
-    invalid_type_error: "Preferred Contact Date is required.",
-  }),
+ 
 });
 
 const WarningPopup = ({ error, isFirstError }) => {
@@ -147,7 +127,7 @@ const RegisterInterestForm = ({ elementData }) => {
   }, [submissionStatus]);
   return (
     <div className="w-full max-h-screen overflow-y-auto no-scrollbar overflow-x-hidden">
-      <div className=" md:max-h-[1024px] h-[980px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center py-28 md:py-24 lg:py-20">
+      <div className=" md:max-h-[1024px] h-[940px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center py-28 md:py-24 lg:py-20">
         <div
           className={`absolute ${
             submissionStatus !== null ? "opacity-100" : "opacity-0"
@@ -182,11 +162,7 @@ const RegisterInterestForm = ({ elementData }) => {
             { label: "Full Name", name: "fullName", type: "text" },
             { label: "Email Address", name: "email", type: "text" },
             { label: "Phone Number", name: "phoneNumber", type: "text" },
-            {
-              label: "Full Name of Deceased",
-              name: "nameOfDeceased",
-              type: "text",
-            },
+          
           ].map(({ label, name, type }) => (
             <div
               key={name}
@@ -224,38 +200,7 @@ const RegisterInterestForm = ({ elementData }) => {
               </span>
             </h2>
           </div>
-          <div className="relative w-full mb-5  xl:mb-5 group contact">
-            <DatePicker
-              value={selectedContactDate || null}
-              onChange={(date) =>
-                setValue("preferredContactDate", date, {
-                  shouldValidate: true,
-                })
-              }
-              onFocus={() => setCurrentErrorField("preferredContactDate")}
-              onBlur={() => setCurrentErrorField(null)}
-              errors={errors}
-              ref={preferredContactDateRef}
-              dayPlaceholder="DD"
-              monthPlaceholder="MM"
-              yearPlaceholder="YYYY"
-              format="dd/MM/yyyy"
-              className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
-              autoComplete="new-password"
-            />
-            <label
-              htmlFor="preferredContactDate"
-              className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 placeholder:text-primary peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >
-              Date
-            </label>
-            {errors.preferredContactDate && (
-              <WarningPopup
-                error={errors.preferredContactDate.message}
-                isFirstError={currentErrorField === "preferredContactDate"}
-              />
-            )}
-          </div>
+        
 
           <div className="flex justify-end items-center">
             <button

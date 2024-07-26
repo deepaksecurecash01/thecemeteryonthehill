@@ -10,7 +10,7 @@ import {
   setAshesWall,
   setPlot,
 } from "@/redux/slice";
-import Receipt from "./Receipt";
+import Receipt from "./PurchaseReceipt";
 import AshesPlots from "./AshesPlots";
 import AshesBeds from "./AshesBeds";
 import Data2 from "./Data2.json";
@@ -55,9 +55,11 @@ const PopupForm = () => {
   const renderContent = () => {
     switch (true) {
       case !!elementData && elementData[0]?.Status === "available":
-        return <PurchaseForm elementData={elementData} />;
+        return <PurchaseForm elementData={elementData}  />;
       case !!elementData && elementData[0]?.Status === "expired":
-        return <RegisterInterestForm elementData={elementData} />;
+        return (
+          <RegisterInterestForm elementData={elementData}  />
+        );
       case !!AshesWall:
         return (
           <AshesPlots

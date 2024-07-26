@@ -1,375 +1,570 @@
+"use client";
+
+import React, { useState, useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FaExclamation } from "react-icons/fa";
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
+import { useDispatch } from "react-redux";
+import { setPopupForm } from "@/redux/slice";
 import Image from "next/image";
-import schoolLogo from "../../public/images/logo1.png";
-import bankLogo from "../../public/images/logo NEW UBL.png";
+import PurchaseReceipt from "./PurchaseReceipt";
 
-const numbersInWords = [
-  "Zero",
-  "One",
-  "Two",
-  "Three",
-  "Four",
-  "Five",
-  "Six",
-  "Seven",
-  "Eight",
-  "Nine",
-  "Ten",
-  "Eleven",
-  "Twelve",
-  "Thirteen",
-  "Fourteen",
-  "Fifteen",
-  "Sixteen",
-  "Seventeen",
-  "Eighteen",
-  "Nineteen",
-  "Twenty",
-  "Thirty",
-  "Fourty",
-  "Fifty",
-  "Sixty",
-  "Seventy",
-  "Eighty",
-  "Ninety",
-];
+import {
+  useStripe,
+  useElements,
+  PaymentElement,
+} from "@stripe/react-stripe-js";
 
-const monthNames = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-
-function convertAmountToWords(amount) {
-  if (amount === 0) {
-    return numbersInWords[0];
-  }
-
-  let words = "";
-
-  if (amount >= 1000) {
-    const thousands = Math.floor(amount / 1000);
-    words += `${convertAmountToWords(thousands)} Thousand `;
-    amount %= 1000;
-  }
-
-  if (amount >= 100) {
-    const hundreds = Math.floor(amount / 100);
-    words += `${numbersInWords[hundreds]} Hundred `;
-    amount %= 100;
-  }
-
-  if (amount > 0) {
-    if (words !== "") {
-      words += "and ";
-    }
-
-    if (amount < 20) {
-      words += numbersInWords[amount];
-    } else {
-      const tens = Math.floor(amount / 10);
-      words += `${numbersInWords[tens + 18]} `;
-      amount %= 10;
-
-      if (amount > 0) {
-        words += numbersInWords[amount];
-      }
-    }
-  }
-
-  return words;
+function convertToSubcurrency(amount, factor = 100) {
+  return Math.round(amount * factor);
 }
 
-const Design = ({
-  name,
-  fatherName,
-  category,
-  studentClass,
-  SecurityFee,
-  lateFees,
-  StationaryFee,
-  IDFee,
-  unpaidMonths,
-  remainingAmount,
-  MaintenanceFee,
-  annualFund,
-  admissionFees,
-  grNo,
-  fees,
-  voucherType,
-  newVoucherCode,
-}) => {
-  const amount = parseFloat(fees) || 0;
+const schema = z.object({
+  fullName: z
+    .string()
+    .nonempty("Full Name is required.")
+    .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
+  address: z.string().nonempty("Address is required."),
+  city: z.string().nonempty("City is required."),
+  province: z.string().nonempty("Province is required."),
+  postalCode: z
+    .string()
+    .nonempty("Postal code is required.")
+    .regex(
+      /^[A-Za-z0-9][A-Za-z0-9\- ]{0,10}[A-Za-z0-9]$/,
+      "Invalid postal code format."
+    ), // General regex for international postal codes
+  country: z.enum(["email", "phone"], {
+    errorMap: () => ({ message: "Country is required." }),
+  }),
+  phoneNumber: z
+    .string()
+    .nonempty("Phone Number is required.")
+    .regex(/^[0-9]+$/, "Phone Number must contain only digits."),
+  email: z
+    .string()
+    .nonempty("Email is required.")
+    .email("Please enter a valid email address."),
+  creditCard: z
+    .string()
+    .nonempty("Credit/Debit Card No. is required.")
+    .regex(/^\d{16}$/, "Credit card number must be 16 digits."),
+  expDate: z
+    .string()
+    .nonempty("Expiration date is required.")
+    .regex(
+      /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/,
+      "Invalid expiration date format."
+    ), // MM/YY or MM/YYYY
+  cvv: z
+    .string()
+    .nonempty("CVV is required.")
+    .regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits."),
+});
 
-  const voucherCode = parseFloat(newVoucherCode) || "0000";
+const WarningPopup = ({ error, isFirstError }) => {
+  return (
+    isFirstError && (
+      <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm z-10">
+        <span className="bg-primary p-1 rounded-sm mr-1">
+          <FaExclamation className="text-xs text-white" />
+        </span>
+        {error}
+      </span>
+    )
+  );
+};
 
-  const currentDate = new Date();
-  const day = currentDate.getDate();
-  const month = currentDate.getMonth() + 1;
-  const year = currentDate.getFullYear();
+const RelinquishForm = ({ elementData, amount }) => {
+  const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
+  const [receiptScreen, setReceiptScreen] = useState(true); // true, //false);
+  const [currentErrorField, setCurrentErrorField] = useState(null);
+  const dispatch = useDispatch();
+  const stripe = useStripe();
+  const elements = useElements();
+  const [errorMessage, setErrorMessage] = useState();
+  const [clientSecret, setClientSecret] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const formattedDay = day < 10 ? `0${day}` : day;
-  const formattedMonth = month < 10 ? `0${month}` : month;
+  function formatNumber(number) {
+    return new Intl.NumberFormat("en-IN", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(number);
+  }
 
-  const formattedDate = `${formattedDay}/${formattedMonth}/${year}`;
-  const expiryDate = `${"25"}/${formattedMonth}/${year}`;
-  const dueDate = `${"15"}/${formattedMonth}/${year}`;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    reset,
+  } = useForm({ resolver: zodResolver(schema) });
 
-  const getOtherFees = () => {
-    const securityFee = parseFloat(SecurityFee) || 0;
-    const stationaryFee = parseFloat(StationaryFee) || 0;
-    const idCard = parseFloat(IDFee) || 0;
-    const maintainanceFee = parseFloat(MaintenanceFee) || 0;
+  useEffect(() => {
+    fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
+    })
+      .then((res) => res.json())
+      .then((data) => setClientSecret(data.clientSecret));
+  }, [amount]);
 
-    const otherFees = (
-      securityFee +
-      stationaryFee +
-      maintainanceFee +
-      idCard
-    ).toFixed(2);
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
 
-    return otherFees;
+    if (!stripe || !elements) {
+      setErrorMessage("Stripe or elements not loaded");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const { error: submitError } = await elements.submit();
+
+      if (submitError) {
+        setErrorMessage(submitError.message);
+        setLoading(false);
+        return;
+      }
+
+      const { error } = await stripe.confirmPayment({
+        elements,
+        clientSecret,
+        confirmParams: {
+          return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
+        },
+      });
+
+      if (error) {
+        setErrorMessage(error.message);
+      } else {
+        // The payment UI automatically closes with a success animation.
+        // Your customer is redirected to your `return_url`.
+      }
+
+      setLoading(false);
+    } catch (error) {
+      setErrorMessage("An error occurred while processing the payment.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      // Simulate a form submission
+      await new Promise((resolve, reject) => {
+        // Change to resolve() for success simulation, reject() for error simulation
+        setTimeout(resolve, 1000);
+      });
+
+      setSubmissionStatus("success");
+      setErrorMessage("");
+      setSignature(null);
+      reset(); // Reset form fields
+    } catch (error) {
+      setSubmissionStatus("error");
+      setErrorMessage("Failed to submit the form. Please try again.");
+    }
   };
 
-  const getTotalAmountBeforeDue = () => {
-    const monthlyAmount = parseFloat(amount) || 0;
-    const lateAmount = parseFloat(lateFees) || 0;
-    const admissionAmount = parseFloat(admissionFees) || 0;
-    const annualAmount = parseFloat(amount) || 0;
-    const securityAmount = parseFloat(SecurityFee) || 0;
-    const stationaryAmount = parseFloat(StationaryFee) || 0;
-    const idAmount = parseFloat(IDFee) || 0;
-    const maintainanceAmount = parseFloat(MaintenanceFee) || 0;
-    const remainingFees = parseFloat(remainingAmount) || 0;
-    const bankCharges = parseFloat(50);
+  if (!clientSecret || !stripe || !elements) {
+    return (
+      <div className="flex items-center justify-center">
+        <div
+          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+          role="status"
+        >
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  const getTotalAmount = () => {
+    const plot_Price = parseFloat(elementData[0]?.prices?.plot_Price) || 0;
+    const Internment_Rights_100_Years =
+      parseFloat(elementData[0]?.prices?.Internment_Rights_100_Years) || 0;
+    const Preparation_for_initial_Interments =
+      parseFloat(elementData[0]?.prices?.Preparation_for_initial_Interments) ||
+      0;
+    const Ongoing_maintenance_Fee_per_year =
+      parseFloat(elementData[0]?.prices?.Ongoing_maintenance_Fee_per_year) || 0;
+    const Plaque = parseFloat(elementData[0]?.prices?.Plaque) || 0;
 
     const totalAmount = (
-      monthlyAmount +
-      bankCharges +
-      (lateFees > 0 ? lateAmount : 0) +
-      (remainingAmount > 0 ? remainingFees : 0) +
-      (admissionFees > 0 ? admissionAmount : 0) +
-      (admissionFees > 0 || annualFund ? annualAmount : 0) +
-      (admissionFees > 0 || annualFund
-        ? securityAmount + stationaryAmount + maintainanceAmount + idAmount
-        : 0)
+      plot_Price +
+      Internment_Rights_100_Years +
+      Preparation_for_initial_Interments +
+      Ongoing_maintenance_Fee_per_year +
+      Plaque
     ).toFixed(2);
 
     return totalAmount;
   };
-
-  const getTotalAmountAfterDue = () => {
-    const totalAmountBeforeDue = parseInt(getTotalAmountBeforeDue());
-    const lateAmount = parseInt(200);
-
-    const totalAmount = (totalAmountBeforeDue + lateAmount).toFixed(2);
-    return totalAmount;
-  };
-
-  const amountInWords = convertAmountToWords(getTotalAmountBeforeDue());
+  const formattedTotalAmount = formatNumber(getTotalAmount());
 
   return (
     <>
-      <div className="grid grid-cols-2 border-solid border-gray-300 border-2 rounded-md shadow-md">
-        <div className="col-span-2 md:col-span-1 md:col-start-1 lg:col-span-2 lg:col-start-1 px-1 py-1">
-          {/* First column (70%) */}
-          <div className="flex items-center justify-center">
-            <div className="mr-4">
+      <div className="w-full max-h-screen overflow-y-auto no-scrollbar overflow-x-hidden">
+        <div className=" md:max-h-[1024px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center relative py-28 md:py-24 lg:py-24">
+          <div
+            className={`absolute ${
+              receiptScreen ? "opacity-100" : "opacity-0"
+            } transition-opacity ease-in-out delay-250 duration-300  h-full w-full`}
+          >
+            <PurchaseReceipt
+              elementData={elementData}
+              formattedTotalAmount={formattedTotalAmount}
+              formatNumber={formatNumber}
+              getTotalAmount={getTotalAmount}
+              receiptScreen={receiptScreen}
+              setReceiptScreen={setReceiptScreen}
+            />
+          </div>
+
+          <form
+            className={`w-[70%]  md:w-auto pt-6 sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10  ${
+              !receiptScreen ? "opacity-100" : "opacity-0"
+            } transition-opacity ease-in-out delay-250 duration-300 `}
+            onSubmit={handleSubmit(onSubmit)}
+            autoComplete="off"
+          >
+            <div className="relative w-full mb-5 xl:mb-5 group contact">
+              <input
+                type="text"
+                {...register("fullName")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                placeholder=" "
+                autoComplete="new-password"
+                onFocus={() => setCurrentErrorField("fullName")}
+                onBlur={() => setCurrentErrorField(null)}
+              />
+              <label
+                htmlFor="fullName"
+                className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                <span className="hidden md:block">Full Name</span>
+                <span className="block md:hidden">Full Name</span>
+              </label>
+              {errors.fullName && (
+                <WarningPopup
+                  error={errors.fullName?.message}
+                  isFirstError={currentErrorField === "fullName"}
+                />
+              )}
+            </div>
+            <div className="relative w-full mb-5 xl:mb-5 group contact">
+              <textarea
+                type="text"
+                rows="2"
+                {...register("address")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                placeholder=" "
+                autoComplete="new-password"
+                onFocus={() => setCurrentErrorField("address")}
+                onBlur={() => setCurrentErrorField(null)}
+              />
+              <label
+                htmlFor="address"
+                className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                <span className="hidden md:block">Address</span>
+                <span className="block md:hidden">Address</span>
+              </label>
+              {errors.address && (
+                <WarningPopup
+                  error={errors.address?.message}
+                  isFirstError={currentErrorField === "address"}
+                />
+              )}
+            </div>
+            <div className="flex space-x-4 mb-5  xl:mb-5 relative">
+              <div className=" w-32 group contact">
+                <div className="w-full relative">
+                  <input
+                    type="text"
+                    {...register("city")}
+                    className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                    placeholder=" "
+                    autoComplete="new-password"
+                    onFocus={() => setCurrentErrorField("city")}
+                    onBlur={() => setCurrentErrorField(null)}
+                  />
+                  <label
+                    htmlFor="city"
+                    className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    City
+                  </label>
+                </div>
+
+                {errors.city && currentErrorField === "city" && (
+                  <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-8 -left-4 flex items-center text-primary shadow-sm z-10">
+                    <span className="bg-primary p-1 rounded-sm mr-1">
+                      <FaExclamation className="text-xs text-white" />
+                    </span>
+                    {errors?.city?.message}
+                  </span>
+                )}
+              </div>
+              <div className=" w-32 group contact">
+                <div className="w-full relative">
+                  <input
+                    type="text"
+                    {...register("province")}
+                    className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                    placeholder=" "
+                    autoComplete="new-password"
+                    onFocus={() => setCurrentErrorField("province")}
+                    onBlur={() => setCurrentErrorField(null)}
+                  />
+                  <label
+                    htmlFor="province"
+                    className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    Province
+                  </label>
+                </div>
+                {errors.province && currentErrorField === "province" && (
+                  <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-8 -left-4 flex items-center text-primary shadow-sm z-10">
+                    <span className="bg-primary p-1 rounded-sm mr-1">
+                      <FaExclamation className="text-xs text-white" />
+                    </span>
+                    {errors?.province?.message}
+                  </span>
+                )}
+              </div>
+              <div className=" w-32 group contact">
+                <div className="w-full relative">
+                  <input
+                    type="text"
+                    {...register("postalCode")}
+                    className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                    placeholder=" "
+                    autoComplete="new-password"
+                    onFocus={() => setCurrentErrorField("postalCode")}
+                    onBlur={() => setCurrentErrorField(null)}
+                  />
+                  <label
+                    htmlFor="postalCode"
+                    className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    Postal
+                  </label>
+                </div>
+                {errors.postalCode && currentErrorField === "postalCode" && (
+                  <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-8 -left-4 flex items-center text-primary shadow-sm z-10">
+                    <span className="bg-primary p-1 rounded-sm mr-1">
+                      <FaExclamation className="text-xs text-white" />
+                    </span>
+                    {errors?.postalCode?.message}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="relative w-full mb-5 xl:mb-5 group contact">
+              <label
+                htmlFor="preferredContactMethod"
+                className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Country
+              </label>
+              <select
+                {...register("country")}
+                onChange={(e) => {
+                  setValue("country", e.target.value, {
+                    shouldValidate: true,
+                  });
+                  setCurrentErrorField(null); // Reset error field when a selection is made
+                }}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                onFocus={() => setCurrentErrorField("country")}
+                onBlur={() => setCurrentErrorField(null)}
+              >
+                <option value="">Select Country</option>
+                <option value="phone">Phone</option>
+                <option value="email">Email</option>
+              </select>
+              {errors.country && (
+                <WarningPopup
+                  error={errors.country.message}
+                  isFirstError={currentErrorField === "country"}
+                />
+              )}
+            </div>
+            <div className="relative w-full mb-5 xl:mb-5 group contact">
+              <input
+                type="text"
+                {...register("phoneNumber")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                placeholder=" "
+                autoComplete="new-password"
+                onFocus={() => setCurrentErrorField("phoneNumber")}
+                onBlur={() => setCurrentErrorField(null)}
+              />
+              <label
+                htmlFor="phoneNumber"
+                className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                <span className="hidden md:block">Phone Number</span>
+                <span className="block md:hidden">Phone Number</span>
+              </label>
+              {errors.phoneNumber && (
+                <WarningPopup
+                  error={errors.phoneNumber?.message}
+                  isFirstError={currentErrorField === "phoneNumber"}
+                />
+              )}
+            </div>
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
+              <input
+                type="text"
+                {...register("email")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                placeholder=" "
+                autoComplete="new-password"
+                onFocus={() => setCurrentErrorField("email")}
+                onBlur={() => setCurrentErrorField(null)}
+              />
+              <label
+                htmlFor="email"
+                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Email Address
+              </label>
+              {errors.email && (
+                <WarningPopup
+                  error={errors.email.message}
+                  isFirstError={currentErrorField === "email"}
+                />
+              )}
+            </div>
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
+              <h2 className="text-lg text-start font-bold text-primary font-display">
+                Selected PLOT:
+                <span className=" font-roboto uppercase text-xl">
+                  &nbsp;{elementData[0]?.Plot_number}
+                </span>
+              </h2>
+            </div>
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
+              <div className="text-lg text-start font-bold text-primary font-display flex flex-col gap-2">
+                {" Here's how much you owe (AUD$):"}
+                <p className=" font-roboto uppercase text-xl">
+                  $ {formattedTotalAmount}
+                </p>
+              </div>
+            </div>
+            <div className="relative w-full mb-5  xl:mb-5 group contact flex justify-between items-center">
+              <h2 className="text-lg w-full text-start font-bold text-primary font-display">
+                Payment Method:
+              </h2>
               <Image
-                src={schoolLogo}
-                width={55}
-                height={55}
-                alt="School Logo"
+                src="/images/paymentmethods.png"
+                width={200}
+                height={100}
+                loading="lazy"
+                objectFit="contain"
+                alt="Historic Cemetery Statue"
+                className=" object-right bg-primary/30 p-2 rounded-lg"
               />
             </div>
-            <h1 className="text-xl font-bold text-green-900">
-              PIA Model School
-            </h1>
-          </div>
-        </div>
-        <div className="col-span-2 md:col-span-1 md:col-start-2 lg:col-span-2 lg:col-start-3 flex items-center justify-center px-1 py-1">
-          {/* Second column (30%) */}
-          <div className=" ">
-            <Image src={bankLogo} width={75} height={75} alt="Bank Logo" />
-          </div>
-        </div>
+            <div className="relative w-full mb-5  xl:mb-5 group contact">
+              <input
+                type="text"
+                {...register("creditCard")}
+                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                placeholder=" "
+                autoComplete="new-password"
+                onFocus={() => setCurrentErrorField("creditCard")}
+                onBlur={() => setCurrentErrorField(null)}
+              />
+              <label
+                htmlFor="creditCard"
+                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+              >
+                Credit/Debit Card No.
+              </label>
+              {errors.creditCard && (
+                <WarningPopup
+                  error={errors.creditCard.message}
+                  isFirstError={currentErrorField === "creditCard"}
+                />
+              )}
+            </div>
+            <div className="flex space-x-4 mb-5  xl:mb-5">
+              <div className="relative w-[70%] mb-5  xl:mb-5 group contact">
+                <input
+                  type="text"
+                  {...register("expDate")}
+                  className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                  placeholder=" "
+                  autoComplete="new-password"
+                  onFocus={() => setCurrentErrorField("expDate")}
+                  onBlur={() => setCurrentErrorField(null)}
+                />
+                <label
+                  htmlFor="expDate"
+                  className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 placeholder:text-primary peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Exp Date
+                </label>
+                {errors.expDate && (
+                  <WarningPopup
+                    error={errors.expDate.message}
+                    isFirstError={currentErrorField === "expDate"}
+                  />
+                )}
+              </div>
+              <div className="relative w-[30%] mb-5  xl:mb-5 group contact">
+                <input
+                  type="text"
+                  {...register("cvv")}
+                  className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                  placeholder=" "
+                  autoComplete="new-password"
+                  onFocus={() => setCurrentErrorField("cvv")}
+                  onBlur={() => setCurrentErrorField(null)}
+                />
+                <label
+                  htmlFor="cvv"
+                  className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 placeholder:text-primary peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  CVV
+                </label>
+                {errors.cvv && (
+                  <WarningPopup
+                    error={errors.cvv.message}
+                    isFirstError={currentErrorField === "cvv"}
+                  />
+                )}
+              </div>
+            </div>
+            {clientSecret && <PaymentElement />}
 
-        {/* Ninth row */}
-        <div
-          className="col-span-2 md:col-span-2 "
-          style={{ gridColumn: "span 4 / span 2" }}
-        >
-          <table className="w-full" id="voucherTable">
-            <thead>
-              <tr className="bg-gray-100 border-solid border-b-2">
-                <th
-                  className="inline-flex items-center justify-center text-sm"
-                  style={{ width: "75%" }}
-                >
-                  Fees Head
-                </th>
-                <th
-                  className="inline-flex items-center justify-center text-sm"
-                  style={{ width: "25%" }}
-                >
-                  Amount
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td
-                  className="inline-flex items-center justify-center text-xs"
-                  style={{ width: "75%" }}
-                >
-                  Admission Fee
-                </td>
-                <td
-                  className="inline-flex items-center justify-center text-xs"
-                  style={{ width: "25%" }}
-                >
-                  Rs {admissionFees}=/
-                </td>
-              </tr>
-
-              <tr>
-                <td
-                  className="inline-flex items-center justify-center text-xs"
-                  style={{ width: "75%" }}
-                >
-                  Annual Fund
-                </td>
-                <td
-                  className="inline-flex items-center justify-center text-xs"
-                  style={{ width: "25%" }}
-                >
-                  Rs {amount}=/
-                </td>
-              </tr>
-
-              <tr>
-                <td
-                  className="inline-flex items-center justify-center text-xs"
-                  style={{ width: "75%" }}
-                >
-                  Monthly Fee
-                </td>
-                <td
-                  className="inline-flex items-center justify-center text-xs"
-                  style={{ width: "25%" }}
-                >
-                  Rs {amount}=/
-                </td>
-              </tr>
-
-              <tr>
-                <td
-                  className="inline-flex items-center justify-center text-xs"
-                  style={{ width: "75%" }}
-                >
-                  Late Fee
-                </td>
-                <td
-                  className="inline-flex items-center justify-center text-xs"
-                  style={{ width: "25%" }}
-                >
-                  Rs {lateFees}=/
-                </td>
-              </tr>
-
-              <tr>
-                <td
-                  className="inline-flex items-center justify-center text-center text-xs pl-2"
-                  style={{ width: "75%" }}
-                >
-                  {"Bank Charges"}
-                </td>
-                <td
-                  className="inline-flex items-center justify-center text-xs"
-                  style={{ width: "25%" }}
-                >
-                  Rs {"50"}=/
-                </td>
-              </tr>
-            </tbody>
-            <tfoot className="">
-              <tr className="bg-gray-100 font-bold text-xs border-solid border-t-2 border-b-2">
-                <td
-                  className="inline-flex items-center justify-center "
-                  style={{ width: "75%" }}
-                >
-                  Total Amount
-                </td>
-                <td
-                  className="inline-flex items-center justify-center "
-                  style={{ width: "25%" }}
-                >
-                  Rs {getTotalAmountBeforeDue()}=/
-                </td>
-              </tr>
-            </tfoot>
-          </table>
-        </div>
-
-        {/* Tenth row */}
-        <div
-          className="col-span-2 md:col-span-2 grid grid-cols-1 py-1"
-          style={{ gridColumn: "span 4 / span 2" }}
-        >
-          <div className="flex items-center justify-center">
-            <h4 className="p-1 text-xs font-medium">
-              In Words: {amountInWords} Rupees Only
-            </h4>
-          </div>
-        </div>
-
-        <div
-          className="col-span-2 md:col-span-2 grid grid-cols-1 border-solid border-t-2 "
-          style={{ gridColumn: "span 4 / span 2" }}
-        >
-          <div className="bg-gray-100 font-bold text-xs border-solid border-t-2 border-b-2">
-            <h1
-              className="inline-flex items-center justify-center "
-              style={{ width: "75%" }}
-            >
-              Total Amount
-              <span className="px-1 text-xxs font-semibold">
-                (after Due Date)
-              </span>
-            </h1>
-            <h1
-              className="inline-flex items-center justify-center "
-              style={{ width: "25%" }}
-            >
-              Rs {getTotalAmountAfterDue()}=/
-            </h1>
-          </div>
-        </div>
-
-        <div
-          className="col-span-2 md:col-span-2 grid grid-cols-1 py-1"
-          style={{ gridColumn: "span 4 / span 2" }}
-        >
-          <div className="flex items-center justify-center">
-            <h4 className="p-2 text-xs font-medium">
-              {`Note: Fees due by ${
-                monthNames[currentDate.getMonth()]
-              } 15,${currentDate.getFullYear()}`}
-              , to avoid Rs 200/= late fee.
-            </h4>
-          </div>
+            <div className="flex justify-end items-center">
+              <button
+                type="submit"
+                className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
+              >
+                {!loading ? `Pay $${amount}` : "Processing..."}
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </>
   );
 };
 
-export default Design;
+export default RelinquishForm;
