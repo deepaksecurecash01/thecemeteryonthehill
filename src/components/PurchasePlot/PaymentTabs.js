@@ -13,30 +13,30 @@ const PaymentTabs = ({ setPaymentMethod }) => {
     <div className="flex space-x-4 mb-5">
       <button
         onClick={() => handleTabClick("card")}
-        className={`px-4 py-2 ${
+        className={`px-4 py-2 rounded-lg font-roboto ${
           activeTab === "card"
             ? "bg-primary text-white"
-            : "bg-white text-primary"
+            : "bg-secondary/30 text-primary "
         }`}
       >
         Card
       </button>
       <button
         onClick={() => handleTabClick("googlePay")}
-        className={`px-4 py-2 ${
+        className={`px-4 py-2 rounded-lg font-roboto ${
           activeTab === "googlePay"
             ? "bg-primary text-white"
-            : "bg-white text-primary"
+            : "bg-secondary/30 text-primary "
         }`}
       >
         Google Pay
       </button>
       <button
         onClick={() => handleTabClick("applePay")}
-        className={`px-4 py-2 ${
+        className={`px-4 py-2 rounded-lg font-roboto ${
           activeTab === "applePay"
             ? "bg-primary text-white"
-            : "bg-white text-primary"
+            : "bg-secondary/30 text-primary "
         }`}
       >
         Apple Pay

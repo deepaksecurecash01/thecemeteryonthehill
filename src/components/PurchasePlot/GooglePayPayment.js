@@ -35,7 +35,6 @@ const GooglePayPayment = ({ totalAmount }) => {
   }, [stripe, totalAmount]);
 
     return <div id="google-pay-button" className="mb-4 z-20">
-      <h2>ok jee</h2>
   </div>;
 };
 

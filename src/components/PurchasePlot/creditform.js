@@ -126,7 +126,7 @@ const CardPayment = ({ totalAmount }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 py-8">
       <div className="relative w-full flex-grow mb-5 xl:mb-5 ">
         <CustomCardNumberElement
           options={CARD_ELEMENT_OPTIONS}
@@ -175,14 +175,17 @@ const CheckoutForm = ({ totalAmount }) => {
     <div>
       <PaymentTabs setPaymentMethod={setPaymentMethod} />
       {paymentMethod === "card" && <CardPayment totalAmount={totalAmount} />}
-      {paymentMethod === "googlePay" && <GooglePayPayment totalAmount={totalAmount} />}
-      {paymentMethod === "applePay" && <ApplePayPayment totalAmount={totalAmount} />}
+      {paymentMethod === "googlePay" && (
+        <GooglePayPayment totalAmount={totalAmount} />
+      )}
+      {paymentMethod === "applePay" && (
+        <ApplePayPayment totalAmount={totalAmount} />
+      )}
     </div>
   );
 };
 
 // (Include the rest of the code)
-
 
 const StripeCheckoutForm = ({ totalAmount }) => (
   <Elements stripe={stripePromise}>
