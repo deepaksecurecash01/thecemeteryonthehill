@@ -29,7 +29,7 @@ import GooglePayPayment from "./GooglePayPayment";
 import ApplePayPayment from "./ApplePayPayment";
 
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY_TEST
+  process.env.STRIPE_PUBLIC_KEY_TEST
 );
 
 const CARD_ELEMENT_OPTIONS = {
