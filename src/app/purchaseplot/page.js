@@ -9,10 +9,10 @@ function convertToSubcurrency(amount, factor = 100) {
   return Math.round(amount * factor);
 }
 
-if (process.env.STRIPE_PUBLIC_KEY === undefined) {
-  throw new Error("STRIPE_PUBLIC_KEY is not defined");
+if (process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY === undefined) {
+  throw new Error("NEXT_PUBLIC_STRIPE_PUBLIC_KEY is not defined");
 }
-const stripePromise = loadStripe(process.env.STRIPE_PUBLIC_KEY_TEST);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY_TEST);
 
 const page = () => {
   const amount = 49.99;
