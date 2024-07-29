@@ -29,7 +29,10 @@ const GooglePayPayment = ({ totalAmount }) => {
               paymentRequest,
               style: {
                 paymentRequestButton: {
-                  theme: "light", // Set the theme to light
+                  theme: "light",
+                  type: "googlePay",
+                  height: "64px",
+                  color: "black", // Set the color to 'black', the actual button background color will be handled via custom CSS
                 },
               },
             });
@@ -42,15 +45,14 @@ const GooglePayPayment = ({ totalAmount }) => {
       })
       .catch((error) => {
         console.error("Error checking payment capability:", error);
-        // Handle error appropriately, e.g., show a notification to the user
       });
   }, [stripe, totalAmount]);
 
   return (
-    <div>
+    <div className="py-10">
       {!isButtonReady && (
         <div className="flex justify-center items-center h-12">
-          <div className="loader border-t-4 border-b-4 border-primary rounded-full w-12 h-12 animate-spin"></div>
+          <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
         </div>
       )}
       <div

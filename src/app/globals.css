@@ -230,3 +230,12 @@ form select::-webkit-validation-bubble-message,
 form textarea::-webkit-validation-bubble-message {
     display: none;
 }
+
+/* Add this to your CSS file */
+#google-pay-button .StripeElement--paymentRequestButton {
+    background-color: #933d38 !important;
+    color: white !important;
+    /* Ensure the text color is white for contrast */
+    border-radius: 8px !important;
+    /* Optional: add border-radius for better aesthetics */
+}
