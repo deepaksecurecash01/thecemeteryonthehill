@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,16 +11,208 @@ import { useDispatch } from "react-redux";
 import { setPopupForm } from "@/redux/slice";
 import Image from "next/image";
 import PurchaseReceipt from "./PurchaseReceipt";
+import StripeCheckout from "./StripeCheckout";
+import { formatNumber } from "@/lib/helper";
 
-import {
-  useStripe,
-  useElements,
-  PaymentElement,
-} from "@stripe/react-stripe-js";
-
-function convertToSubcurrency(amount, factor = 100) {
-  return Math.round(amount * factor);
-}
+// List of countries
+const countries = [
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "Andorra",
+  "Angola",
+  "Antigua and Barbuda",
+  "Argentina",
+  "Armenia",
+  "Australia",
+  "Austria",
+  "Azerbaijan",
+  "Bahamas",
+  "Bahrain",
+  "Bangladesh",
+  "Barbados",
+  "Belarus",
+  "Belgium",
+  "Belize",
+  "Benin",
+  "Bhutan",
+  "Bolivia",
+  "Bosnia and Herzegovina",
+  "Botswana",
+  "Brazil",
+  "Brunei",
+  "Bulgaria",
+  "Burkina Faso",
+  "Burundi",
+  "Cabo Verde",
+  "Cambodia",
+  "Cameroon",
+  "Canada",
+  "Central African Republic",
+  "Chad",
+  "Chile",
+  "China",
+  "Colombia",
+  "Comoros",
+  "Congo, Democratic Republic of the",
+  "Congo, Republic of the",
+  "Costa Rica",
+  "Croatia",
+  "Cuba",
+  "Cyprus",
+  "Czech Republic",
+  "Denmark",
+  "Djibouti",
+  "Dominica",
+  "Dominican Republic",
+  "East Timor",
+  "Ecuador",
+  "Egypt",
+  "El Salvador",
+  "Equatorial Guinea",
+  "Eritrea",
+  "Estonia",
+  "Eswatini",
+  "Ethiopia",
+  "Fiji",
+  "Finland",
+  "France",
+  "Gabon",
+  "Gambia",
+  "Georgia",
+  "Germany",
+  "Ghana",
+  "Greece",
+  "Grenada",
+  "Guatemala",
+  "Guinea",
+  "Guinea-Bissau",
+  "Guyana",
+  "Haiti",
+  "Honduras",
+  "Hungary",
+  "Iceland",
+  "India",
+  "Indonesia",
+  "Iran",
+  "Iraq",
+  "Ireland",
+  "Israel",
+  "Italy",
+  "Ivory Coast",
+  "Jamaica",
+  "Japan",
+  "Jordan",
+  "Kazakhstan",
+  "Kenya",
+  "Kiribati",
+  "Korea, North",
+  "Korea, South",
+  "Kosovo",
+  "Kuwait",
+  "Kyrgyzstan",
+  "Laos",
+  "Latvia",
+  "Lebanon",
+  "Lesotho",
+  "Liberia",
+  "Libya",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Madagascar",
+  "Malawi",
+  "Malaysia",
+  "Maldives",
+  "Mali",
+  "Malta",
+  "Marshall Islands",
+  "Mauritania",
+  "Mauritius",
+  "Mexico",
+  "Micronesia",
+  "Moldova",
+  "Monaco",
+  "Mongolia",
+  "Montenegro",
+  "Morocco",
+  "Mozambique",
+  "Myanmar",
+  "Namibia",
+  "Nauru",
+  "Nepal",
+  "Netherlands",
+  "New Zealand",
+  "Nicaragua",
+  "Niger",
+  "Nigeria",
+  "North Macedonia",
+  "Norway",
+  "Oman",
+  "Pakistan",
+  "Palau",
+  "Panama",
+  "Papua New Guinea",
+  "Paraguay",
+  "Peru",
+  "Philippines",
+  "Poland",
+  "Portugal",
+  "Qatar",
+  "Romania",
+  "Russia",
+  "Rwanda",
+  "Saint Kitts and Nevis",
+  "Saint Lucia",
+  "Saint Vincent and the Grenadines",
+  "Samoa",
+  "San Marino",
+  "Sao Tome and Principe",
+  "Saudi Arabia",
+  "Senegal",
+  "Serbia",
+  "Seychelles",
+  "Sierra Leone",
+  "Singapore",
+  "Slovakia",
+  "Slovenia",
+  "Solomon Islands",
+  "Somalia",
+  "South Africa",
+  "South Sudan",
+  "Spain",
+  "Sri Lanka",
+  "Sudan",
+  "Suriname",
+  "Sweden",
+  "Switzerland",
+  "Syria",
+  "Taiwan",
+  "Tajikistan",
+  "Tanzania",
+  "Thailand",
+  "Togo",
+  "Tonga",
+  "Trinidad and Tobago",
+  "Tunisia",
+  "Turkey",
+  "Turkmenistan",
+  "Tuvalu",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+  "Uruguay",
+  "Uzbekistan",
+  "Vanuatu",
+  "Vatican City",
+  "Venezuela",
+  "Vietnam",
+  "Yemen",
+  "Zambia",
+  "Zimbabwe",
+];
 
 const schema = z.object({
   fullName: z
@@ -37,7 +229,7 @@ const schema = z.object({
       /^[A-Za-z0-9][A-Za-z0-9\- ]{0,10}[A-Za-z0-9]$/,
       "Invalid postal code format."
     ), // General regex for international postal codes
-  country: z.enum(["email", "phone"], {
+  country: z.enum(countries, {
     errorMap: () => ({ message: "Country is required." }),
   }),
   phoneNumber: z
@@ -48,21 +240,6 @@ const schema = z.object({
     .string()
     .nonempty("Email is required.")
     .email("Please enter a valid email address."),
-  creditCard: z
-    .string()
-    .nonempty("Credit/Debit Card No. is required.")
-    .regex(/^\d{16}$/, "Credit card number must be 16 digits."),
-  expDate: z
-    .string()
-    .nonempty("Expiration date is required.")
-    .regex(
-      /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/,
-      "Invalid expiration date format."
-    ), // MM/YY or MM/YYYY
-  cvv: z
-    .string()
-    .nonempty("CVV is required.")
-    .regex(/^\d{3,4}$/, "CVV must be 3 or 4 digits."),
 });
 
 const WarningPopup = ({ error, isFirstError }) => {
@@ -78,23 +255,12 @@ const WarningPopup = ({ error, isFirstError }) => {
   );
 };
 
-const RelinquishForm = ({ elementData, amount }) => {
+const RelinquishForm = ({ elementData }) => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
-  const [receiptScreen, setReceiptScreen] = useState(true); // true, //false);
+  const [screenToShow, setscreenToShow] = useState("receipt");
   const [currentErrorField, setCurrentErrorField] = useState(null);
   const dispatch = useDispatch();
-  const stripe = useStripe();
-  const elements = useElements();
   const [errorMessage, setErrorMessage] = useState();
-  const [clientSecret, setClientSecret] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  function formatNumber(number) {
-    return new Intl.NumberFormat("en-IN", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    }).format(number);
-  }
 
   const {
     register,
@@ -105,58 +271,8 @@ const RelinquishForm = ({ elementData, amount }) => {
     reset,
   } = useForm({ resolver: zodResolver(schema) });
 
-  useEffect(() => {
-    fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ amount: convertToSubcurrency(amount) }),
-    })
-      .then((res) => res.json())
-      .then((data) => setClientSecret(data.clientSecret));
-  }, [amount]);
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-
-    if (!stripe || !elements) {
-      setErrorMessage("Stripe or elements not loaded");
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const { error: submitError } = await elements.submit();
-
-      if (submitError) {
-        setErrorMessage(submitError.message);
-        setLoading(false);
-        return;
-      }
-
-      const { error } = await stripe.confirmPayment({
-        elements,
-        clientSecret,
-        confirmParams: {
-          return_url: `http://www.localhost:3000/payment-success?amount=${amount}`,
-        },
-      });
-
-      if (error) {
-        setErrorMessage(error.message);
-      } else {
-        // The payment UI automatically closes with a success animation.
-        // Your customer is redirected to your `return_url`.
-      }
-
-      setLoading(false);
-    } catch (error) {
-      setErrorMessage("An error occurred while processing the payment.");
-      setLoading(false);
-      return;
-    }
+  const onSubmit = async (data) => {
+    console.log("Form submitted:", data);
 
     try {
       // Simulate a form submission
@@ -167,28 +283,13 @@ const RelinquishForm = ({ elementData, amount }) => {
 
       setSubmissionStatus("success");
       setErrorMessage("");
-      setSignature(null);
+      setscreenToShow("stripecheckout");
       reset(); // Reset form fields
     } catch (error) {
       setSubmissionStatus("error");
       setErrorMessage("Failed to submit the form. Please try again.");
     }
   };
-
-  if (!clientSecret || !stripe || !elements) {
-    return (
-      <div className="flex items-center justify-center">
-        <div
-          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
-          role="status"
-        >
-          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-            Loading...
-          </span>
-        </div>
-      </div>
-    );
-  }
 
   const getTotalAmount = () => {
     const plot_Price = parseFloat(elementData[0]?.prices?.plot_Price) || 0;
@@ -211,15 +312,16 @@ const RelinquishForm = ({ elementData, amount }) => {
 
     return totalAmount;
   };
+
   const formattedTotalAmount = formatNumber(getTotalAmount());
 
   return (
     <>
       <div className="w-full max-h-screen overflow-y-auto no-scrollbar overflow-x-hidden">
-        <div className=" md:max-h-[1024px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center relative py-28 md:py-24 lg:py-24">
+        <div className=" md:max-h-[1024px] h-[940px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center relative py-28 md:py-24 lg:py-24">
           <div
             className={`absolute ${
-              receiptScreen ? "opacity-100" : "opacity-0"
+              screenToShow === "receipt" ? "opacity-100" : "opacity-0"
             } transition-opacity ease-in-out delay-250 duration-300  h-full w-full`}
           >
             <PurchaseReceipt
@@ -227,14 +329,14 @@ const RelinquishForm = ({ elementData, amount }) => {
               formattedTotalAmount={formattedTotalAmount}
               formatNumber={formatNumber}
               getTotalAmount={getTotalAmount}
-              receiptScreen={receiptScreen}
-              setReceiptScreen={setReceiptScreen}
+              screenToShow={screenToShow}
+              setscreenToShow={setscreenToShow}
             />
           </div>
 
           <form
             className={`w-[70%]  md:w-auto pt-6 sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10  ${
-              !receiptScreen ? "opacity-100" : "opacity-0"
+              screenToShow === "detailedform" ? "opacity-100" : "opacity-0"
             } transition-opacity ease-in-out delay-250 duration-300 `}
             onSubmit={handleSubmit(onSubmit)}
             autoComplete="off"
@@ -289,7 +391,7 @@ const RelinquishForm = ({ elementData, amount }) => {
               )}
             </div>
             <div className="flex space-x-4 mb-5  xl:mb-5 relative">
-              <div className=" w-32 group contact">
+              <div className=" w-full group contact">
                 <div className="w-full relative">
                   <input
                     type="text"
@@ -304,7 +406,7 @@ const RelinquishForm = ({ elementData, amount }) => {
                     htmlFor="city"
                     className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
-                    City
+                    Suburb
                   </label>
                 </div>
 
@@ -317,34 +419,8 @@ const RelinquishForm = ({ elementData, amount }) => {
                   </span>
                 )}
               </div>
-              <div className=" w-32 group contact">
-                <div className="w-full relative">
-                  <input
-                    type="text"
-                    {...register("province")}
-                    className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                    placeholder=" "
-                    autoComplete="new-password"
-                    onFocus={() => setCurrentErrorField("province")}
-                    onBlur={() => setCurrentErrorField(null)}
-                  />
-                  <label
-                    htmlFor="province"
-                    className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Province
-                  </label>
-                </div>
-                {errors.province && currentErrorField === "province" && (
-                  <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-8 -left-4 flex items-center text-primary shadow-sm z-10">
-                    <span className="bg-primary p-1 rounded-sm mr-1">
-                      <FaExclamation className="text-xs text-white" />
-                    </span>
-                    {errors?.province?.message}
-                  </span>
-                )}
-              </div>
-              <div className=" w-32 group contact">
+
+              <div className=" w-full group contact">
                 <div className="w-full relative">
                   <input
                     type="text"
@@ -359,7 +435,7 @@ const RelinquishForm = ({ elementData, amount }) => {
                     htmlFor="postalCode"
                     className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
-                    Postal
+                    Post Code
                   </label>
                 </div>
                 {errors.postalCode && currentErrorField === "postalCode" && (
@@ -385,15 +461,19 @@ const RelinquishForm = ({ elementData, amount }) => {
                   setValue("country", e.target.value, {
                     shouldValidate: true,
                   });
+                  console.log(e.target.value);
                   setCurrentErrorField(null); // Reset error field when a selection is made
                 }}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 onFocus={() => setCurrentErrorField("country")}
                 onBlur={() => setCurrentErrorField(null)}
               >
-                <option value="">Select Country</option>
-                <option value="phone">Phone</option>
-                <option value="email">Email</option>
+                <option value="">Select a country</option>
+                {countries.map((country) => (
+                  <option key={country} value={country}>
+                    {country}
+                  </option>
+                ))}
               </select>
               {errors.country && (
                 <WarningPopup
@@ -465,102 +545,30 @@ const RelinquishForm = ({ elementData, amount }) => {
                 </p>
               </div>
             </div>
-            <div className="relative w-full mb-5  xl:mb-5 group contact flex justify-between items-center">
-              <h2 className="text-lg w-full text-start font-bold text-primary font-display">
-                Payment Method:
-              </h2>
-              <Image
-                src="/images/paymentmethods.png"
-                width={200}
-                height={100}
-                loading="lazy"
-                objectFit="contain"
-                alt="Historic Cemetery Statue"
-                className=" object-right bg-primary/30 p-2 rounded-lg"
-              />
-            </div>
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <input
-                type="text"
-                {...register("creditCard")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=" "
-                autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("creditCard")}
-                onBlur={() => setCurrentErrorField(null)}
-              />
-              <label
-                htmlFor="creditCard"
-                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Credit/Debit Card No.
-              </label>
-              {errors.creditCard && (
-                <WarningPopup
-                  error={errors.creditCard.message}
-                  isFirstError={currentErrorField === "creditCard"}
-                />
-              )}
-            </div>
-            <div className="flex space-x-4 mb-5  xl:mb-5">
-              <div className="relative w-[70%] mb-5  xl:mb-5 group contact">
-                <input
-                  type="text"
-                  {...register("expDate")}
-                  className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                  placeholder=" "
-                  autoComplete="new-password"
-                  onFocus={() => setCurrentErrorField("expDate")}
-                  onBlur={() => setCurrentErrorField(null)}
-                />
-                <label
-                  htmlFor="expDate"
-                  className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 placeholder:text-primary peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  Exp Date
-                </label>
-                {errors.expDate && (
-                  <WarningPopup
-                    error={errors.expDate.message}
-                    isFirstError={currentErrorField === "expDate"}
-                  />
-                )}
-              </div>
-              <div className="relative w-[30%] mb-5  xl:mb-5 group contact">
-                <input
-                  type="text"
-                  {...register("cvv")}
-                  className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                  placeholder=" "
-                  autoComplete="new-password"
-                  onFocus={() => setCurrentErrorField("cvv")}
-                  onBlur={() => setCurrentErrorField(null)}
-                />
-                <label
-                  htmlFor="cvv"
-                  className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 placeholder:text-primary peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                >
-                  CVV
-                </label>
-                {errors.cvv && (
-                  <WarningPopup
-                    error={errors.cvv.message}
-                    isFirstError={currentErrorField === "cvv"}
-                  />
-                )}
-              </div>
-            </div>
-            {clientSecret && <PaymentElement />}
 
             <div className="flex justify-end items-center">
               <button
                 type="submit"
                 className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
               >
-                {!loading ? `Pay $${amount}` : "Processing..."}
+                Next
               </button>
             </div>
           </form>
+          <div
+            className={`absolute ${
+              screenToShow === "stripecheckout" ? "opacity-100" : "opacity-0"
+            } transition-opacity ease-in-out delay-250 duration-300  h-full w-full`}
+          >
+            <StripeCheckout
+              elementData={elementData}
+              formattedTotalAmount={formattedTotalAmount}
+              formatNumber={formatNumber}
+              getTotalAmount={getTotalAmount}
+              screenToShow={screenToShow}
+              setscreenToShow={setscreenToShow}
+            />
+          </div>
         </div>
       </div>
     </>

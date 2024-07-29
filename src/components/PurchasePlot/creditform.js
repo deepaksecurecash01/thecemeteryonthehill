@@ -28,6 +28,7 @@ import PaymentTabs from "./PaymentTabs";
 import GooglePayPayment from "./GooglePayPayment";
 import ApplePayPayment from "./ApplePayPayment";
 
+
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY_TEST
 );
@@ -72,12 +73,18 @@ const cardIconMap = {
   unknown: faCreditCard, // Fallback icon
 };
 
-const CardPayment = ({ totalAmount }) => {
+const CardPayment = ({
+  totalAmount,
+  loading,
+  setLoading,
+  error,
+  setError,
+  paymentSuccess,
+  setPaymentSuccess,
+}) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [paymentSuccess, setPaymentSuccess] = useState(false);
+
   const stripeAmount = convertToSubcurrency(totalAmount);
   const formattedTotalAmount = formatNumber(totalAmount);
   const [cardType, setCardType] = useState("unknown");
@@ -157,10 +164,6 @@ const CardPayment = ({ totalAmount }) => {
           {loading ? "Processing..." : `Pay $${formattedTotalAmount}`}
         </button>
       </div>
-      {error && <div className="mt-4 text-red-500">{error}</div>}
-      {paymentSuccess && (
-        <div className="mt-4 text-green-500">Payment succeeded!</div>
-      )}
     </form>
   );
 };
@@ -168,13 +171,31 @@ const CardPayment = ({ totalAmount }) => {
 // components/StripeCheckoutForm.js
 // (Include all imports and other code)
 
-const CheckoutForm = ({ totalAmount }) => {
+const CheckoutForm = ({
+  totalAmount,
+  loading,
+  setLoading,
+  error,
+  setError,
+  paymentSuccess,
+  setPaymentSuccess,
+}) => {
   const [paymentMethod, setPaymentMethod] = useState("card");
 
   return (
     <div>
       <PaymentTabs setPaymentMethod={setPaymentMethod} />
-      {paymentMethod === "card" && <CardPayment totalAmount={totalAmount} />}
+      {paymentMethod === "card" && (
+        <CardPayment
+          totalAmount={totalAmount}
+          loading={loading}
+          setLoading={setLoading}
+          error={error}
+          setError={setError}
+          paymentSuccess={paymentSuccess}
+          setPaymentSuccess={setPaymentSuccess}
+        />
+      )}
       {paymentMethod === "googlePay" && (
         <GooglePayPayment totalAmount={totalAmount} />
       )}
@@ -187,9 +208,17 @@ const CheckoutForm = ({ totalAmount }) => {
 
 // (Include the rest of the code)
 
-const StripeCheckoutForm = ({ totalAmount }) => (
+const StripeCheckoutForm = ({ totalAmount, loading, setLoading, error, setError, paymentSuccess, setPaymentSuccess }) => (
   <Elements stripe={stripePromise}>
-    <CheckoutForm totalAmount={totalAmount} />
+    <CheckoutForm
+      totalAmount={totalAmount}
+      loading={loading}
+      setLoading={setLoading}
+      error={error}
+      setError={setError}
+      paymentSuccess={paymentSuccess}
+      setPaymentSuccess={setPaymentSuccess}
+    />
   </Elements>
 );
 

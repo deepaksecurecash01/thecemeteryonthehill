@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,33 +14,246 @@ import PurchaseReceipt from "./PurchaseReceipt";
 import StripeCheckout from "./StripeCheckout";
 import { formatNumber } from "@/lib/helper";
 
-const schema = z.object({
-  fullName: z
-    .string()
-    .nonempty("Full Name is required.")
-    .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-  address: z.string().nonempty("Address is required."),
-  city: z.string().nonempty("City is required."),
-  province: z.string().nonempty("Province is required."),
-  postalCode: z
-    .string()
-    .nonempty("Postal code is required.")
-    .regex(
-      /^[A-Za-z0-9][A-Za-z0-9\- ]{0,10}[A-Za-z0-9]$/,
-      "Invalid postal code format."
-    ), // General regex for international postal codes
-  country: z.enum(["email", "phone"], {
-    errorMap: () => ({ message: "Country is required." }),
-  }),
-  phoneNumber: z
-    .string()
-    .nonempty("Phone Number is required.")
-    .regex(/^[0-9]+$/, "Phone Number must contain only digits."),
-  email: z
-    .string()
-    .nonempty("Email is required.")
-    .email("Please enter a valid email address."),
-});
+// List of countries
+const countries = [
+  "Afghanistan",
+  "Albania",
+  "Algeria",
+  "Andorra",
+  "Angola",
+  "Antigua and Barbuda",
+  "Argentina",
+  "Armenia",
+  "Australia",
+  "Austria",
+  "Azerbaijan",
+  "Bahamas",
+  "Bahrain",
+  "Bangladesh",
+  "Barbados",
+  "Belarus",
+  "Belgium",
+  "Belize",
+  "Benin",
+  "Bhutan",
+  "Bolivia",
+  "Bosnia and Herzegovina",
+  "Botswana",
+  "Brazil",
+  "Brunei",
+  "Bulgaria",
+  "Burkina Faso",
+  "Burundi",
+  "Cabo Verde",
+  "Cambodia",
+  "Cameroon",
+  "Canada",
+  "Central African Republic",
+  "Chad",
+  "Chile",
+  "China",
+  "Colombia",
+  "Comoros",
+  "Congo, Democratic Republic of the",
+  "Congo, Republic of the",
+  "Costa Rica",
+  "Croatia",
+  "Cuba",
+  "Cyprus",
+  "Czech Republic",
+  "Denmark",
+  "Djibouti",
+  "Dominica",
+  "Dominican Republic",
+  "East Timor",
+  "Ecuador",
+  "Egypt",
+  "El Salvador",
+  "Equatorial Guinea",
+  "Eritrea",
+  "Estonia",
+  "Eswatini",
+  "Ethiopia",
+  "Fiji",
+  "Finland",
+  "France",
+  "Gabon",
+  "Gambia",
+  "Georgia",
+  "Germany",
+  "Ghana",
+  "Greece",
+  "Grenada",
+  "Guatemala",
+  "Guinea",
+  "Guinea-Bissau",
+  "Guyana",
+  "Haiti",
+  "Honduras",
+  "Hungary",
+  "Iceland",
+  "India",
+  "Indonesia",
+  "Iran",
+  "Iraq",
+  "Ireland",
+  "Israel",
+  "Italy",
+  "Ivory Coast",
+  "Jamaica",
+  "Japan",
+  "Jordan",
+  "Kazakhstan",
+  "Kenya",
+  "Kiribati",
+  "Korea, North",
+  "Korea, South",
+  "Kosovo",
+  "Kuwait",
+  "Kyrgyzstan",
+  "Laos",
+  "Latvia",
+  "Lebanon",
+  "Lesotho",
+  "Liberia",
+  "Libya",
+  "Liechtenstein",
+  "Lithuania",
+  "Luxembourg",
+  "Madagascar",
+  "Malawi",
+  "Malaysia",
+  "Maldives",
+  "Mali",
+  "Malta",
+  "Marshall Islands",
+  "Mauritania",
+  "Mauritius",
+  "Mexico",
+  "Micronesia",
+  "Moldova",
+  "Monaco",
+  "Mongolia",
+  "Montenegro",
+  "Morocco",
+  "Mozambique",
+  "Myanmar",
+  "Namibia",
+  "Nauru",
+  "Nepal",
+  "Netherlands",
+  "New Zealand",
+  "Nicaragua",
+  "Niger",
+  "Nigeria",
+  "North Macedonia",
+  "Norway",
+  "Oman",
+  "Pakistan",
+  "Palau",
+  "Panama",
+  "Papua New Guinea",
+  "Paraguay",
+  "Peru",
+  "Philippines",
+  "Poland",
+  "Portugal",
+  "Qatar",
+  "Romania",
+  "Russia",
+  "Rwanda",
+  "Saint Kitts and Nevis",
+  "Saint Lucia",
+  "Saint Vincent and the Grenadines",
+  "Samoa",
+  "San Marino",
+  "Sao Tome and Principe",
+  "Saudi Arabia",
+  "Senegal",
+  "Serbia",
+  "Seychelles",
+  "Sierra Leone",
+  "Singapore",
+  "Slovakia",
+  "Slovenia",
+  "Solomon Islands",
+  "Somalia",
+  "South Africa",
+  "South Sudan",
+  "Spain",
+  "Sri Lanka",
+  "Sudan",
+  "Suriname",
+  "Sweden",
+  "Switzerland",
+  "Syria",
+  "Taiwan",
+  "Tajikistan",
+  "Tanzania",
+  "Thailand",
+  "Togo",
+  "Tonga",
+  "Trinidad and Tobago",
+  "Tunisia",
+  "Turkey",
+  "Turkmenistan",
+  "Tuvalu",
+  "Uganda",
+  "Ukraine",
+  "United Arab Emirates",
+  "United Kingdom",
+  "United States",
+  "Uruguay",
+  "Uzbekistan",
+  "Vanuatu",
+  "Vatican City",
+  "Venezuela",
+  "Vietnam",
+  "Yemen",
+  "Zambia",
+  "Zimbabwe",
+];
+
+const schema = z
+  .object({
+    fullName: z
+      .string()
+      .nonempty("Full Name is required.")
+      .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
+    address: z.string().nonempty("Address is required."),
+    city: z.string().nonempty("Suburb is required."),
+    postalCode: z.string().nonempty("Post Code is required."),
+    country: z.enum(countries, {
+      errorMap: () => ({ message: "Country is required." }),
+    }),
+    phoneNumber: z
+      .string()
+      .nonempty("Phone Number is required.")
+      .regex(/^[0-9]+$/, "Phone Number must contain only digits."),
+    email: z
+      .string()
+      .nonempty("Email is required.")
+      .email("Please enter a valid email address."),
+  })
+  .superRefine((data, ctx) => {
+    if (data.country === "Australia") {
+      if (!/^\d{4}$/.test(data.postalCode)) {
+        ctx.addIssue({
+          path: ["postalCode"],
+          message: "Australian postal code contains 4 digits.",
+        });
+      }
+    } else {
+      // Example for other countries, adjust as needed
+      if (!/^\d+$/.test(data.postalCode)) {
+        ctx.addIssue({
+          path: ["postalCode"],
+          message: "Invalid post code format for the selected country.",
+        });
+      }
+    }
+  });
+
 
 const WarningPopup = ({ error, isFirstError }) => {
   return (
@@ -62,16 +275,28 @@ const RelinquishForm = ({ elementData }) => {
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState();
 
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+  setValue,
+  watch,
+  reset,
+  trigger, // Add trigger to manually validate
+} = useForm({
+  resolver: zodResolver(schema),
+  defaultValues: {
+    country: "Australia", // Set default value for country
+  },
+});
+  
+   const country = watch("country");
+
+  const handleChangePostCodeValidation = () => { if (country) {
+    trigger("postalCode"); // Trigger validation for postalCode when country changes
+  }}
 
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset,
-  } = useForm({ resolver: zodResolver(schema) });
   const onSubmit = async (data) => {
     try {
       // Simulate a form submission
@@ -166,9 +391,8 @@ const RelinquishForm = ({ elementData }) => {
               )}
             </div>
             <div className="relative w-full mb-5 xl:mb-5 group contact">
-              <textarea
+              <input
                 type="text"
-                rows="2"
                 {...register("address")}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
@@ -191,7 +415,7 @@ const RelinquishForm = ({ elementData }) => {
               )}
             </div>
             <div className="flex space-x-4 mb-5  xl:mb-5 relative">
-              <div className=" w-32 group contact">
+              <div className=" w-full group contact">
                 <div className="w-full relative">
                   <input
                     type="text"
@@ -206,7 +430,7 @@ const RelinquishForm = ({ elementData }) => {
                     htmlFor="city"
                     className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
-                    City
+                    Suburb
                   </label>
                 </div>
 
@@ -219,34 +443,8 @@ const RelinquishForm = ({ elementData }) => {
                   </span>
                 )}
               </div>
-              <div className=" w-32 group contact">
-                <div className="w-full relative">
-                  <input
-                    type="text"
-                    {...register("province")}
-                    className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                    placeholder=" "
-                    autoComplete="new-password"
-                    onFocus={() => setCurrentErrorField("province")}
-                    onBlur={() => setCurrentErrorField(null)}
-                  />
-                  <label
-                    htmlFor="province"
-                    className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Province
-                  </label>
-                </div>
-                {errors.province && currentErrorField === "province" && (
-                  <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-8 -left-4 flex items-center text-primary shadow-sm z-10">
-                    <span className="bg-primary p-1 rounded-sm mr-1">
-                      <FaExclamation className="text-xs text-white" />
-                    </span>
-                    {errors?.province?.message}
-                  </span>
-                )}
-              </div>
-              <div className=" w-32 group contact">
+
+              <div className=" w-full group contact">
                 <div className="w-full relative">
                   <input
                     type="text"
@@ -261,7 +459,7 @@ const RelinquishForm = ({ elementData }) => {
                     htmlFor="postalCode"
                     className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
-                    Postal
+                    Post Code
                   </label>
                 </div>
                 {errors.postalCode && currentErrorField === "postalCode" && (
@@ -287,15 +485,19 @@ const RelinquishForm = ({ elementData }) => {
                   setValue("country", e.target.value, {
                     shouldValidate: true,
                   });
+                  handleChangePostCodeValidation();
                   setCurrentErrorField(null); // Reset error field when a selection is made
                 }}
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 onFocus={() => setCurrentErrorField("country")}
                 onBlur={() => setCurrentErrorField(null)}
               >
-                <option value="">Select Country</option>
-                <option value="phone">Phone</option>
-                <option value="email">Email</option>
+                <option value="">Select a country</option>
+                {countries.map((country) => (
+                  <option key={country} value={country}>
+                    {country}
+                  </option>
+                ))}
               </select>
               {errors.country && (
                 <WarningPopup
@@ -373,7 +575,7 @@ const RelinquishForm = ({ elementData }) => {
                 type="submit"
                 className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
               >
-                Next
+                Checkout
               </button>
             </div>
           </form>
