@@ -30,7 +30,7 @@ const ApplePayPayment = ({ totalAmount }) => {
               style: {
                 paymentRequestButton: {
                   theme: "light",
-                  type: "applePay",
+                  type: "buy", // Use an appropriate type
                   height: "64px",
                 },
               },
@@ -48,10 +48,10 @@ const ApplePayPayment = ({ totalAmount }) => {
   }, [stripe, totalAmount]);
 
   return (
-    <div className="pt-8">
+    <div className="py-10">
       {!isButtonReady && (
         <div className="flex justify-center items-center h-12">
-          <div className="loader border-t-4 border-b-4 border-primary rounded-full w-12 h-12 animate-spin"></div>
+          <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
         </div>
       )}
       <div
