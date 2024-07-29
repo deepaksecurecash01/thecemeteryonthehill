@@ -1,16 +1,16 @@
-// components/ApplePayPayment.js
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
 
 const ApplePayPayment = ({ totalAmount }) => {
   const stripe = useStripe();
+  const [isButtonReady, setIsButtonReady] = useState(false);
 
   useEffect(() => {
     if (!stripe) return;
 
-    const pr = stripe.paymentRequest({
-      country: "US",
-      currency: "usd",
+    const paymentRequest = stripe.paymentRequest({
+      country: "AU",
+      currency: "aud",
       total: {
         label: "Total",
         amount: totalAmount * 100, // Amount in cents
@@ -19,22 +19,47 @@ const ApplePayPayment = ({ totalAmount }) => {
       requestPayerEmail: true,
     });
 
-    pr.canMakePayment().then((result) => {
-      if (result) {
-        const paymentRequestButton = stripe
-          .elements()
-          .create("paymentRequestButton", {
-            paymentRequest: pr,
-          });
+    paymentRequest
+      .canMakePayment({ applePay: true })
+      .then((result) => {
+        if (result) {
+          const paymentRequestButton = stripe
+            .elements()
+            .create("paymentRequestButton", {
+              paymentRequest,
+              style: {
+                paymentRequestButton: {
+                  theme: "light",
+                  type: "applePay",
+                  height: "64px",
+                },
+              },
+            });
 
-        paymentRequestButton.mount("#apple-pay-button");
-      } else {
-        document.getElementById("apple-pay-button").style.display = "none";
-      }
-    });
-  }, [stripe]);
+          paymentRequestButton.mount("#apple-pay-button");
+          setIsButtonReady(true);
+        } else {
+          document.getElementById("apple-pay-button").style.display = "none";
+        }
+      })
+      .catch((error) => {
+        console.error("Error checking payment capability:", error);
+      });
+  }, [stripe, totalAmount]);
 
-  return <div id="apple-pay-button"></div>;
+  return (
+    <div className="pt-8">
+      {!isButtonReady && (
+        <div className="flex justify-center items-center h-12">
+          <div className="loader border-t-4 border-b-4 border-primary rounded-full w-12 h-12 animate-spin"></div>
+        </div>
+      )}
+      <div
+        id="apple-pay-button"
+        className={`mb-4 z-20 ${!isButtonReady ? "hidden" : ""}`}
+      ></div>
+    </div>
+  );
 };
 
 export default ApplePayPayment;

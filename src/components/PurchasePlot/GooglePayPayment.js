@@ -49,10 +49,10 @@ const GooglePayPayment = ({ totalAmount }) => {
   }, [stripe, totalAmount]);
 
   return (
-    <div className="py-10">
+    <div className="pt-8">
       {!isButtonReady && (
         <div className="flex justify-center items-center h-12">
-          <div className="loader border-t-4 border-b-4 border-blue-500 rounded-full w-12 h-12 animate-spin"></div>
+          <div className="loader border-t-4 border-b-4 border-primary rounded-full w-12 h-12 animate-spin"></div>
         </div>
       )}
       <div
