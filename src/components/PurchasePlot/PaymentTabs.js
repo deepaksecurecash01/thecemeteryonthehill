@@ -29,18 +29,9 @@ const PaymentTabs = ({ setPaymentMethod }) => {
             : "bg-secondary/30 text-primary "
         }`}
       >
-        Google Pay
+        Online Pay
       </button>
-      <button
-        onClick={() => handleTabClick("applePay")}
-        className={`px-4 py-2 rounded-lg font-roboto ${
-          activeTab === "applePay"
-            ? "bg-primary text-white"
-            : "bg-secondary/30 text-primary "
-        }`}
-      >
-        Apple Pay
-      </button>
+     
     </div>
   );
 };

@@ -199,9 +199,7 @@ const CheckoutForm = ({
       {paymentMethod === "googlePay" && (
         <GooglePayPayment totalAmount={totalAmount} />
       )}
-      {paymentMethod === "applePay" && (
-        <ApplePayPayment totalAmount={totalAmount} />
-      )}
+   
     </div>
   );
 };
