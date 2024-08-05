@@ -22,6 +22,10 @@ const page = () => {
       <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
         Purchase a Plot
       </h2>
+      <p className="text-paragraph text-base text-justify font-bold tracking-wide lg:text-lg">
+{`        Choose a plot at "The Cemetery on the Hill" as a final resting place for
+        your loved ones.`}
+      </p>
       <PlotTable />
 
       <Elements

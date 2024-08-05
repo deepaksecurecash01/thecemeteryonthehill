@@ -1,578 +1,254 @@
-"use client";
-
-import React, { useState } from "react";
+// components/StripeCheckoutForm.js
+import { useState } from "react";
+import { loadStripe } from "@stripe/stripe-js";
+import {
+  Elements,
+  useStripe,
+  useElements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+} from "@stripe/react-stripe-js";
+import CustomCardNumberElement from "./CustomCardNumberElement";
+import CustomCardExpiryElement from "./CustomCardExpiryElement";
+import CustomCardCvcElement from "./CustomCardCvcElement";
+import { convertToSubcurrency, formatNumber } from "@/lib/helper";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCcVisa,
+  faCcMastercard,
+  faCcAmex,
+  faCcDiscover,
+  faCcDinersClub,
+  faCcJcb,
+  faCcStripe,
+} from "@fortawesome/free-brands-svg-icons";
+import PaymentTabs from "./PaymentTabs";
+import OnlinePay from "./OnlinePay";
+import Lottie from "lottie-react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FaExclamation } from "react-icons/fa";
-import "react-date-picker/dist/DatePicker.css";
-import "react-calendar/dist/Calendar.css";
-import { useDispatch } from "react-redux";
-import { setPopupForm } from "@/redux/slice";
-import Image from "next/image";
-import PurchaseReceipt from "./PurchaseReceipt";
-import StripeCheckout from "./StripeCheckout";
-import { formatNumber } from "@/lib/helper";
+import PaymentProcessing from "./PaymentProcessing";
 
-// List of countries
-const countries = [
-  "Afghanistan",
-  "Albania",
-  "Algeria",
-  "Andorra",
-  "Angola",
-  "Antigua and Barbuda",
-  "Argentina",
-  "Armenia",
-  "Australia",
-  "Austria",
-  "Azerbaijan",
-  "Bahamas",
-  "Bahrain",
-  "Bangladesh",
-  "Barbados",
-  "Belarus",
-  "Belgium",
-  "Belize",
-  "Benin",
-  "Bhutan",
-  "Bolivia",
-  "Bosnia and Herzegovina",
-  "Botswana",
-  "Brazil",
-  "Brunei",
-  "Bulgaria",
-  "Burkina Faso",
-  "Burundi",
-  "Cabo Verde",
-  "Cambodia",
-  "Cameroon",
-  "Canada",
-  "Central African Republic",
-  "Chad",
-  "Chile",
-  "China",
-  "Colombia",
-  "Comoros",
-  "Congo, Democratic Republic of the",
-  "Congo, Republic of the",
-  "Costa Rica",
-  "Croatia",
-  "Cuba",
-  "Cyprus",
-  "Czech Republic",
-  "Denmark",
-  "Djibouti",
-  "Dominica",
-  "Dominican Republic",
-  "East Timor",
-  "Ecuador",
-  "Egypt",
-  "El Salvador",
-  "Equatorial Guinea",
-  "Eritrea",
-  "Estonia",
-  "Eswatini",
-  "Ethiopia",
-  "Fiji",
-  "Finland",
-  "France",
-  "Gabon",
-  "Gambia",
-  "Georgia",
-  "Germany",
-  "Ghana",
-  "Greece",
-  "Grenada",
-  "Guatemala",
-  "Guinea",
-  "Guinea-Bissau",
-  "Guyana",
-  "Haiti",
-  "Honduras",
-  "Hungary",
-  "Iceland",
-  "India",
-  "Indonesia",
-  "Iran",
-  "Iraq",
-  "Ireland",
-  "Israel",
-  "Italy",
-  "Ivory Coast",
-  "Jamaica",
-  "Japan",
-  "Jordan",
-  "Kazakhstan",
-  "Kenya",
-  "Kiribati",
-  "Korea, North",
-  "Korea, South",
-  "Kosovo",
-  "Kuwait",
-  "Kyrgyzstan",
-  "Laos",
-  "Latvia",
-  "Lebanon",
-  "Lesotho",
-  "Liberia",
-  "Libya",
-  "Liechtenstein",
-  "Lithuania",
-  "Luxembourg",
-  "Madagascar",
-  "Malawi",
-  "Malaysia",
-  "Maldives",
-  "Mali",
-  "Malta",
-  "Marshall Islands",
-  "Mauritania",
-  "Mauritius",
-  "Mexico",
-  "Micronesia",
-  "Moldova",
-  "Monaco",
-  "Mongolia",
-  "Montenegro",
-  "Morocco",
-  "Mozambique",
-  "Myanmar",
-  "Namibia",
-  "Nauru",
-  "Nepal",
-  "Netherlands",
-  "New Zealand",
-  "Nicaragua",
-  "Niger",
-  "Nigeria",
-  "North Macedonia",
-  "Norway",
-  "Oman",
-  "Pakistan",
-  "Palau",
-  "Panama",
-  "Papua New Guinea",
-  "Paraguay",
-  "Peru",
-  "Philippines",
-  "Poland",
-  "Portugal",
-  "Qatar",
-  "Romania",
-  "Russia",
-  "Rwanda",
-  "Saint Kitts and Nevis",
-  "Saint Lucia",
-  "Saint Vincent and the Grenadines",
-  "Samoa",
-  "San Marino",
-  "Sao Tome and Principe",
-  "Saudi Arabia",
-  "Senegal",
-  "Serbia",
-  "Seychelles",
-  "Sierra Leone",
-  "Singapore",
-  "Slovakia",
-  "Slovenia",
-  "Solomon Islands",
-  "Somalia",
-  "South Africa",
-  "South Sudan",
-  "Spain",
-  "Sri Lanka",
-  "Sudan",
-  "Suriname",
-  "Sweden",
-  "Switzerland",
-  "Syria",
-  "Taiwan",
-  "Tajikistan",
-  "Tanzania",
-  "Thailand",
-  "Togo",
-  "Tonga",
-  "Trinidad and Tobago",
-  "Tunisia",
-  "Turkey",
-  "Turkmenistan",
-  "Tuvalu",
-  "Uganda",
-  "Ukraine",
-  "United Arab Emirates",
-  "United Kingdom",
-  "United States",
-  "Uruguay",
-  "Uzbekistan",
-  "Vanuatu",
-  "Vatican City",
-  "Venezuela",
-  "Vietnam",
-  "Yemen",
-  "Zambia",
-  "Zimbabwe",
-];
-
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY_TEST
+);
 const schema = z.object({
-  fullName: z
+  creditCard: z
     .string()
-    .nonempty("Full Name is required.")
-    .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-  address: z.string().nonempty("Address is required."),
-  city: z.string().nonempty("City is required."),
-  province: z.string().nonempty("Province is required."),
-  postalCode: z
+    .nonempty("Credit/Debit Card No. is required.")
+    .regex(/^\d{16}$/, "Credit card number must be 16 digits."),
+  expDate: z
     .string()
-    .nonempty("Postal code is required.")
+    .nonempty("Expiration date is required.")
     .regex(
-      /^[A-Za-z0-9][A-Za-z0-9\- ]{0,10}[A-Za-z0-9]$/,
-      "Invalid postal code format."
-    ), // General regex for international postal codes
-  country: z.enum(countries, {
-    errorMap: () => ({ message: "Country is required." }),
-  }),
-  phoneNumber: z
+      /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/,
+      "Invalid expiration date format."
+    ), // MM/YY or MM/YYYY
+  cvc: z
     .string()
-    .nonempty("Phone Number is required.")
-    .regex(/^[0-9]+$/, "Phone Number must contain only digits."),
-  email: z
-    .string()
-    .nonempty("Email is required.")
-    .email("Please enter a valid email address."),
+    .nonempty("CVC is required.")
+    .regex(/^\d{3,4}$/, "CVC must be 3 or 4 digits."),
 });
 
-const WarningPopup = ({ error, isFirstError }) => {
-  return (
-    isFirstError && (
-      <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm z-10">
-        <span className="bg-primary p-1 rounded-sm mr-1">
-          <FaExclamation className="text-xs text-white" />
-        </span>
-        {error}
-      </span>
-    )
-  );
+const CARD_ELEMENT_OPTIONS = {
+  style: {
+    base: {
+      color: "#933d38",
+      fontSize: "1.35rem",
+      fontFamiliy: "Roboto",
+      fontWeight: "bold", // font-medium
+      fontSmoothing: "antialiased",
+      "::placeholder": {
+        color: "#933d38",
+        fontWeight: "normal",
+      },
+      ":-webkit-autofill": {
+        color: "#933d38",
+      },
+      fonts: [
+        {
+          cssSrc:
+            "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap",
+        },
+      ],
+    },
+    invalid: {
+      color: "#933d38",
+      "::placeholder": {
+        color: "#933d38",
+      },
+    },
+  },
 };
 
-const RelinquishForm = ({ elementData }) => {
-  const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
-  const [screenToShow, setscreenToShow] = useState("receipt");
+const cardIconMap = {
+  visa: faCcVisa,
+  mastercard: faCcMastercard,
+  amex: faCcAmex,
+  discover: faCcDiscover,
+  diners: faCcDinersClub,
+  jcb: faCcJcb,
+  unknown: faCreditCard, // Fallback icon
+};
+
+const CardPayment = ({
+  totalAmount,
+  loading,
+  setLoading,
+  error,
+  setError,
+  paymentSuccess,
+  setPaymentSuccess,
+}) => {
+  const stripe = useStripe();
+  const elements = useElements();
   const [currentErrorField, setCurrentErrorField] = useState(null);
-  const dispatch = useDispatch();
-  const [errorMessage, setErrorMessage] = useState();
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setValue,
-    watch,
-    reset,
-  } = useForm({ resolver: zodResolver(schema) });
+  const stripeAmount = convertToSubcurrency(totalAmount);
+  const formattedTotalAmount = formatNumber(totalAmount);
+  const [cardType, setCardType] = useState("unknown");
 
-  const onSubmit = async (data) => {
-    console.log("Form submitted:", data);
+  const onSubmit = async (event) => {
+    event.preventDefault();
 
-    try {
-      // Simulate a form submission
-      await new Promise((resolve, reject) => {
-        // Change to resolve() for success simulation, reject() for error simulation
-        setTimeout(resolve, 1000);
-      });
+    if (!stripe || !elements) {
+      return;
+    }
 
-      setSubmissionStatus("success");
-      setErrorMessage("");
-      setscreenToShow("stripecheckout");
-      reset(); // Reset form fields
-    } catch (error) {
-      setSubmissionStatus("error");
-      setErrorMessage("Failed to submit the form. Please try again.");
+    setLoading(true);
+
+    // Fetch the client secret from the server
+    const res = await fetch("/api/create-payment-intent", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ amount: stripeAmount }), // example amount in cents
+    });
+
+    const { clientSecret } = await res.json();
+
+    const result = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardNumberElement),
+      },
+    });
+
+    setLoading(false);
+
+    if (result.error) {
+      setError(result.error.message);
+    } else {
+      if (result.paymentIntent.status === "succeeded") {
+        setPaymentSuccess(true);
+      }
     }
   };
 
-  const getTotalAmount = () => {
-    const plot_Price = parseFloat(elementData[0]?.prices?.plot_Price) || 0;
-    const Internment_Rights_100_Years =
-      parseFloat(elementData[0]?.prices?.Internment_Rights_100_Years) || 0;
-    const Preparation_for_initial_Interments =
-      parseFloat(elementData[0]?.prices?.Preparation_for_initial_Interments) ||
-      0;
-    const Ongoing_maintenance_Fee_per_year =
-      parseFloat(elementData[0]?.prices?.Ongoing_maintenance_Fee_per_year) || 0;
-    const Plaque = parseFloat(elementData[0]?.prices?.Plaque) || 0;
-
-    const totalAmount = (
-      plot_Price +
-      Internment_Rights_100_Years +
-      Preparation_for_initial_Interments +
-      Ongoing_maintenance_Fee_per_year +
-      Plaque
-    ).toFixed(2);
-
-    return totalAmount;
+  const handleCardNumberChange = (event) => {
+    if (event.brand) {
+      setCardType(event.brand);
+    }
   };
 
-  const formattedTotalAmount = formatNumber(getTotalAmount());
-
   return (
-    <>
-      <div className="w-full max-h-screen overflow-y-auto no-scrollbar overflow-x-hidden">
-        <div className=" md:max-h-[1024px] h-[940px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center relative py-28 md:py-24 lg:py-24">
-          <div
-            className={`absolute ${
-              screenToShow === "receipt" ? "opacity-100" : "opacity-0"
-            } transition-opacity ease-in-out delay-250 duration-300  h-full w-full`}
-          >
-            <PurchaseReceipt
-              elementData={elementData}
-              formattedTotalAmount={formattedTotalAmount}
-              formatNumber={formatNumber}
-              getTotalAmount={getTotalAmount}
-              screenToShow={screenToShow}
-              setscreenToShow={setscreenToShow}
-            />
-          </div>
-
-          <form
-            className={`w-[70%]  md:w-auto pt-6 sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-between relative z-10  ${
-              screenToShow === "detailedform" ? "opacity-100" : "opacity-0"
-            } transition-opacity ease-in-out delay-250 duration-300 `}
-            onSubmit={handleSubmit(onSubmit)}
-            autoComplete="off"
-          >
-            <div className="relative w-full mb-5 xl:mb-5 group contact">
-              <input
-                type="text"
-                {...register("fullName")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=" "
-                autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("fullName")}
-                onBlur={() => setCurrentErrorField(null)}
-              />
-              <label
-                htmlFor="fullName"
-                className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                <span className="hidden md:block">Full Name</span>
-                <span className="block md:hidden">Full Name</span>
-              </label>
-              {errors.fullName && (
-                <WarningPopup
-                  error={errors.fullName?.message}
-                  isFirstError={currentErrorField === "fullName"}
-                />
-              )}
-            </div>
-            <div className="relative w-full mb-5 xl:mb-5 group contact">
-              <textarea
-                type="text"
-                rows="2"
-                {...register("address")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=" "
-                autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("address")}
-                onBlur={() => setCurrentErrorField(null)}
-              />
-              <label
-                htmlFor="address"
-                className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                <span className="hidden md:block">Address</span>
-                <span className="block md:hidden">Address</span>
-              </label>
-              {errors.address && (
-                <WarningPopup
-                  error={errors.address?.message}
-                  isFirstError={currentErrorField === "address"}
-                />
-              )}
-            </div>
-            <div className="flex space-x-4 mb-5  xl:mb-5 relative">
-              <div className=" w-full group contact">
-                <div className="w-full relative">
-                  <input
-                    type="text"
-                    {...register("city")}
-                    className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                    placeholder=" "
-                    autoComplete="new-password"
-                    onFocus={() => setCurrentErrorField("city")}
-                    onBlur={() => setCurrentErrorField(null)}
-                  />
-                  <label
-                    htmlFor="city"
-                    className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Suburb
-                  </label>
-                </div>
-
-                {errors.city && currentErrorField === "city" && (
-                  <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-8 -left-4 flex items-center text-primary shadow-sm z-10">
-                    <span className="bg-primary p-1 rounded-sm mr-1">
-                      <FaExclamation className="text-xs text-white" />
-                    </span>
-                    {errors?.city?.message}
-                  </span>
-                )}
-              </div>
-
-              <div className=" w-full group contact">
-                <div className="w-full relative">
-                  <input
-                    type="text"
-                    {...register("postalCode")}
-                    className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                    placeholder=" "
-                    autoComplete="new-password"
-                    onFocus={() => setCurrentErrorField("postalCode")}
-                    onBlur={() => setCurrentErrorField(null)}
-                  />
-                  <label
-                    htmlFor="postalCode"
-                    className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-                  >
-                    Post Code
-                  </label>
-                </div>
-                {errors.postalCode && currentErrorField === "postalCode" && (
-                  <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-8 -left-4 flex items-center text-primary shadow-sm z-10">
-                    <span className="bg-primary p-1 rounded-sm mr-1">
-                      <FaExclamation className="text-xs text-white" />
-                    </span>
-                    {errors?.postalCode?.message}
-                  </span>
-                )}
-              </div>
-            </div>
-            <div className="relative w-full mb-5 xl:mb-5 group contact">
-              <label
-                htmlFor="preferredContactMethod"
-                className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Country
-              </label>
-              <select
-                {...register("country")}
-                onChange={(e) => {
-                  setValue("country", e.target.value, {
-                    shouldValidate: true,
-                  });
-                  console.log(e.target.value);
-                  setCurrentErrorField(null); // Reset error field when a selection is made
-                }}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                onFocus={() => setCurrentErrorField("country")}
-                onBlur={() => setCurrentErrorField(null)}
-              >
-                <option value="">Select a country</option>
-                {countries.map((country) => (
-                  <option key={country} value={country}>
-                    {country}
-                  </option>
-                ))}
-              </select>
-              {errors.country && (
-                <WarningPopup
-                  error={errors.country.message}
-                  isFirstError={currentErrorField === "country"}
-                />
-              )}
-            </div>
-            <div className="relative w-full mb-5 xl:mb-5 group contact">
-              <input
-                type="text"
-                {...register("phoneNumber")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=" "
-                autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("phoneNumber")}
-                onBlur={() => setCurrentErrorField(null)}
-              />
-              <label
-                htmlFor="phoneNumber"
-                className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                <span className="hidden md:block">Phone Number</span>
-                <span className="block md:hidden">Phone Number</span>
-              </label>
-              {errors.phoneNumber && (
-                <WarningPopup
-                  error={errors.phoneNumber?.message}
-                  isFirstError={currentErrorField === "phoneNumber"}
-                />
-              )}
-            </div>
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <input
-                type="text"
-                {...register("email")}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=" "
-                autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("email")}
-                onBlur={() => setCurrentErrorField(null)}
-              />
-              <label
-                htmlFor="email"
-                className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Email Address
-              </label>
-              {errors.email && (
-                <WarningPopup
-                  error={errors.email.message}
-                  isFirstError={currentErrorField === "email"}
-                />
-              )}
-            </div>
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <h2 className="text-lg text-start font-bold text-primary font-display">
-                Selected PLOT:
-                <span className=" font-roboto uppercase text-xl">
-                  &nbsp;{elementData[0]?.Plot_number}
-                </span>
-              </h2>
-            </div>
-            <div className="relative w-full mb-5  xl:mb-5 group contact">
-              <div className="text-lg text-start font-bold text-primary font-display flex flex-col gap-2">
-                {" Here's how much you owe (AUD$):"}
-                <p className=" font-roboto uppercase text-xl">
-                  $ {formattedTotalAmount}
-                </p>
-              </div>
-            </div>
-
-            <div className="flex justify-end items-center">
-              <button
-                type="submit"
-                className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
-              >
-                Next
-              </button>
-            </div>
-          </form>
-          <div
-            className={`absolute ${
-              screenToShow === "stripecheckout" ? "opacity-100" : "opacity-0"
-            } transition-opacity ease-in-out delay-250 duration-300  h-full w-full`}
-          >
-            <StripeCheckout
-              elementData={elementData}
-              formattedTotalAmount={formattedTotalAmount}
-              formatNumber={formatNumber}
-              getTotalAmount={getTotalAmount}
-              screenToShow={screenToShow}
-              setscreenToShow={setscreenToShow}
-            />
-          </div>
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 py-8">
+      <div className="relative w-full mb-5 xl:mb-5">
+        <CustomCardNumberElement options={CARD_ELEMENT_OPTIONS} />
+        <div className="absolute bottom-1 right-2">
+          <FontAwesomeIcon
+            icon={cardIconMap[cardType] || cardIconMap["unknown"]}
+            className="ml-3 text-2xl text-primary"
+          />
         </div>
       </div>
-    </>
+      <div className="flex space-x-4 mb-5 xl:mb-5">
+        <div className="relative w-[70%] mb-5 xl:mb-5 group contact">
+          <CustomCardExpiryElement options={CARD_ELEMENT_OPTIONS} />
+        </div>
+        <div className="relative w-[30%] mb-5 xl:mb-5 group contact">
+          <CustomCardCvcElement options={CARD_ELEMENT_OPTIONS} />
+        </div>
+      </div>
+
+      <div
+        className={`flex ${
+          loading ? "justify-center" : "justify-end"
+        } items-center`}
+      >
+        {loading && <PaymentProcessing />}
+        {!loading && (
+          <button
+            disabled={!stripe || loading}
+            type="submit"
+            className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
+          >
+            {`Pay $${formattedTotalAmount}`}
+          </button>
+        )}
+      </div>
+    </form>
   );
 };
 
-export default RelinquishForm;
+// components/StripeCheckoutForm.js
+// (Include all imports and other code)
+
+const CheckoutForm = ({
+  totalAmount,
+  loading,
+  setLoading,
+  error,
+  setError,
+  paymentSuccess,
+  setPaymentSuccess,
+}) => {
+  const [paymentMethod, setPaymentMethod] = useState("card");
+
+  return (
+    <div>
+      <PaymentTabs setPaymentMethod={setPaymentMethod} />
+      {paymentMethod === "card" && (
+        <CardPayment
+          totalAmount={totalAmount}
+          loading={loading}
+          setLoading={setLoading}
+          error={error}
+          setError={setError}
+          paymentSuccess={paymentSuccess}
+          setPaymentSuccess={setPaymentSuccess}
+        />
+      )}
+      {paymentMethod === "googlePay" && <OnlinePay totalAmount={totalAmount} />}
+    </div>
+  );
+};
+
+// (Include the rest of the code)
+
+const StripeCheckoutForm = ({
+  totalAmount,
+  loading,
+  setLoading,
+  error,
+  setError,
+  paymentSuccess,
+  setPaymentSuccess,
+}) => (
+  <Elements stripe={stripePromise}>
+    <CheckoutForm
+      totalAmount={totalAmount}
+      loading={loading}
+      setLoading={setLoading}
+      error={error}
+      setError={setError}
+      paymentSuccess={paymentSuccess}
+      setPaymentSuccess={setPaymentSuccess}
+    />
+  </Elements>
+);
+
+export default StripeCheckoutForm;

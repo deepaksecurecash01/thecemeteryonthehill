@@ -25,13 +25,33 @@ import {
   faCcStripe,
 } from "@fortawesome/free-brands-svg-icons";
 import PaymentTabs from "./PaymentTabs";
-import GooglePayPayment from "./GooglePayPayment";
-import ApplePayPayment from "./ApplePayPayment";
-
+import OnlinePay from "./OnlinePay";
+import Lottie from "lottie-react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import PaymentProcessing from "./PaymentProcessing";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY_TEST
 );
+const schema = z.object({
+  creditCard: z
+    .string()
+    .nonempty("Credit/Debit Card No. is required.")
+    .regex(/^\d{16}$/, "Credit card number must be 16 digits."),
+  expDate: z
+    .string()
+    .nonempty("Expiration date is required.")
+    .regex(
+      /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/,
+      "Invalid expiration date format."
+    ), // MM/YY or MM/YYYY
+  cvc: z
+    .string()
+    .nonempty("CVC is required.")
+    .regex(/^\d{3,4}$/, "CVC must be 3 or 4 digits."),
+});
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -43,6 +63,7 @@ const CARD_ELEMENT_OPTIONS = {
       fontSmoothing: "antialiased",
       "::placeholder": {
         color: "#933d38",
+        fontWeight: "normal",
       },
       ":-webkit-autofill": {
         color: "#933d38",
@@ -84,44 +105,71 @@ const CardPayment = ({
 }) => {
   const stripe = useStripe();
   const elements = useElements();
-
+  const [currentErrorField, setCurrentErrorField] = useState(null);
   const stripeAmount = convertToSubcurrency(totalAmount);
   const formattedTotalAmount = formatNumber(totalAmount);
   const [cardType, setCardType] = useState("unknown");
+  const [cardError, setCardError] = useState();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
 
-    if (!stripe || !elements) {
-      return;
-    }
 
-    setLoading(true);
-
-    // Fetch the client secret from the server
-    const res = await fetch("/api/create-payment-intent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ amount: stripeAmount }), // example amount in cents
-    });
-
-    const { clientSecret } = await res.json();
-
-    const result = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardNumberElement),
-      },
-    });
-
-    setLoading(false);
-
-    if (result.error) {
-      setError(result.error.message);
+  
+  const handleChange = async (event) => {
+    if (event?.error) {
+      console.log(event?.error);
+      setCardError(event?.error.message);
     } else {
-      if (result.paymentIntent.status === "succeeded") {
-        setPaymentSuccess(true);
+      console.log("remove card");
+      setCardError(null);
+    }
+  };
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    if (!cardError) {
+      if (!stripe || !elements) {
+        return;
+      }
+
+      if (elements == null) {
+        return;
+      }
+
+      // Trigger form validation and wallet collection
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        // Show error to your customer
+        console.log(submitError.message);
+        return;
+      }
+
+      setLoading(true);
+
+      // Fetch the client secret from the server
+      const res = await fetch("/api/create-payment-intent", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: stripeAmount }), // example amount in cents
+      });
+
+      const { clientSecret } = await res.json();
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardNumberElement),
+        },
+      });
+
+      setLoading(false);
+
+      if (result.error) {
+        setError(result.error.message);
+      } else {
+        if (result.paymentIntent.status === "succeeded") {
+          setPaymentSuccess(true);
+        }
       }
     }
   };
@@ -133,11 +181,12 @@ const CardPayment = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-4 py-8">
+    <form onSubmit={onSubmit} className="flex flex-col gap-4 py-8">
       <div className="relative w-full mb-5 xl:mb-5">
         <CustomCardNumberElement
           options={CARD_ELEMENT_OPTIONS}
-          onChange={handleCardNumberChange}
+          handleChange={handleChange}
+          error={cardError}
         />
         <div className="absolute bottom-1 right-2">
           <FontAwesomeIcon
@@ -155,14 +204,21 @@ const CardPayment = ({
         </div>
       </div>
 
-      <div className="flex justify-end items-center">
-        <button
-          disabled={!stripe || loading}
-          type="submit"
-          className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
-        >
-          {loading ? "Processing..." : `Pay $${formattedTotalAmount}`}
-        </button>
+      <div
+        className={`flex ${
+          loading ? "justify-center" : "justify-end"
+        } items-center`}
+      >
+        {loading && <PaymentProcessing />}
+        {!loading && (
+          <button
+            disabled={!stripe || loading}
+            type="submit"
+            className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg"
+          >
+            {`Pay $${formattedTotalAmount}`}
+          </button>
+        )}
       </div>
     </form>
   );
@@ -196,17 +252,22 @@ const CheckoutForm = ({
           setPaymentSuccess={setPaymentSuccess}
         />
       )}
-      {paymentMethod === "googlePay" && (
-        <GooglePayPayment totalAmount={totalAmount} />
-      )}
-   
+      {paymentMethod === "googlePay" && <OnlinePay totalAmount={totalAmount} />}
     </div>
   );
 };
 
 // (Include the rest of the code)
 
-const StripeCheckoutForm = ({ totalAmount, loading, setLoading, error, setError, paymentSuccess, setPaymentSuccess }) => (
+const StripeCheckoutForm = ({
+  totalAmount,
+  loading,
+  setLoading,
+  error,
+  setError,
+  paymentSuccess,
+  setPaymentSuccess,
+}) => (
   <Elements stripe={stripePromise}>
     <CheckoutForm
       totalAmount={totalAmount}

@@ -20781,7 +20781,7 @@
       "RoseGardenBed": [
         {
           "Plot_number": "1",
-          "Status": "assigned",
+          "Status": "available",
  "prices": {
             "plot_Price": 5000,
             "Internment_Rights_100_Years": 1000,

@@ -33,7 +33,7 @@ const CustomCardCvcElement = ({ options, ...props }) => {
       <CardCvcElement
         options={options}
         {...props}
-        className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-10"
+        className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-10 "
       />
       <label
         ref={inputRef}

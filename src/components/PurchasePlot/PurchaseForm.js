@@ -222,6 +222,8 @@ const schema = z
       .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
     address: z.string().nonempty("Address is required."),
     city: z.string().nonempty("Suburb is required."),
+    state: z.string().nonempty("State is required."),
+
     postalCode: z.string().nonempty("Post Code is required."),
     country: z.enum(countries, {
       errorMap: () => ({ message: "Country is required." }),
@@ -254,7 +256,6 @@ const schema = z
     }
   });
 
-
 const WarningPopup = ({ error, isFirstError }) => {
   return (
     isFirstError && (
@@ -270,32 +271,33 @@ const WarningPopup = ({ error, isFirstError }) => {
 
 const RelinquishForm = ({ elementData }) => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
-  const [screenToShow, setscreenToShow] = useState("receipt");
+  const [screenToShow, setscreenToShow] = useState("stripecheckout");
   const [currentErrorField, setCurrentErrorField] = useState(null);
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState();
 
-const {
-  register,
-  handleSubmit,
-  formState: { errors },
-  setValue,
-  watch,
-  reset,
-  trigger, // Add trigger to manually validate
-} = useForm({
-  resolver: zodResolver(schema),
-  defaultValues: {
-    country: "Australia", // Set default value for country
-  },
-});
-  
-   const country = watch("country");
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+    reset,
+    trigger, // Add trigger to manually validate
+  } = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      country: "Australia", // Set default value for country
+    },
+  });
 
-  const handleChangePostCodeValidation = () => { if (country) {
-    trigger("postalCode"); // Trigger validation for postalCode when country changes
-  }}
+  const country = watch("country");
 
+  const handleChangePostCodeValidation = () => {
+    if (country) {
+      trigger("postalCode"); // Trigger validation for postalCode when country changes
+    }
+  };
 
   const onSubmit = async (data) => {
     try {
@@ -448,6 +450,36 @@ const {
                 <div className="w-full relative">
                   <input
                     type="text"
+                    {...register("state")}
+                    className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                    placeholder=" "
+                    autoComplete="new-password"
+                    onFocus={() => setCurrentErrorField("state")}
+                    onBlur={() => setCurrentErrorField(null)}
+                  />
+                  <label
+                    htmlFor="city"
+                    className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  >
+                    State
+                  </label>
+                </div>
+
+                {errors.state && currentErrorField === "state" && (
+                  <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-8 -left-4 flex items-center text-primary shadow-sm z-10">
+                    <span className="bg-primary p-1 rounded-sm mr-1">
+                      <FaExclamation className="text-xs text-white" />
+                    </span>
+                    {errors?.state?.message}
+                  </span>
+                )}
+              </div>
+            </div>
+            <div className="flex space-x-4 mb-5  xl:mb-5 relative">
+              <div className=" w-1/3 group contact">
+                <div className="w-full relative">
+                  <input
+                    type="text"
                     {...register("postalCode")}
                     className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                     placeholder=" "
@@ -471,41 +503,44 @@ const {
                   </span>
                 )}
               </div>
+              <div className=" w-2/3 group contact">
+                <label
+                  htmlFor="preferredContactMethod"
+                  className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                >
+                  Country
+                </label>
+                <select
+                  {...register("country")}
+                  onChange={(e) => {
+                    setValue("country", e.target.value, {
+                      shouldValidate: true,
+                    });
+                    handleChangePostCodeValidation();
+                    setCurrentErrorField(null); // Reset error field when a selection is made
+                  }}
+                  className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+                  onFocus={() => setCurrentErrorField("country")}
+                  onBlur={() => setCurrentErrorField(null)}
+                >
+                  <option value="">Select a country</option>
+                  {countries.map((country) => (
+                    <option key={country} value={country}>
+                      {country}
+                    </option>
+                  ))}
+                </select>
+                {errors.country && currentErrorField === "country" && (
+                  <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-8 -left-4 flex items-center text-primary shadow-sm z-10">
+                    <span className="bg-primary p-1 rounded-sm mr-1">
+                      <FaExclamation className="text-xs text-white" />
+                    </span>
+                    {errors?.country?.message}
+                  </span>
+                )}
+              </div>
             </div>
-            <div className="relative w-full mb-5 xl:mb-5 group contact">
-              <label
-                htmlFor="preferredContactMethod"
-                className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Country
-              </label>
-              <select
-                {...register("country")}
-                onChange={(e) => {
-                  setValue("country", e.target.value, {
-                    shouldValidate: true,
-                  });
-                  handleChangePostCodeValidation();
-                  setCurrentErrorField(null); // Reset error field when a selection is made
-                }}
-                className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                onFocus={() => setCurrentErrorField("country")}
-                onBlur={() => setCurrentErrorField(null)}
-              >
-                <option value="">Select a country</option>
-                {countries.map((country) => (
-                  <option key={country} value={country}>
-                    {country}
-                  </option>
-                ))}
-              </select>
-              {errors.country && (
-                <WarningPopup
-                  error={errors.country.message}
-                  isFirstError={currentErrorField === "country"}
-                />
-              )}
-            </div>
+
             <div className="relative w-full mb-5 xl:mb-5 group contact">
               <input
                 type="text"

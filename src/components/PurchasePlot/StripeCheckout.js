@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import StripeCheckoutForm from "./creditform";
 import PaymentSuccess from "./PaymentSuccess";
 import PaymentFailed from "./PaymentFailed";
+import {
+  setAshesBed,
+  setAshesWall,
+  setPlot,
+  setPopupForm,
+} from "@/redux/slice";
+import { useDispatch } from "react-redux";
 
 const StripeCheckout = ({
   elementData,
@@ -15,10 +22,25 @@ const StripeCheckout = ({
   const [error, setError] = useState(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const totalAmount = getTotalAmount();
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (error || paymentSuccess) {
+      const timer = setTimeout(() => {
+        dispatch(setPlot(""));
+        dispatch(setAshesWall(""));
+        dispatch(setAshesBed(""));
+        setTimeout(() => {
+          setError(null);
+          setPaymentSuccess(false);
+        }, 1000);
+      }, 6000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, paymentSuccess]);
   return (
     <div className="w-[70%] md:w-[32rem] sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-center items-center  z-10">
-      {(!paymentSuccess && !error ) && (
+      {!paymentSuccess && !error && (
         <div className="h-[80%] py-5 flex flex-col gap-10 z-20">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col justify-center items-center gap-4">
