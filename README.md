@@ -1,11 +1,13 @@
 # The Cemetery on the Hill
 
 ## Overview
+
 "The Cemetery on the Hill" is a redesigned website project aimed at providing a user-friendly and informative online platform for visitors seeking information about burial services, cemetery records, and the cemetery's history and grounds. The website is built using modern web technologies to ensure a seamless and compassionate user experience.
 
 **[Live Website](https://thecemeteryonthehill.vercel.app)**
 
 ## Technologies Used
+
 - **Next.js:** Full-stack framework for building the website.
 - **MongoDB:** Database for managing cemetery records.
 - **Tailwind CSS:** Utility-first CSS framework for styling.
@@ -19,6 +21,7 @@
 - **Figma:** Design mock-ups and prototyping.
 
 ## Features
+
 - **Homepage:** Hero-Section with welcoming message,Intro-Section Services-Section, Testimonials-Section, and a call-to-action Banner-Section.
 - **Cemetery Records:** Searchable database of burial records.
 - **Expired Leases:** Information on lease expiration policies and procedures.
@@ -29,15 +32,18 @@
 - **Services Pages:** SEO rich content for various services provided by the cemetery.
 
 ## Installation
+
 To run the project locally, follow these steps:
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/deepaksecurecash01/thecemeteryonthehill.git
    cd thecemeteryonthehill
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -46,6 +52,7 @@ To run the project locally, follow these steps:
    Create a `.env.local` file in the root directory and add your MongoDB connection string and other necessary environment variables.
 
 4. Run the development server:
+
    ```bash
    npm run dev
    ```
@@ -53,6 +60,7 @@ To run the project locally, follow these steps:
 5. Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 ## Deployment
+
 The project is deployed on Vercel. To deploy your own version:
 
 1. Link your GitHub repository to Vercel.
@@ -60,18 +68,21 @@ The project is deployed on Vercel. To deploy your own version:
 3. Deploy the project through the Vercel dashboard.
 
 ## Color Palette
+
 - **primary:** Burgundy (#933d38)
 - **secondary:** Gold (#9e8034)
 - **tertiary:** Black (#030000)
 - **paragraph:** Grey (#58595b)
 
 ## Fonts
+
 - **display:** Trajan Pro 3 - Used for headings.
 - **script:** Eliyamoli Script - Used for sub-headings.
 - **sans:** Open_Sans - Default font for paragraphs.
 - **roboto:** Roboto - Applied to navigation menus, contact details, buttons, and all clickable links.
 
 ## Background Images
+
 - **hero-section:** url('/images/contact-bg.jpg')
 - **intro-overlay:** url('/images/intro-overly.png')
 - **testimonials-overlay:** url('/images/testimonials-overly.png')
@@ -85,6 +96,7 @@ The project is deployed on Vercel. To deploy your own version:
 - **contact-form-bg:** url('/images/contact_form_bg.png')
 
 ## Contribution
+
 Contributions are welcome! To contribute:
 
 1. Fork the repository.
@@ -104,10 +116,11 @@ Contributions are welcome! To contribute:
 6. Open a pull request.
 
 ## License
-This project is licensed under the MIT License. 
+
+This project is licensed under the MIT License.
 
 ## Contact
+
 For any inquiries or feedback, please contact us via the form available on the website.
 
 ---
-
