@@ -8,7 +8,7 @@ import { FaExclamation } from "react-icons/fa";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { useDispatch } from "react-redux";
-import { setPopupForm } from "@/redux/slice";
+import { setAshesBed, setAshesWall, setPlot, setPopupForm } from "@/redux/slice";
 import SuccessMsg from "../ExpiredLeases/SuccessMsg";
 
 const schema = z.object({
@@ -114,17 +114,22 @@ const RegisterInterestForm = ({ elementData }) => {
     }
   }, [errors, dateofBirthRef, dateOfDeathRef]);
 
-  useEffect(() => {
-    if (submissionStatus) {
-      const timer = setTimeout(() => {
-        dispatch(setPopupForm("")); // Dispatch blank value when closing modal
-        setTimeout(() => {
-          setSubmissionStatus(null);
-        }, 1000);
-      }, 6000);
-      return () => clearTimeout(timer);
-    }
-  }, [submissionStatus]);
+
+
+   useEffect(() => {
+     if (submissionStatus) {
+       const timer = setTimeout(() => {
+         dispatch(setPlot(""));
+         dispatch(setAshesWall(""));
+         dispatch(setAshesBed(""));
+         setTimeout(() => {
+           setSubmissionStatus(false);
+         }, 1000);
+       }, 3000);
+       return () => clearTimeout(timer);
+     }
+   }, [submissionStatus]);
+  
   return (
     <div className="w-full max-h-screen overflow-y-auto no-scrollbar overflow-x-hidden">
       <div className=" md:max-h-[1024px] h-[940px] my-auto bg-contact-form-bg popup-form-bg bg-center bg-no-repeat md:bg-contain flex justify-center items-center py-28 md:py-24 lg:py-20">

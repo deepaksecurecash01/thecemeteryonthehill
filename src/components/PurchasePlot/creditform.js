@@ -22,36 +22,28 @@ import {
   faCcDiscover,
   faCcDinersClub,
   faCcJcb,
-  faCcStripe,
 } from "@fortawesome/free-brands-svg-icons";
 import PaymentTabs from "./PaymentTabs";
 import OnlinePay from "./OnlinePay";
-import Lottie from "lottie-react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
 import PaymentProcessing from "./PaymentProcessing";
+import { FaExclamation } from "react-icons/fa";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY_TEST
 );
-const schema = z.object({
-  creditCard: z
-    .string()
-    .nonempty("Credit/Debit Card No. is required.")
-    .regex(/^\d{16}$/, "Credit card number must be 16 digits."),
-  expDate: z
-    .string()
-    .nonempty("Expiration date is required.")
-    .regex(
-      /^(0[1-9]|1[0-2])\/?([0-9]{4}|[0-9]{2})$/,
-      "Invalid expiration date format."
-    ), // MM/YY or MM/YYYY
-  cvc: z
-    .string()
-    .nonempty("CVC is required.")
-    .regex(/^\d{3,4}$/, "CVC must be 3 or 4 digits."),
-});
+
+const WarningPopup = ({ error, isFirstError }) => {
+  return (
+    isFirstError && (
+      <span className="absolute backdrop-blur-lg py-1 px-2 w-full flex items-center text-primary shadow-sm z-10">
+        <span className="bg-primary p-1 rounded-sm mr-1">
+          <FaExclamation className="text-xs text-white" />
+        </span>
+        {error}
+      </span>
+    )
+  );
+};
 
 const CARD_ELEMENT_OPTIONS = {
   style: {
@@ -105,73 +97,33 @@ const CardPayment = ({
 }) => {
   const stripe = useStripe();
   const elements = useElements();
-  const [currentErrorField, setCurrentErrorField] = useState(null);
+  const [cardType, setCardType] = useState("unknown");
+  const [formError, setFormError] = useState();
+  const [cardNumberError, setCardNumberError] = useState(null);
+  const [expiryDateError, setExpiryDateError] = useState(null);
+  const [cvcError, setCvcError] = useState(null);
   const stripeAmount = convertToSubcurrency(totalAmount);
   const formattedTotalAmount = formatNumber(totalAmount);
-  const [cardType, setCardType] = useState("unknown");
-  const [cardError, setCardError] = useState();
+  const [currentErrorField, setCurrentErrorField] = useState(null);
 
-
-
-
-  const handleChange = async (event) => {
-    if (event?.error) {
-      console.log(event?.error);
-      setCardError(event?.error.message);
-    } else {
-      console.log("remove card");
-      setCardError(null);
-    }
-  };
-  
-
-  const onSubmit = async (event) => {
-    event.preventDefault();
-    if (!cardError) {
-      if (!stripe || !elements) {
-        return;
-      }
-
-      if (elements == null) {
-        return;
-      }
-
-      // Trigger form validation and wallet collection
-      const { error: submitError } = await elements.submit();
-      if (submitError) {
-        // Show error to your customer
-        console.log(submitError.message);
-        return;
-      }
-
-      setLoading(true);
-
-      // Fetch the client secret from the server
-      const res = await fetch("/api/create-payment-intent", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ amount: stripeAmount }), // example amount in cents
-      });
-
-      const { clientSecret } = await res.json();
-
-      const result = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardNumberElement),
-        },
-      });
-
-      setLoading(false);
-
-      if (result.error) {
-        setError(result.error.message);
-      } else {
-        if (result.paymentIntent.status === "succeeded") {
-          setPaymentSuccess(true);
-        }
-      }
+  const handleChange = (event) => {
+    if (event?.empty) {
+      if (event.elementType === "cardNumber")
+        setCardNumberError("Please fill out the card number.");
+      if (event.elementType === "cardExpiry")
+        setExpiryDateError("Please fill out the expiry date.");
+      if (event.elementType === "cardCvc")
+        setCvcError("Please fill out the CVC.");
+    } else if (event?.complete && !event?.error) {
+      if (event.elementType === "cardNumber") setCardNumberError(null);
+      if (event.elementType === "cardExpiry") setExpiryDateError(null);
+      if (event.elementType === "cardCvc") setCvcError(null);
+    } else if (event?.error) {
+      if (event.elementType === "cardNumber")
+        setCardNumberError(event.error.message);
+      if (event.elementType === "cardExpiry")
+        setExpiryDateError(event.error.message);
+      if (event.elementType === "cardCvc") setCvcError(event.error.message);
     }
   };
 
@@ -181,14 +133,106 @@ const CardPayment = ({
     }
   };
 
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    const cardNumber = elements.getElement(CardNumberElement);
+    const cardExpiry = elements.getElement(CardExpiryElement);
+    const cardCvc = elements.getElement(CardCvcElement);
+
+    if (!cardNumber || !cardExpiry || !cardCvc) {
+      setFormError("Please fill out all fields.");
+      return;
+    }
+
+    // Validate card number
+    const { error: cardNumberError } = await stripe.createPaymentMethod({
+      type: "card",
+      card: cardNumber,
+    });
+
+    console.log(cardNumberError)
+ 
+    if (cardNumberError?.code == "incomplete_number") {
+      setCardNumberError(cardNumberError.message);
+      cardNumber.focus(); // Focus on the card number field
+      return;
+    }
+
+    if (
+      cardNumberError?.code == "incomplete_expiry" ||
+      cardNumberError?.code == "invalid_expiry_year_past"
+    ) {
+      setExpiryDateError(cardNumberError.message);
+      cardExpiry.focus(); // Focus on the expiry date field
+      return;
+    }
+
+    if (cardNumberError?.code == "incomplete_cvc") {
+      setCvcError(cardNumberError.message);
+      cardCvc.focus(); // Focus on the CVC field
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/create-payment-intent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: stripeAmount }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to fetch client secret.");
+      }
+
+      const { clientSecret } = await res.json();
+
+      const result = await stripe.confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: elements.getElement(CardNumberElement),
+          billing_details: {},
+        },
+      });
+
+      if (result.error) {
+        setCardNumberError(result.error.message);
+        setError(result.error.message);
+      } else if (result.paymentIntent.status === "succeeded") {
+        setPaymentSuccess(true);
+      }
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4 py-8">
       <div className="relative w-full mb-5 xl:mb-5">
-        <CustomCardNumberElement
-          options={CARD_ELEMENT_OPTIONS}
-          handleChange={handleChange}
-          error={cardError}
-        />
+        <div aria-modal>
+          <CardNumberElement
+            options={CARD_ELEMENT_OPTIONS}
+            onChange={handleChange}
+            onReady={handleCardNumberChange}
+            onFocus={() => setCurrentErrorField("cardNumber")}
+            onBlur={() => setCurrentErrorField(null)}
+            className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-10 `}
+          />
+          <label className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">
+            <span className="hidden md:block">Card Number</span>
+            <span className="block md:hidden">Card Number</span>
+          </label>
+          {cardNumberError && (
+            <WarningPopup
+              error={cardNumberError}
+              isFirstError={currentErrorField === "cardNumber"}
+            />
+          )}
+        </div>
         <div className="absolute bottom-1 right-2">
           <FontAwesomeIcon
             icon={cardIconMap[cardType] || cardIconMap["unknown"]}
@@ -196,15 +240,52 @@ const CardPayment = ({
           />
         </div>
       </div>
-      <div className="flex space-x-4 mb-5 xl:mb-5">
-        <div className="relative w-[70%] mb-5 xl:mb-5 group contact">
-          <CustomCardExpiryElement options={CARD_ELEMENT_OPTIONS} />
+
+      <div className="flex space-x-4 mb-5 xl:mb-5 relative">
+        <div className=" w-[70%] mb-5 xl:mb-5 group contact">
+          <CardExpiryElement
+            options={CARD_ELEMENT_OPTIONS}
+            onChange={handleChange}
+            onFocus={() => setCurrentErrorField("cardExpiry")}
+            onBlur={() => setCurrentErrorField(null)}
+            className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-10"
+          />
+          <label className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+            <span className="hidden md:block">Expiry Date</span>
+            <span className="block md:hidden">Expiry Date</span>
+          </label>
+
+          {expiryDateError && currentErrorField === "cardExpiry" && (
+            <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-3 left-0 flex items-center text-primary shadow-sm z-10">
+              <span className="bg-primary p-1 rounded-sm mr-1">
+                <FaExclamation className="text-xs text-white" />
+              </span>
+              {expiryDateError}
+            </span>
+          )}
         </div>
-        <div className="relative w-[30%] mb-5 xl:mb-5 group contact">
-          <CustomCardCvcElement options={CARD_ELEMENT_OPTIONS} />
+        <div className=" w-[30%] mb-5 xl:mb-5 group contact">
+          <CardCvcElement
+            options={CARD_ELEMENT_OPTIONS}
+            onChange={handleChange}
+            onFocus={() => setCurrentErrorField("cardCvc")}
+            onBlur={() => setCurrentErrorField(null)}
+            className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-10"
+          />
+          <label className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+            <span className="hidden md:block">CVC</span>
+            <span className="block md:hidden">CVC</span>
+          </label>
+          {cvcError && currentErrorField === "cardCvc" && (
+            <span className="absolute backdrop-blur-lg py-1 px-2 w-full -bottom-3 left-0 flex items-center text-primary shadow-sm z-10">
+              <span className="bg-primary p-1 rounded-sm mr-1">
+                <FaExclamation className="text-xs text-white" />
+              </span>
+              {cvcError}
+            </span>
+          )}
         </div>
       </div>
-
       <div
         className={`flex ${
           loading ? "justify-center" : "justify-end"
@@ -224,9 +305,6 @@ const CardPayment = ({
     </form>
   );
 };
-
-// components/StripeCheckoutForm.js
-// (Include all imports and other code)
 
 const CheckoutForm = ({
   totalAmount,
@@ -257,8 +335,6 @@ const CheckoutForm = ({
     </div>
   );
 };
-
-// (Include the rest of the code)
 
 const StripeCheckoutForm = ({
   totalAmount,

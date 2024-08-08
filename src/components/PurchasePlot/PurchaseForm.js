@@ -271,7 +271,7 @@ const WarningPopup = ({ error, isFirstError }) => {
 
 const RelinquishForm = ({ elementData }) => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
-  const [screenToShow, setscreenToShow] = useState("stripecheckout");
+  const [screenToShow, setscreenToShow] = useState("receipt");
   const [currentErrorField, setCurrentErrorField] = useState(null);
   const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState();

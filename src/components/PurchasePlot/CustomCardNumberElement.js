@@ -51,7 +51,7 @@ const CustomCardNumberElement = ({
   }, []);
 
   return (
-    <div>
+    <div aria-modal>
       <CardNumberElement
         options={options}
         {...props}
@@ -67,7 +67,7 @@ const CustomCardNumberElement = ({
         <span className="hidden md:block">Card Number</span>
         <span className="block md:hidden">Card Number</span>
       </label>
-      {error && <WarningPopup error={error} />}{" "}
+      {error && <WarningPopup error={error} />}
     </div>
   );
 };

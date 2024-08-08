@@ -34,7 +34,7 @@ const StripeCheckout = ({
           setError(null);
           setPaymentSuccess(false);
         }, 1000);
-      }, 6000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [error, paymentSuccess]);

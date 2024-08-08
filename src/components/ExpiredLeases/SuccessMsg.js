@@ -46,7 +46,7 @@ const SuccessMsg = ({ }) => {
       </div>
       <div className="flex flex-col justify-center h-full items-center">
         <p className="text-primary text-center font-display text-4xl">
-          Your message has successfully sent!
+          Your form has successfully submitted!
         </p>
       </div>
     </div>
