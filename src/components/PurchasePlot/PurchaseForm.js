@@ -214,6 +214,7 @@ const countries = [
   "Zimbabwe",
 ];
 
+
 const schema = z
   .object({
     fullName: z
@@ -256,6 +257,7 @@ const schema = z
     }
   });
 
+
 const WarningPopup = ({ error, isFirstError }) => {
   return (
     isFirstError && (
@@ -268,6 +270,7 @@ const WarningPopup = ({ error, isFirstError }) => {
     )
   );
 };
+
 
 const RelinquishForm = ({ elementData }) => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
@@ -292,6 +295,17 @@ const RelinquishForm = ({ elementData }) => {
   });
 
   const country = watch("country");
+
+
+  const handleAlphaOnly = (e) => {
+    const value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
+    setValue(e.target.name, value, { shouldValidate: true, shouldDirty: true });
+  };
+
+  const handleNumericOnly = (e) => {
+    const value = e.target.value.replace(/[^0-9]/g, "");
+    setValue(e.target.name, value, { shouldValidate: true, shouldDirty: true });
+  };
 
   const handleChangePostCodeValidation = () => {
     if (country) {
@@ -425,9 +439,14 @@ const RelinquishForm = ({ elementData }) => {
                     className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                     placeholder=" "
                     autoComplete="new-password"
+                    onChange={handleAlphaOnly}
                     onFocus={() => setCurrentErrorField("city")}
-                    onBlur={() => setCurrentErrorField(null)}
+                    onBlur={() => {
+                      setCurrentErrorField(null);
+                      trigger("city");
+                    }}
                   />
+
                   <label
                     htmlFor="city"
                     className="peer-focus:font-medium flex absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -454,8 +473,12 @@ const RelinquishForm = ({ elementData }) => {
                     className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                     placeholder=" "
                     autoComplete="new-password"
+                    onChange={handleAlphaOnly}
                     onFocus={() => setCurrentErrorField("state")}
-                    onBlur={() => setCurrentErrorField(null)}
+                    onBlur={() => {
+                      setCurrentErrorField(null);
+                      trigger("state");
+                    }}
                   />
                   <label
                     htmlFor="city"
@@ -484,9 +507,13 @@ const RelinquishForm = ({ elementData }) => {
                     className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                     placeholder=" "
                     autoComplete="new-password"
+                    onChange={handleNumericOnly}
                     onFocus={() => setCurrentErrorField("postalCode")}
-                    onBlur={() => setCurrentErrorField(null)}
-                  />
+                    onBlur={() => {
+                      setCurrentErrorField(null);
+                      handleChangePostCodeValidation();
+                    }}
+                  />{" "}
                   <label
                     htmlFor="postalCode"
                     className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -548,8 +575,12 @@ const RelinquishForm = ({ elementData }) => {
                 className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
                 autoComplete="new-password"
+                onChange={handleNumericOnly}
                 onFocus={() => setCurrentErrorField("phoneNumber")}
-                onBlur={() => setCurrentErrorField(null)}
+                onBlur={() => {
+                  setCurrentErrorField(null);
+                  trigger("phoneNumber");
+                }}
               />
               <label
                 htmlFor="phoneNumber"

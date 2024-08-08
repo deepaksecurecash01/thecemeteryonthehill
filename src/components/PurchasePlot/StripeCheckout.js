@@ -25,7 +25,7 @@ const StripeCheckout = ({
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (error || paymentSuccess) {
+    if (paymentSuccess) {
       const timer = setTimeout(() => {
         dispatch(setPlot(""));
         dispatch(setAshesWall(""));
@@ -37,7 +37,7 @@ const StripeCheckout = ({
       }, 3000);
       return () => clearTimeout(timer);
     }
-  }, [error, paymentSuccess]);
+  }, [paymentSuccess]);
   return (
     <div className="w-[70%] md:w-[32rem] sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-center items-center  z-10">
       {!paymentSuccess && !error && (
@@ -76,7 +76,7 @@ const StripeCheckout = ({
           />
         </div>
       )}
-      {error && <PaymentFailed error={error} />}
+      {error && <PaymentFailed error={error} setError={setError} />}
       {paymentSuccess && <PaymentSuccess />}
     </div>
   );

@@ -9,20 +9,9 @@ import {
   CardExpiryElement,
   CardCvcElement,
 } from "@stripe/react-stripe-js";
-import CustomCardNumberElement from "./CustomCardNumberElement";
-import CustomCardExpiryElement from "./CustomCardExpiryElement";
-import CustomCardCvcElement from "./CustomCardCvcElement";
+
 import { convertToSubcurrency, formatNumber } from "@/lib/helper";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCreditCard } from "@fortawesome/free-solid-svg-icons";
-import {
-  faCcVisa,
-  faCcMastercard,
-  faCcAmex,
-  faCcDiscover,
-  faCcDinersClub,
-  faCcJcb,
-} from "@fortawesome/free-brands-svg-icons";
+
 import PaymentTabs from "./PaymentTabs";
 import OnlinePay from "./OnlinePay";
 import PaymentProcessing from "./PaymentProcessing";
@@ -46,7 +35,11 @@ const WarningPopup = ({ error, isFirstError }) => {
 };
 
 const CARD_ELEMENT_OPTIONS = {
+  showIcon: true,
+  iconStyle: "solid",
   style: {
+    
+
     base: {
       color: "#933d38",
       fontSize: "1.35rem",
@@ -76,15 +69,7 @@ const CARD_ELEMENT_OPTIONS = {
   },
 };
 
-const cardIconMap = {
-  visa: faCcVisa,
-  mastercard: faCcMastercard,
-  amex: faCcAmex,
-  discover: faCcDiscover,
-  diners: faCcDinersClub,
-  jcb: faCcJcb,
-  unknown: faCreditCard, // Fallback icon
-};
+
 
 const CardPayment = ({
   totalAmount,
@@ -127,11 +112,7 @@ const CardPayment = ({
     }
   };
 
-  const handleCardNumberChange = (event) => {
-    if (event.brand) {
-      setCardType(event.brand);
-    }
-  };
+
 
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -168,7 +149,7 @@ const CardPayment = ({
       return;
     }
 
-    if (cardNumberError?.code == "incomplete_cvc") {
+    if (cardNumberError) {
       setCvcError(cardNumberError.message);
       cardCvc.focus(); // Focus on the CVC field
       return;
@@ -217,10 +198,9 @@ const CardPayment = ({
           <CardNumberElement
             options={CARD_ELEMENT_OPTIONS}
             onChange={handleChange}
-            onReady={handleCardNumberChange}
             onFocus={() => setCurrentErrorField("cardNumber")}
             onBlur={() => setCurrentErrorField(null)}
-            className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-10 `}
+            className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-10`}
           />
           <label className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">
             <span className="hidden md:block">Card Number</span>
@@ -233,12 +213,7 @@ const CardPayment = ({
             />
           )}
         </div>
-        <div className="absolute bottom-1 right-2">
-          <FontAwesomeIcon
-            icon={cardIconMap[cardType] || cardIconMap["unknown"]}
-            className="ml-3 text-2xl text-primary"
-          />
-        </div>
+        
       </div>
 
       <div className="flex space-x-4 mb-5 xl:mb-5 relative">

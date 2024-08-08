@@ -3,7 +3,7 @@ import { motion, useCycle } from "framer-motion";
 import Lottie from "lottie-react";
 import failed from "../../../public/images/failed.json";
 
-const PaymentFailed = ({ error }) => {
+const PaymentFailed = ({ error, setError }) => {
   const [rotation, cycleRotation] = useCycle(0, 360); // Using useCycle hook to cycle between 0 and 360 degrees
   const [scale, cycleScale] = useCycle(1, 1.2); // Using useCycle hook to cycle between 1 and 1.2 for scaling
 
@@ -12,10 +12,18 @@ const PaymentFailed = ({ error }) => {
       <div className="flex flex-col justify-end h-48 items-center">
         <Lottie animationData={failed} loop={false} />
       </div>
-      <div className="flex flex-col justify-start h-48 items-center">
+      <div className="flex flex-col justify-start h-48 items-center gap-8">
         <p className="text-primary text-center font-display text-4xl">
-          {error}
+          Payment Failed!
         </p>
+        <div className="flex justify-center items-center">
+          <button
+            className="text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg z-30"
+            onClick={() => setError(null)}
+          >
+            Try Again!
+          </button>
+        </div>
       </div>
     </div>
   );

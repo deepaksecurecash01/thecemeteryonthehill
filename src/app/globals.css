@@ -153,6 +153,12 @@ select {
     background-clip: text !important;
     caret-color: #933d38;
 }
+input:-internal-autofill-selected {
+    appearance: menulist-button;
+    background-image: none !important;
+    background-color: none !important;
+    color: fieldtext !important;
+}
 
 @media (max-width: 460px) {
     .contact-form-bg {
