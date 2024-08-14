@@ -10,8 +10,9 @@ module.exports = {
   },
   theme: {
     screens: {
-      xs: { max: "460px" },
-      sm: { min: "461px" },
+
+      xs: { max: "380px" },
+      sm: { min: "381px" },
       md: { min: "768px" },
       lg: { min: "1024px" },
       xl: { min: "1280px" },
@@ -25,7 +26,6 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-opensans)"], // Default font for paragraphs
         roboto: ["var(--font-roboto)"], // Navigation menus, contact details, buttons, and all clickable links
         script: ["var(--font-eliyamoliscript)"], // Sub-headings
         display: ["var(--font-trajanpro3)"], // Headings

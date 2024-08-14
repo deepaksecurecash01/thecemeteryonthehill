@@ -1,6 +1,6 @@
-import ContentSection from "@/components/Memorials/ContentSection";
-import HeroSection from "@/components/Memorials/HeroSection";
-import BannerSection from "@/components/OurHistoryAndVision/BannerSection";
+import ContentSection from "@/components/services/memorials/ContentSection";
+import HeroSection from "@/components/services/memorials/HeroSection";
+import BannerSection from "@/components/history-vision/BannerSection";
 
 const page = () => {
   return (

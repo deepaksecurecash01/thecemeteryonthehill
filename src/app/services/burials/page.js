@@ -1,7 +1,7 @@
-import ContentSection from '@/components/Burials/ContentSetion';
-import HeroSection from '@/components/Burials/HeroSection';
-import BannerSection from '@/components/OurHistoryAndVision/BannerSection';
-import React from 'react'
+import ContentSection from "@/components/services/burials/ContentSetion";
+import HeroSection from "@/components/services/burials/HeroSection";
+import BannerSection from "@/components/history-vision/BannerSection";
+import React from "react";
 
 const page = () => {
   return (
@@ -11,6 +11,6 @@ const page = () => {
       <BannerSection />
     </div>
   );
-}
+};
 
-export default page
+export default page;

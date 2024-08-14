@@ -1,7 +1,7 @@
-import HeroSection from "@/components/Sections/HeroSection";
-import IntroSection from "@/components/Sections/IntroSection";
-import ServicesSection from "@/components/Sections/ServicesSection";
-import TestimonialSection from "@/components/Sections/TestimonialSection";
+import HeroSection from "@/components/home-page/HeroSection";
+import IntroSection from "@/components/home-page/IntroSection";
+import ServicesSection from "@/components/home-page/ServicesSection";
+import TestimonialSection from "@/components/home-page/TestimonialSection";
 
 import React from "react";
 

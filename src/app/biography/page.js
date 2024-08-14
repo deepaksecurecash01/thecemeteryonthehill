@@ -1,7 +1,5 @@
-import ContentSection from '@/components/Biography/ContentSection';
-import BiographySlider from "@/components/Biography/Slider";
-import Timeline from '@/components/Biography/Timeline';
-import Image from 'next/image';
+import BiographyTimeline from "@/components/biography/BiographyTimeline";
+import BiographySlider from "@/components/ui/BiographySlider";
 import React from 'react'
 
 const page = () => {
@@ -21,13 +19,13 @@ const page = () => {
             The Life of Richard and Mary Bosworth
           </h2>
         </div>
-      </div>{" "}
+      </div>
       <div className="flex justify-center items-center py-4 lg:px-8 space-x-4 w-full h-full">
         <div className="w-[100vw] sm:w-[80vw] md:w-[85vw] lg:w-[75vw] xl:w-[80vw] 4xl:w-[70vw] 5xl:w-[60vw] px-4">
           <BiographySlider />
         </div>
       </div>
-      <Timeline />
+      <BiographyTimeline />
     </div>
   );
 }

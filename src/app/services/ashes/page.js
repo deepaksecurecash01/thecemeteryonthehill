@@ -1,7 +1,7 @@
-import ContentSection from '@/components/Ashes/ContentSection';
-import HeroSection from '@/components/Ashes/HeroSection';
-import BannerSection from '@/components/OurHistoryAndVision/BannerSection';
-import React from 'react'
+import ContentSection from "@/components/services/ashes/ContentSection";
+import HeroSection from "@/components/services/ashes/HeroSection";
+import BannerSection from "@/components/history-vision/BannerSection";
+import React from "react";
 
 const page = () => {
   return (
@@ -11,6 +11,6 @@ const page = () => {
       <BannerSection />
     </div>
   );
-}
+};
 
-export default page
+export default page;

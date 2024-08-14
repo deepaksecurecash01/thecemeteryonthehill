@@ -7,7 +7,7 @@ const initialState = {
   ashesBed: "",
 };
 
-export const theCemeterySlice = createSlice({
+const theCemeterySlice = createSlice({
   name: "theCemetery",
   initialState,
   reducers: {
@@ -17,12 +17,10 @@ export const theCemeterySlice = createSlice({
     setPlot: (state, action) => {
       state.purchasePlot = action.payload;
     },
-    setAshesWall: (state, action) =>
-    {
+    setAshesWall: (state, action) => {
       state.ashesWall = action.payload;
     },
-    setAshesBed: (state, action) =>
-    {
+    setAshesBed: (state, action) => {
       state.ashesBed = action.payload;
     },
   },
