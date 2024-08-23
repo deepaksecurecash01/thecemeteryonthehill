@@ -237,37 +237,37 @@ export default function DataTablePage() {
                     <div className="flex  mb-2">
                       <span className="font-medium">LAST NAME:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
-                        {item.name}
+                        {item.lastName}
                       </span>
                     </div>
                     <div className="flex  mb-2">
                       <span className="font-medium">GIVEN NAME:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
-                        {item.position}
+                        {item.givenName}
                       </span>
                     </div>
                     <div className="flex  mb-2">
                       <span className="font-medium">YEAR OF BIRTH:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
-                        {item.office}
+                        {item.yearOfBirth}
                       </span>
                     </div>
                     <div className="flex  mb-2">
                       <span className="font-medium">YEAR OF DEATH:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
-                        {item.age}
+                        {item.yearOfDeath}
                       </span>
                     </div>
                     <div className="flex  mb-2">
                       <span className="font-medium">INTERMENT TYPE:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
-                        {item.startDate}
+                        {item.intermentType}
                       </span>
                     </div>
                     <div className="flex  mb-2">
                       <span className="font-medium">PLOT NO.:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
-                        {item.salary}
+                        {item.plotNo}
                       </span>
                     </div>
                     <div className="flex ">
@@ -275,7 +275,7 @@ export default function DataTablePage() {
                         LEASE EXPIRATION:&nbsp;
                       </span>
                       <span className="text-primary font-display font-bold ">
-                        {item.salary}
+                        {item.leaseExpiration}
                       </span>
                     </div>
                   </div>

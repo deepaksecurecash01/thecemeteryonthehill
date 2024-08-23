@@ -5,8 +5,8 @@
     const [scale, cycleScale] = useCycle(1, 1.2); // Scale between 1 and 1.2
 
     return (
-      <div className="relative flex flex-col h-full justify-around items-center">
-        <div className="flex flex-col justify-center items-center h-full space-y-4 py-6">
+      <div className="relative flex flex-col justify-center h-full gap-16 z-30 items-center">
+        <div className="flex flex-col justify-center items-center">
           {/* Exclamation SVG Animation */}
           <motion.svg
             initial={{ scale: 0.8 }} // Initial scale of 0.8
@@ -44,8 +44,8 @@
             />
           </motion.svg>
         </div>
-        <div className="flex flex-col justify-center items-center gap-4 h-full z-10 cursor-pointer">
-          <p className="text-primary text-center font-display text-4xl">
+        <div className="flex flex-col justify-center items-center gap-4 z-10">
+          <p className="text-primary text-center font-display text-2xl md:text-4xl">
             There was an error submitting the form.
           </p>
           <button

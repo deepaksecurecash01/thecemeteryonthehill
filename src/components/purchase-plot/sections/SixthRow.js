@@ -24,11 +24,11 @@ export default function SixthRow({ data, AshesBed }) {
     <div
       className={`bg-white shadow-2xl rounded-lg p-6 flex flex-col justify-center items-start w-[90vw] gap-6  ${
         AshesBed === "Rose Garden Ashes Bed"
-          ? "rounded-br-[80%] md:w-auto pb-10 pr-10"
+          ? "rounded-br-[80%] md:w-auto pr-14 pb-10 md:pb-14 md:pr-20 lg:pr-10 lg:pb-10"
           : " md:w-[60vw] lg:w-[90vw] xl:w-[80%]"
       }`}
     >
-      <p className="text-primary text-center w-full font-display text-4xl">
+      <p className="text-primary text-center w-full font-display text-[1.75rem] md:text-[2.75rem]">
         {AshesBed}
       </p>
       <div

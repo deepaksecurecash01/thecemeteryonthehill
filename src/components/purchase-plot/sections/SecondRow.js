@@ -3,7 +3,7 @@ import Element from "../Element";
 import { useDispatch } from "react-redux";
 import Tooltip from "../../ui/Tooltip";
 
-export default function FirstRow({ data, data2 }) {
+export default function FirstRow({ data, CemeteryData }) {
   const statusColors = {
     available: "bg-green-500 text-white border border-green-800",
     expired: "bg-orange-500 text-white border border-orange-800",
@@ -22,8 +22,11 @@ export default function FirstRow({ data, data2 }) {
   };
 
   const statusesRoseGarden =
-    data2?.RoseGardenBed?.map((section) => section.Status) || [];
+    CemeteryData?.RoseGardenBed?.map((section) => section.Status) || [];
+
   const bedColorClassRoseGarden = getBedColorClass(statusesRoseGarden);
+
+  console.log(statusesRoseGarden);
 
   const dispatch = useDispatch();
   return (

@@ -5,7 +5,7 @@ import TableSection from "@/components/expired-leases/TableSection";
 
 const page = () => {
   return (
-    <div>
+    <div className="overflow-hidden">
       <HeroSection />
       <TableSection />
       <ContentSection />

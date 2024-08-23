@@ -9,6 +9,8 @@ import {
   setPopupForm,
 } from "@/redux/slice";
 import { useDispatch } from "react-redux";
+import PaymentTabs from "./PaymentTabs";
+import Image from "next/image";
 
 const StripeCheckout = ({
   elementData,
@@ -19,8 +21,10 @@ const StripeCheckout = ({
   totalAmount,
 }) => {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+    const [paymentMethod, setPaymentMethod] = useState("card");
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -38,17 +42,17 @@ const StripeCheckout = ({
     }
   }, [paymentSuccess]);
   return (
-    <div className="w-[70%] md:w-[32rem] sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-center items-center  z-10">
+    <div className="w-[70%] md:w-[32rem] md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-center items-center  z-10">
       {!paymentSuccess && !error && (
-        <div className="h-[80%] py-5 flex flex-col gap-10 z-20">
+        <div className="h-[80%] py-5 flex flex-col gap-8 md:gap-10 z-20">
           <div className="flex flex-col gap-4">
             <div className="flex flex-col justify-center items-center gap-4">
-              <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
+              <h2 className=" xxs:text-[1.35rem] text-[1.75rem] md:text-[2.75rem] text-center font-bold text-primary font-display">
                 Payment Checkout
               </h2>
             </div>
             <div>
-              <h2 className="text-[1.25rem] md:text-[1.50rem] text-center font-bold text-primary font-display">
+              <h2 className="text-base xxs:text-[0.95rem] md:text-lg text-center font-bold text-primary font-display">
                 Selected PLOT:
                 <span className=" font-roboto uppercase">
                   &nbsp;{elementData[0]?.Plot_number}
@@ -56,13 +60,25 @@ const StripeCheckout = ({
               </h2>
             </div>
             <div>
-              <div className="text-[1.25rem] md:text-[1.50rem] text-center font-bold text-primary font-display">
+              <div className="text-base xxs:text-[0.95rem] md:text-lg text-center font-bold text-primary font-display">
                 {"Total Amount (AUDS): "}
                 <span className=" font-roboto uppercase ">
                   $ {formattedTotalAmount}
                 </span>
               </div>
             </div>
+          </div>
+          <PaymentTabs setPaymentMethod={setPaymentMethod} />
+          <div className="relative w-full flex justify-center items-center bg-secondary/30 text-primary py-2 rounded-lg">
+            <Image
+              src={"/images/secure-stripe-payment-logo.webp"}
+              width={400}
+              height={100}
+              alt={`Hero-Section Image-1 | The Cemetery on the Hill`}
+              loading="lazy"
+              objectFit="cover"
+              className=" rounded-lg object-center"
+            />
           </div>
           <StripeCheckoutForm
             totalAmount={totalAmount}
@@ -71,6 +87,7 @@ const StripeCheckout = ({
             error={error}
             setError={setError}
             paymentSuccess={paymentSuccess}
+            paymentMethod={paymentMethod}
             setPaymentSuccess={setPaymentSuccess}
           />
         </div>

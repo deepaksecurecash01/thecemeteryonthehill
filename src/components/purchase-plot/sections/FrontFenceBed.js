@@ -4,7 +4,7 @@ import Element from "../Element";
 const FrontFenceBed = ({ data, AshesWall }) => {
   return (
     <div className=" bg-white shadow-2xl rounded-lg p-8 flex flex-col gap-6 ">
-      <p className="text-primary text-center font-display text-4xl">
+      <p className="text-primary text-center font-display text-[1.75rem] md:text-[2.75rem]">
         {AshesWall}
       </p>
       <div className="flex lg:flex-col gap-6">

@@ -77,10 +77,10 @@ const PurchaseReceipt = ({
   }
   const amountInWords = convertAmountToWords(totalAmount);
   return (
-    <div className="w-[70%] md:w-[32rem] sm:pt-14 md:pt-10 xl:pt-6 h-full mx-auto flex flex-col justify-center items-center  z-10">
+    <div className="w-[70%] md:w-[32rem] xl:pt-8 h-full mx-auto flex flex-col justify-center items-center  z-10">
       <div className="h-[80%] py-5 flex flex-col gap-6">
         <div className="flex flex-col justify-center items-center gap-4">
-          <h2 className="text-[1.5rem] md:text-[2.75rem] text-center font-bold text-primary font-display">
+          <h2 className=" xxs:text-[1.35rem] text-[1.75rem] md:text-[2.75rem] text-center font-bold text-primary font-display">
             PURCHASE A PLOT
           </h2>
           <p className="text-primary text-xs sm:text-sm md:text-base font-roboto text-center font-bold tracking-wide lg:text-lg">
@@ -90,7 +90,7 @@ const PurchaseReceipt = ({
           </p>
         </div>
         <div>
-          <h2 className="text-[1.25rem] md:text-[1.50rem] text-center font-bold text-primary font-display">
+          <h2 className="text-[1.25rem] xxs:text-base md:text-[1.50rem] text-center font-bold text-primary font-display">
             Selected PLOT:
             <span className=" font-roboto uppercase">
               &nbsp;{elementData[0]?.Plot_number}

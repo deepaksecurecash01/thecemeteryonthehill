@@ -55,11 +55,11 @@ const AshesWall = () => {
   const bedColorClassAshesWall2 = getBedColorClass(getStatuses("AshesWall2"));
 
   return (
-    <div className="fixed lg:absolute lg:h-[80%] w-full lg:w-16 lg:-left-16 xl:-left-36 lg:top-12 flex justify-center items-center lg:items-start">
-      <div className="flex lg:flex-col justify-between md:justify-center items-center gap-2 md:gap-1 w-full">
+    <div className=" lg:absolute lg:h-[80%] w-full lg:w-16 lg:-left-16 xl:-left-32 lg:top-12 flex justify-center items-center lg:items-start">
+      <div className="flex lg:flex-col justify-between md:justify-center items-center gap-2 md:gap-1">
         <Tooltip message={"Click to expand for more details"} vertical={true}>
           <div
-            className={`lg:[writing-mode:vertical-lr] lg:rotate-180 font-roboto ${bedColorClassAshesWall1} text-primary border border-primary text-center text-sm md:text-base cursor-pointer rounded py-2 lg:py-4 lg:px-2 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary`}
+            className={`lg:[writing-mode:vertical-lr] lg:rotate-180 h-12 w-28 lg:h-auto lg:w-auto font-roboto ${bedColorClassAshesWall1} text-center text-primary border border-primary text-sm md:text-base cursor-pointer rounded py-2 flex justify-center items-center lg:py-4 lg:px-2 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary`}
             onClick={() => dispatch(setAshesWall("Ashes Wall 1"))}
           >
             Ashes Wall 1
@@ -67,7 +67,7 @@ const AshesWall = () => {
         </Tooltip>
         <Tooltip message={"Click to expand for more details"} vertical={true}>
           <div
-            className={`lg:[writing-mode:vertical-rl] lg:rotate-180 xl:h-16 xl:w-11 flex justify-center items-center text-primary border border-primary font-roboto ${bedColorClassFrontFenceBed} text-center text-sm md:text-base cursor-pointer rounded py-2 px-6 lg:py-4 lg:px-2 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary`}
+            className={`lg:[writing-mode:vertical-rl] lg:rotate-180 lg:h-16 w-16 h-12 lg:w-11 flex justify-center items-center text-primary border border-primary font-roboto ${bedColorClassFrontFenceBed} text-center text-sm md:text-base cursor-pointer rounded py-2  lg:py-4 lg:px-2 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary`}
             onClick={() => dispatch(setAshesWall("Front Fence Bed"))}
           >
             <span className="leading-5">Front Fence</span>
@@ -75,7 +75,7 @@ const AshesWall = () => {
         </Tooltip>
         <Tooltip message={"Click to expand for more details"} vertical={true}>
           <div
-            className={`lg:[writing-mode:vertical-lr] lg:rotate-180 font-roboto ${bedColorClassAshesWall2} text-center text-primary border border-primary text-sm md:text-base cursor-pointer rounded py-2 px-6 lg:py-4 lg:px-2 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary`}
+            className={`lg:[writing-mode:vertical-lr] lg:rotate-180 h-12 w-28 lg:h-auto lg:w-auto font-roboto ${bedColorClassAshesWall2} text-center text-primary border border-primary text-sm md:text-base cursor-pointer rounded py-2 flex justify-center items-center lg:py-4 lg:px-2 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary`}
             onClick={() => dispatch(setAshesWall("Ashes Wall 2"))}
           >
             Ashes Wall 2
@@ -117,7 +117,7 @@ const AshesBed = ({ setAshesBed }) => {
   );
 
   return (
-    <div className="absolute w-full lg:-translate-x-0 lg:left-24 -bottom-28 flex justify-center lg:justify-start items-center">
+    <div className="absolute w-full lg:-translate-x-0 lg:left-24 -bottom-28  flex justify-center lg:justify-start items-center">
       <div className="flex justify-between md:justify-center lg:justify-start items-center gap-2 md:gap-12 w-full xl:w-auto">
         {[
           { name: "Sandstone Ashes Bed", colorClass: bedColorClassSandstone },
@@ -126,7 +126,7 @@ const AshesBed = ({ setAshesBed }) => {
         ].map((bed, i) => (
           <Tooltip message={"Click to expand for more details"} key={i}>
             <div
-              className={`font-roboto cursor-pointer md:w-auto ${bed.colorClass} text-center text-primary border border-primary text-sm md:text-base rounded py-2 px-6 hover:bg-gray-100 hover:text-primary hover:border hover:border-primary`}
+              className={`font-roboto cursor-pointer md:w-auto ${bed.colorClass} text-center h-12 lg:h-auto xxs:px-0 px-2 text-primary border border-primary text-sm md:text-base rounded py-2 flex justify-center items-center hover:bg-gray-100 hover:text-primary hover:border hover:border-primary`}
               onClick={() => setAshesBed(bed.name)}
             >
               {bed.name}

@@ -1,5 +1,5 @@
 // components/StripeCheckoutForm.js
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
   Elements,
@@ -23,43 +23,113 @@ const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY_TEST
 );
 
+function getCardElementStyles() {
+  const width = window.innerWidth;
 
-const CARD_ELEMENT_OPTIONS = {
-  showIcon: true,
-  iconStyle: "solid",
-  style: {
-    
-
-    base: {
-      color: "#933d38",
-      fontSize: "1.35rem",
-      fontFamiliy: "Roboto",
-      fontWeight: "bold", // font-medium
-      fontSmoothing: "antialiased",
-      "::placeholder": {
+  if (width < 350) {
+    return {
+      base: {
         color: "#933d38",
-        fontWeight: "normal",
-      },
-      ":-webkit-autofill": {
-        color: "#933d38",
-      },
-      fonts: [
-        {
-          cssSrc:
-            "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap",
+        fontSize: "0.95rem",
+        fontFamiliy: "Roboto",
+        fontWeight: "bold", // font-medium
+        fontSmoothing: "antialiased",
+        "::placeholder": {
+          color: "#933d38",
+          fontWeight: "normal",
         },
-      ],
-    },
-    invalid: {
-      color: "#933d38",
-      "::placeholder": {
-        color: "#933d38",
+        ":-webkit-autofill": {
+          color: "#933d38",
+        },
+        fonts: [
+          {
+            cssSrc:
+              "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap",
+          },
+        ],
       },
-    },
-  },
-};
+      invalid: {
+        color: "#933d38",
+        "::placeholder": {
+          color: "#933d38",
+        },
+      },
+    };
+  } else if (width >= 350 && width < 768) {
+    return {
+      base: {
+        color: "#933d38",
+        fontSize: "1.125rem",
+        fontFamiliy: "Roboto",
+        fontWeight: "bold", // font-medium
+        fontSmoothing: "antialiased",
+        "::placeholder": {
+          color: "#933d38",
+          fontWeight: "normal",
+        },
+        ":-webkit-autofill": {
+          color: "#933d38",
+        },
+        fonts: [
+          {
+            cssSrc:
+              "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap",
+          },
+        ],
+      },
+      invalid: {
+        color: "#933d38",
+        "::placeholder": {
+          color: "#933d38",
+        },
+      },
+    };
+  } else {
+    return {
+      base: {
+        color: "#933d38",
+        fontSize: "1.35rem",
+        fontFamiliy: "Roboto",
+        fontWeight: "bold", // font-medium
+        fontSmoothing: "antialiased",
+        "::placeholder": {
+          color: "#933d38",
+          fontWeight: "normal",
+        },
+        ":-webkit-autofill": {
+          color: "#933d38",
+        },
+        fonts: [
+          {
+            cssSrc:
+              "https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap",
+          },
+        ],
+      },
+      invalid: {
+        color: "#933d38",
+        "::placeholder": {
+          color: "#933d38",
+        },
+      },
+    };
+  }
+}
 
+function useResponsiveCardElementStyles() {
+  const [styles, setStyles] = useState(getCardElementStyles());
 
+  useEffect(() => {
+    function handleResize() {
+      setStyles(getCardElementStyles());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  return styles;
+}
 
 const CardPayment = ({
   totalAmount,
@@ -98,8 +168,6 @@ const CardPayment = ({
     }
   };
 
-
-
   const onSubmit = async (event) => {
     event.preventDefault();
 
@@ -108,7 +176,7 @@ const CardPayment = ({
     const cardCvc = elements.getElement(CardCvcElement);
 
     if (!cardNumber || !cardExpiry || !cardCvc) {
-      setFormError("Please fill out all fields.");
+      setError("Please fill out all fields.");
       return;
     }
 
@@ -118,8 +186,7 @@ const CardPayment = ({
       card: cardNumber,
     });
 
-    console.log(cardNumberError)
- 
+
     if (cardNumberError?.code == "incomplete_number") {
       setCardNumberError(cardNumberError.message);
       cardNumber.focus(); // Focus on the card number field
@@ -176,28 +243,21 @@ const CardPayment = ({
     }
   };
 
-
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4 py-8">
-      <div className="relative w-full mb-5 xl:mb-5 flex justify-center items-center bg-secondary/30 text-primary py-2 rounded-lg">
-        <Image
-          src={"/images/secure-stripe-payment-logo.webp"}
-          width={400}
-          height={100}
-          alt={`Hero-Section Image-1 | The Cemetery on the Hill`}
-          loading="lazy"
-          objectFit="cover"
-          className=" rounded-lg object-center"
-        />
-      </div>
+    <form onSubmit={onSubmit} className="flex flex-col gap-4">
+      
       <div className="relative w-full mb-5 xl:mb-5">
         <div aria-modal>
           <CardNumberElement
-            options={CARD_ELEMENT_OPTIONS}
+            options={{
+              showIcon: true,
+              iconStyle: "solid",
+              style: useResponsiveCardElementStyles(),
+            }}
             onChange={handleChange}
             onFocus={() => setCurrentErrorField("cardNumber")}
             onBlur={() => setCurrentErrorField(null)}
-            className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-10`}
+            className={`block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-9 md:max-h-10`}
           />
           <label className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0">
             <span className="hidden md:block">Card Number</span>
@@ -215,11 +275,15 @@ const CardPayment = ({
       <div className="flex space-x-4 mb-5 xl:mb-5 relative">
         <div className=" w-[70%] mb-5 xl:mb-5 group contact">
           <CardExpiryElement
-            options={CARD_ELEMENT_OPTIONS}
+            options={{
+              showIcon: true,
+              iconStyle: "solid",
+              style: useResponsiveCardElementStyles(),
+            }}
             onChange={handleChange}
             onFocus={() => setCurrentErrorField("cardExpiry")}
             onBlur={() => setCurrentErrorField(null)}
-            className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-10"
+            className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-9 md:max-h-10"
           />
           <label className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
             <span className="hidden md:block">Expiry Date</span>
@@ -237,11 +301,15 @@ const CardPayment = ({
         </div>
         <div className=" w-[30%] mb-5 xl:mb-5 group contact">
           <CardCvcElement
-            options={CARD_ELEMENT_OPTIONS}
+            options={{
+              showIcon: true,
+              iconStyle: "solid",
+              style: useResponsiveCardElementStyles(),
+            }}
             onChange={handleChange}
             onFocus={() => setCurrentErrorField("cardCvc")}
             onBlur={() => setCurrentErrorField(null)}
-            className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-10"
+            className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer max-h-9 md:max-h-10"
           />
           <label className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
             <span className="hidden md:block">CVC</span>
@@ -284,13 +352,12 @@ const CheckoutForm = ({
   error,
   setError,
   paymentSuccess,
+  paymentMethod,
   setPaymentSuccess,
 }) => {
-  const [paymentMethod, setPaymentMethod] = useState("card");
 
   return (
     <div>
-      <PaymentTabs setPaymentMethod={setPaymentMethod} />
       {paymentMethod === "card" && (
         <CardPayment
           totalAmount={totalAmount}
@@ -314,6 +381,7 @@ const StripeCheckoutForm = ({
   error,
   setError,
   paymentSuccess,
+  paymentMethod,
   setPaymentSuccess,
 }) => (
   <Elements stripe={stripePromise}>
@@ -324,6 +392,7 @@ const StripeCheckoutForm = ({
       error={error}
       setError={setError}
       paymentSuccess={paymentSuccess}
+      paymentMethod={paymentMethod}
       setPaymentSuccess={setPaymentSuccess}
     />
   </Elements>

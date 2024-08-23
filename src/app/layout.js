@@ -1,12 +1,10 @@
-import { Roboto } from "next/font/google";
+import { Open_Sans, Roboto } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import Head from "next/head";
 import ReduxProvider from "@/redux/provider";
 import Footer from "@/components/common/Footer";
 import Header from "@/components/common/Header";
-
-// Font imports
 
 const jolydisplay = localFont({
   src: "../../public/fonts/JolyDisplay/fonnts.com-Joly_Display_Regular.otf",

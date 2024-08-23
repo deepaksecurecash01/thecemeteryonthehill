@@ -25,8 +25,24 @@ export const RelinquishFormSchema = z.object({
   signature: z.string({
     errorMap: () => ({ message: "Lease Holder Signature is required." }),
   }),
-  Date: z.date({
-    required_error: "Date is required.",
-    invalid_type_error: "Date is required.",
+  internmentType: z.enum(["ashes", "burial"], {
+    errorMap: () => ({ message: "Internment Type is required." }),
   }),
+  attachment: z
+    .any() // `any` here is used because we can't directly enforce `File` in Zod
+    .refine((file) => file instanceof File, {
+      message: "File is required.",
+    })
+    .refine((file) => file.size <= 10 * 1024 * 1024, {
+      message: "File size should be less than 10MB",
+    })
+    .refine(
+      (file) =>
+        ["image/jpeg", "image/jpg", "image/png", "application/pdf"].includes(
+          file.type
+        ),
+      {
+        message: "Only .jpeg, .jpg, .png, and .pdf formats are supported",
+      }
+    ),
 });

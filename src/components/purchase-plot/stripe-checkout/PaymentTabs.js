@@ -10,7 +10,7 @@ const PaymentTabs = ({ setPaymentMethod }) => {
   };
 
   return (
-    <div className="flex space-x-4 mb-5">
+    <div className="flex items-center space-x-4">
       <button
         onClick={() => handleTabClick("card")}
         className={`px-4 py-2 rounded-lg font-roboto ${
