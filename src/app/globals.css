@@ -240,3 +240,7 @@ form textarea::-webkit-validation-bubble-message {
 .custom-file input[type="file"] {
     display: none;
 }
+
+ input[type=radio] {
+     accent-color: #933d38;
+ }

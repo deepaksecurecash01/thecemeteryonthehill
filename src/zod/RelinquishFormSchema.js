@@ -17,16 +17,21 @@ export const RelinquishFormSchema = z.object({
     required_error: "Date of Birth is required",
     invalid_type_error: "Date of Birth is required",
   }),
-  dateOfDeath: z.date({
-    required_error: "Date of Death is required",
-    invalid_type_error: "Date of Death is required",
-  }),
+  dateOfDeath: z
+    .date({
+      required_error: "Date of Death is required",
+      invalid_type_error: "Date of Death must be a valid date",
+    })
+    .refine((date) => date <= new Date(), {
+      message: "Date of Death must be in the past or today",
+    }),
+
   rowPlot: z.string().optional(),
-  signature: z.string({
-    errorMap: () => ({ message: "Lease Holder Signature is required." }),
-  }),
   internmentType: z.enum(["ashes", "burial"], {
     errorMap: () => ({ message: "Internment Type is required." }),
+  }),
+  signature: z.string({
+    errorMap: () => ({ message: "Lease Holder Signature is required." }),
   }),
   attachment: z
     .any() // `any` here is used because we can't directly enforce `File` in Zod
@@ -46,3 +51,4 @@ export const RelinquishFormSchema = z.object({
       }
     ),
 });
+  
