@@ -30,9 +30,9 @@ const trajanpro3 = localFont({
 
 // Metadata for SEO
 export const metadata = {
-  title: "The Cemetery on the Hill",
+  title: "The Cemetery on The Hill - Home",
   description:
-    "Perched on top of a hill overlooking the Onkaparinga River and the beautiful township of Old Noarlunga is The Church and Cemetery on the Hill. Formerly the Church and Cemetery of St Philip and St James, which was established in 1850 shortly after the first European settlement in the area around the 1840s.",
+    "Learn more about The Cemetery on The Hill, a state heritage site in South Australia, offering ashes interments, burials, memorials, and pre-planning in a peaceful, historic setting.",
   keywords:
     "cemetery, church, Old Noarlunga, Onkaparinga River, historical site",
   author: "SecureCash",

@@ -22,6 +22,7 @@ import { uploadFile } from "@/app/actions/file";
 import AshesPopup from "./AshesReturnPopup";
 import RadioButtons from "./AshesReturnPopup";
 import AshesReturnPopup from "./AshesReturnPopup";
+import { RelinquishFormSchema } from "@/zod/RelinquishFormSchema";
 
 const focusInput = (ref) => {
   if (ref && ref.current) {
@@ -29,74 +30,13 @@ const focusInput = (ref) => {
   }
 };
 
-const RelinquishFormSchema = z.object({
-  fullName: z
-    .string()
-    .nonempty("Full Name is required.")
-    .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-  nameOfDeceased: z
-    .string()
-    .nonempty("Name of Deceased is required.")
-    .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-  email: z
-    .string()
-    .nonempty("Email is required.")
-    .email("Please enter a valid email address."),
-  dateofBirth: z
-    .date({
-      required_error: "Date of Birth is required",
-      invalid_type_error: "Date of Birth is required",
-    })
-    .refine((date) => date <= new Date(), {
-      message: "Date of Birth must be in the past or today",
-    }),
-  dateOfDeath: z
-    .date({
-      required_error: "Date of Death is required",
-      invalid_type_error: "Date of Death must be a valid date",
-    })
-    .refine((date) => date <= new Date(), {
-      message: "Date of Death must be in the past or today",
-    })
-    .refine((dateOfBirth, dateOfDeath) => dateOfBirth <= dateOfDeath, {
-      message: "Date of Death must be after Date of Birth",
-    }), // Custom validation for date of death after date of birth
-  rowPlot: z.string().optional(),
-  internmentType: z.enum(["ashes", "burial"], {
-    errorMap: () => ({ message: "Internment Type is required." }),
-  }),
-  signature: z.string({
-    errorMap: () => ({ message: "Lease Holder Signature is required." }),
-  }),
-  attachment: z
-    .any() // `any` here is used because we can't directly enforce `File` in Zod
-    .refine((file) => file instanceof File, {
-      message: "File is required.",
-    })
-    .refine((file) => file.size <= 10 * 1024 * 1024, {
-      message: "File size should be less than 10MB",
-    })
-    .refine(
-      (file) =>
-        ["image/jpeg", "image/jpg", "image/png", "application/pdf"].includes(
-          file.type
-        ),
-      {
-        message: "Only .jpeg, .jpg, .png, and .pdf formats are supported",
-      }
-    ),
-});
-
-  
-
 const RelinquishForm = () => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
   const [errorMessage, setErrorMessage] = useState("");
   const [currentErrorField, setCurrentErrorField] = useState(null);
   const dispatch = useDispatch();
   const [signature, setSignature] = useState(null);
-  const signCanvas = useRef();
-  const FileRef = useRef();
+
   const [showAshesReturn, setShowAshesReturn] = useState(false);
   const [file, setFile] = useState(null);
   const [ashesReturned, setAshesReturned] = useState(null);
@@ -118,6 +58,7 @@ const RelinquishForm = () => {
   const selectedDateOfBirth = watch("dateofBirth");
   const selectedDateOfDeath = watch("dateOfDeath");
   const selectedInternmentType = watch("internmentType");
+
   const handleSignatureEnd = () => {
     const sigDataUrl = signCanvas.current.toDataURL();
     setSignature(sigDataUrl);
@@ -140,74 +81,80 @@ const RelinquishForm = () => {
     console.log(file);
   };
 
- const onSubmit = async (data) => {
-   // Additional checks if needed
-   const { dateofBirth, dateOfDeath } = data;
-
-   if (dateOfDeath <= dateofBirth) {
-     setError("dateOfDeath", {
-       type: "manual",
-       message: "Date of Death must be after Date of Birth",
-     });
-     return;
-   }
-
-   // Proceed with the submission
-   if (!signature) {
-     focusInput(signCanvas);
-     setSubmissionStatus("error");
-     setErrorMessage("Lease Holder Signature is required");
-     return;
-   }
-
-   if (!file) {
-     focusInput(FileRef);
-     setSubmissionStatus("error");
-     setErrorMessage("File upload is required");
-     return;
-   }
-
-   // Append signature and file to form data
-   const formData = new FormData();
-   formData.append("signature", signature);
-   formData.append("file", file);
-   Object.keys(data).forEach((key) => formData.append(key, data[key]));
-
-   try {
-     const response = await fetch("/api/s3-upload", {
-       method: "POST",
-       body: formData,
-     });
-
-     if (!response.ok) {
-       throw new Error("Failed to submit the form");
-     }
-
-     const result = await response.json();
-     console.log(result);
-
-     setSubmissionStatus("success");
-     setErrorMessage("");
-     signCanvas.current.clear();
-     setSignature(null);
-     reset(); // Reset form fields
-   } catch (error) {
-     console.error("Submission Error:", error);
-     setSubmissionStatus("error");
-     setErrorMessage("Failed to submit the form. Please try again.");
-   }
- };
-
-
   const dateofBirthRef = useRef(null);
   const dateOfDeathRef = useRef(null);
   const internmentTypeRef = useRef(null);
-  const DateRef = useRef(null);
+  const signCanvas = useRef(null);
+  const fileRef = useRef(null); 
 
-  useEffect(() => {
+  const onSubmit = async (data) => {
+    if (!signature) {
+      focusInput(signCanvas);
+      setSubmissionStatus("error");
+      setErrorMessage("Lease Holder Signature is required");
+      return;
+    }
+
+    if (!file) {
+      focusInput(fileRef);
+      setSubmissionStatus("error");
+      setErrorMessage("File upload is required");
+      return;
+    }
+
+    // Append signature and file to form data
+    const formData = new FormData();
+    formData.append("signature", signature);
+    formData.append("file", file);
+    // Append other form data
+    Object.keys(data).forEach((key) => formData.append(key, data[key]));
+    console.log("Form Data:", ...formData.entries());
+
+    if (selectedInternmentType === "ashes") {
+      setAshesReturned(null);
+      setAshesReturnAddress(true);
+      setReleaseFormData(formData);
+
+      return;
+    }
+
+    try {
+      // Simulate a form submission
+      await new Promise((resolve, reject) => {
+        // Change to resolve() for success simulation, reject() for error simulation
+        setTimeout(resolve, 1000);
+      });
+
+      const response = await fetch("/api/s3-upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit the form");
+      }
+
+      const result = await response.json();
+      console.log(result);
+
+      setSubmissionStatus("success");
+      setErrorMessage("");
+      signCanvas.current.clear();
+      setSignature(null);
+      reset(); // Reset form fields
+    } catch (error) {
+      console.error("Submission Error:", error);
+      setSubmissionStatus("error");
+      setErrorMessage("Failed to submit the form. Please try again.");
+    }
+  };
+
+  useEffect(() =>
+  {
+    console.log(errors)
     if (errors) {
       const errorField = Object.keys(errors)[0]; // Get the first error field
-      setCurrentErrorField(errorField);
+       setCurrentErrorField(errorField);
 
       switch (errorField) {
         case "dateofBirth":
@@ -216,16 +163,30 @@ const RelinquishForm = () => {
         case "dateOfDeath":
           focusInput(dateOfDeathRef);
           break;
-        case "Date":
-          focusInput(null); // No specific input ref for this field (consider adding a ref if needed)
+        case "internmentType": // Assuming this is a field in the errors object
+          focusInput(null);
+          break;
+        case "signature": // Assuming this is a field in the errors object
+          focusInput(null);
+          break;
+        case "attachment": // Assuming this is a field in the errors object
+          focusInput(null);
           break;
         default:
-          focusInput(null); // Handle other errors (consider a more specific approach)
+          focusInput(null); // Fallback for any other error
+          console.warn(`Unhandled error field: ${errorField}`);
       }
     } else {
       setCurrentErrorField(null);
     }
-  }, [errors, dateofBirthRef, dateOfDeathRef]);
+  }, [
+    errors,
+    dateofBirthRef,
+    dateOfDeathRef,
+    internmentTypeRef,
+    signCanvas,
+    fileRef,
+  ]);
 
   useEffect(() => {
     if (submissionStatus) {
@@ -332,11 +293,9 @@ const RelinquishForm = () => {
                 <div className="relative w-full mb-5  xl:mb-5 group contact">
                   <DatePicker
                     value={selectedDateOfBirth || null}
-                    onChange={(date) => {
-                      setValue("dateofBirth", date, {
-                        shouldValidate: true,
-                      });
-                    }}
+                    onChange={(date) =>
+                      setValue("dateofBirth", date, { shouldValidate: true })
+                    }
                     onFocus={() => setCurrentErrorField("dateofBirth")}
                     onBlur={() => setCurrentErrorField(null)}
                     openCalendarOnFocus={true}
@@ -349,7 +308,6 @@ const RelinquishForm = () => {
                     className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
                     autoComplete="new-password"
                   />
-
                   <label
                     htmlFor="dateOfBirth"
                     className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
@@ -505,7 +463,7 @@ const RelinquishForm = () => {
                 <div className="relative w-full mb-5 xl:mb-5">
                   <input
                     type="file"
-                    ref={FileRef}
+                    ref={fileRef}
                     {...register("attachment")}
                     accept=".jpg,.jpeg,.png,.pdf"
                     onChange={handleFileChange}

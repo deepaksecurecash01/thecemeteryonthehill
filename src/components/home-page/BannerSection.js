@@ -18,15 +18,18 @@ const BannerSection = async () =>
       <div className="grid place-items-center gap-6 py-16 px-4 md:px-8">
         <h2
           id="banner-heading"
-          className="text-lg sm:text-lg lg:text-xl 6xl:text-2xl text-white text-center max-w-3xl"
+          className="text-lg sm:text-lg lg:text-xl 6xl:text-2xl font-roboto text-white text-center max-w-3xl"
         >
           {
-            "Don't just take our word for it - see what actual users of our service have to say about their experience."
+            "If you have a question, want some more information or would just like to speak to someone from our team, make an enquiry now and we'll be in touch."
           }
         </h2>
-        <Link href="/contact-us" passHref
-           className="bg-secondary text-white font-roboto uppercase rounded-md border cursor-pointer border-secondary px-4 py-2 flex justify-center items-center hover:bg-primary hover:border-primary text-sm sm:text-base md:text-lg">
-            Contact Us <FaArrowRightLong className="text-xl sm:text-2xl ml-2" />
+        <Link
+          href="/contact-us"
+          passHref
+          className="bg-secondary text-white font-roboto uppercase rounded-md border cursor-pointer border-secondary px-4 py-2 flex justify-center items-center hover:bg-primary hover:border-primary text-sm sm:text-base md:text-lg"
+        >
+          Enquire Now
         </Link>
       </div>
     </section>

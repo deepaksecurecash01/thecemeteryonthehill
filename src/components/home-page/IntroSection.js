@@ -10,7 +10,7 @@ import {
 
 const IntroSection = () => {
   return (
-    <section className="relative h-full lg:min-h-screen grid grid-cols-1 lg:grid-cols-7 place-items-center overflow-hidden">
+    <section className="relative h-full xl:min-h-screen grid grid-cols-1 xl:grid-cols-6 place-items-center overflow-hidden">
       <div
         className="absolute top-0 left-0 h-full w-full bg-ellipse-1 bg-cover bg-no-repeat -z-10"
         aria-hidden="true"
@@ -20,39 +20,61 @@ const IntroSection = () => {
         aria-hidden="true"
       />
 
-      <div className="relative col-span-1 h-[30vh]  lg:col-span-4 lg:h-full w-full flex justify-end items-end order-1 lg:order-2">
+      <div className="relative col-span-1 h-[30vh]  xl:col-span-3 xl:h-full w-full flex justify-end items-end order-1 xl:order-2">
         <div
           className="absolute w-full h-full bg-intro-overlay bg-cover bg-no-repeat object-right -z-20"
           aria-hidden="true"
         />
-        <div
-         
-          className="object-bottom rounded-t-2xl w-full h-full"
-        >
+        <div className="object-bottom rounded-t-2xl w-full h-full">
           <Image
             src="/images/intro-statue.png"
             layout="fill"
             loading="lazy"
-            objectFit="contain"
             alt="Historic Cemetery Statue"
+            className=" object-contain xl:object-cover 3xl:object-contain"
           />
         </div>
       </div>
 
-      <div className="col-span-1 lg:col-span-3 lg:h-full w-full py-6 px-8 xl:px-12 md:pr-4 space-y-6 md:flex md:flex-col justify-start lg:justify-center items-start order-2 lg:order-1">
-        <h1 className="text-[1.75rem] md:text-[4rem] font-bold text-start text-primary font-display">
-          The Historic Cemetery on the Hill
+      <div className="col-span-1 xl:col-span-3 lg:h-full w-full py-6 px-8 xl:px-12 md:pr-4 space-y-6 md:flex md:flex-col justify-start xl:justify-center items-start order-2 xl:order-1">
+        <h1 className="text-[1.75rem] md:text-[3rem] font-bold text-start text-primary font-display">
+          PRESERVING HISTORY, HONOURING LEGACIES
         </h1>
         <p className="text-base tracking-wide md:text-lg text-start text-paragraph">
-          Perched on top of a hill overlooking the Onkaparinga River and the
-          beautiful township of Old Noarlunga is The Church and Cemetery on the
-          Hill. Formerly the Church and Cemetery of St Philip and St James,
-          which was established in 1850 shortly after the first European
-          settlement in the area around the 1840s. <br /> On the 25th of July
-          1850, the land was conveyed in trust for erection and maintenance of a
-          Church of England, with Richard Bosworth, James Clark, and Philip
-          Hollins appointed as trustees. The Church and Cemetery’s former name,
-          St Philip & St James, was in honour of Mssrs Clark and Hollins.
+          High on the hill overlooking Old Noarlunga, The Church on The Hill,
+          previously the Church of St. Philip and St. James, along with its
+          cemetery, has stood as a steadfast symbol of community since 1850. The
+          construction of the church was made possible through the tireless
+          efforts of local figures such as Richard Bosworth, Philip Hollins, and
+          James Clark, who raised funds and gathered support from the community
+          to build a place of assembly and worship.
+        </p>
+        <p className="text-base tracking-wide md:text-lg text-start text-paragraph">
+          The rocks used to build the Church were quarried from the banks of the
+          Onkaparinga River and hauled up the steep hill—a lasting testament to
+          the skill of local stonemasons, including William Davey and Mr.
+          Shepard. Despite its isolated location atop a steep hill, which made
+          attendance difficult for some, the Church quickly became a spiritual
+          anchor for the community. Bishop Augustus Short, South Australia's
+          first Church of England bishop, laid the foundation stone, marking the
+          beginning of a long history of The Church on The Hill.
+        </p>
+        <p className="text-base tracking-wide md:text-lg text-start text-paragraph">
+          The Cemetery, nestled beside the Church, became the resting place for
+          the early settlers who played a key role in shaping the region. Over
+          the years, our grounds have witnessed the passage of time, with
+          generations of families returning to honour those who came before
+          them. Listed on the State Heritage Register in 1985, the Cemetery and
+          Church are both recognised for their historical and cultural
+          significance, with ongoing restoration efforts ensuring that this
+          important piece of South Australian heritage is preserved for future
+          generations.
+        </p>
+        <p className="text-base tracking-wide md:text-lg text-start text-paragraph">
+          Today, The Cemetery on The Hill continues to offer a serene place for
+          ashes interments, pet interments, burials and memorials, maintaining
+          the deep connection between the land, the community, and the history
+          that has sustained it for more than 170 years.
         </p>
         <Link href="/contact-us" passHref>
           <span className="flex items-center justify-center mt-4 md:mt-0 px-4 py-2 lg:px-6 lg:py-3 text-white bg-secondary border border-secondary rounded-md cursor-pointer font-roboto uppercase lg:text-xl hover:bg-primary hover:border-primary">

@@ -18,14 +18,22 @@ export const RenewFormSchema = z.object({
     .string()
     .nonempty("Name of Deceased is required.")
     .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-  dateofBirth: z.date({
-    required_error: "Date of Birth is required",
-    invalid_type_error: "Date of Birth is required",
-  }),
-  dateOfDeath: z.date({
-    required_error: "Date of Death is required",
-    invalid_type_error: "Date of Death is required",
-  }),
+  dateofBirth: z
+    .date({
+      required_error: "Date of Birth is required",
+      invalid_type_error: "Date of Birth is required",
+    })
+    .refine((date) => date <= new Date(), {
+      message: "Date of Birth must be in the past or today",
+    }),
+  dateOfDeath: z
+    .date({
+      required_error: "Date of Death is required",
+      invalid_type_error: "Date of Death must be a valid date",
+    })
+    .refine((date) => date <= new Date(), {
+      message: "Date of Death must be in the past or today",
+    }),
   rowPlot: z.string().optional(),
   preferredContactMethod: z.enum(["email", "phone"], {
     errorMap: () => ({ message: "Contact Method is required." }),
@@ -34,4 +42,12 @@ export const RenewFormSchema = z.object({
     required_error: "Preferred Contact Date is required.",
     invalid_type_error: "Preferred Contact Date is required.",
   }),
-});
+})
+  .superRefine((data, ctx) => {
+    if (data.dateofBirth <= data.dateOfDeath) {
+      ctx.addIssue({
+        path: ["dateOfDeath"],
+        message: "Date of Death must be after Date of Birth.",
+      });
+    }
+  });

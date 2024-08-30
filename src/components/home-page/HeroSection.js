@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
@@ -30,7 +30,7 @@ const HeroSection = () => {
         aria-hidden="true"
       />
       <div className="flex flex-col justify-between items-center w-full h-full overflow-hidden px-4 sm:px-8">
-        <div className="flex flex-col h-full justify-center lg:justify-center xl:justify-end items-center max-w-2xl lg:max-w-2xl xl:pt-16 sm:space-y-6 md:space-y-6 lg:space-y-4 gap-4 md:h-[60vh] xl:h-auto text-center">
+        <div className="flex flex-col h-full justify-center lg:justify-center xl:justify-end items-center max-w-2xl lg:max-w-5xl xl:pt-16 gap-6 md:h-[60vh] xl:h-auto text-center">
           <motion.h1
             className="text-4xl sm:text-4xl md:text-5xl font-script font-semibold text-secondary tracking-wider"
             initial="hidden"
@@ -39,25 +39,39 @@ const HeroSection = () => {
           >
             Welcome to
           </motion.h1>
-          <motion.h2
-            className="text-[1.75rem] md:text-[2.75rem] font-bold font-display text-primary"
-            initial="hidden"
-            animate="visible"
-            variants={textVariants}
-          >
-            THE HISTORIC CEMETERY ON THE HILL
-          </motion.h2>
+          <div className="flex flex-col gap-2">
+            <motion.h2
+              className="text-[1.5rem] md:text-3xl lg:text-4xl xl:text-[2.75rem] font-bold font-display text-primary"
+              initial="hidden"
+              animate="visible"
+              variants={textVariants}
+            >
+              THE HISTORIC CEMETERY ON THE HILL
+            </motion.h2>
+            <motion.h2
+              className="text-xl md:text-2xl lg:text-[1.75rem] font-roboto text-primary"
+              initial="hidden"
+              animate="visible"
+              variants={textVariants}
+            >
+              A State Heritage Cemetery in Adelaide, South Australia
+            </motion.h2>
+          </div>
           <motion.p
             className="text-sm sm:text-base md:text-lg lg:text-lg text-paragraph tracking-wide"
             initial="hidden"
             animate="visible"
             variants={textVariants}
           >
-            Perched on top of a hill overlooking the Onkaparinga River and the
-            beautiful township of Old Noarlunga is The Church and Cemetery on
-            the Hill. Formerly the Church and Cemetery of St Philip and St
-            James, which was established in 1850 shortly after the first
-            European settlement in the area around the 1840s.
+            Nestled above the serene landscape of Old Noarlunga, with a backdrop
+            overlooking the Onkaparinga River, The Cemetery on The Hill offers a
+            peaceful final resting place for all families. For over a century
+            and a half, this hallowed ground has been the eternal home for the
+            early settlers and pioneering families who helped shape the
+            Noarlunga and surrounding districts. With its rich historical
+            significance, The Cemetery on The Hill continues to offer dignified
+            interment services, providing families a place of meaningful
+            memorial, today and for generations to come.
           </motion.p>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-3 h-full md:h-auto xl:h-full md:grid-cols-6 xl:grid-cols-8 gap-4 place-items-end overflow-hidden w-full mt-8">

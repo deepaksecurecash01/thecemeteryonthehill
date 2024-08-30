@@ -26,13 +26,13 @@ const CustomPrevArrow = ({ currentSlide, slideCount, onClick }) => (
 const CustomNextArrow = ({ currentSlide, slideCount, onClick }) => (
   <div
     className={`absolute rounded-sm p-4 -top-[3.8rem] right-[2rem]  xl:-top-[4.8rem] xl:right-[2rem] ${
-      currentSlide === slideCount - 1
+      !onClick
         ? "bg-secondary/50"
         : "bg-secondary/75 cursor-pointer"
     }`}
     style={{ animation: "moveRightLeft 1.5s infinite", zIndex: 1 }}
     onClick={() => {
-      if (currentSlide !== slideCount - 1) {
+      if (onClick) {
         onClick();
       }
     }}
@@ -45,64 +45,33 @@ function TestimonialSlider() {
   const testimonials = [
     {
       review:
-        "This platform has transformed our business processes. The intuitive design and robust features make it a must-have for any enterprise.",
-      rating: 5,
-      fullname: "Deepak Kumar",
-      position: "Project Manager",
-      image: "/images/testimonials/dk.png",
+        "What a wonderful thing you’re all doing. I love learning about others even if I am not related to them. Cemeteries give us all a look into those that were here before us and old headstones have so much information.",
+      fullname: "Jodie B.",
     },
     {
       review:
-        "A fantastic solution for our team's collaboration needs. The seamless integration with our existing tools is a game-changer. ",
-      rating: 4,
-      fullname: "Charlie Brown",
-      position: "Product Owner",
-      image: "/images/testimonials/download (1).jpeg",
+        "Our great great grandfather’s legacy lives on in this beautiful church, cemetery and its land. Our family wishes all the very best to all involved in the renovation of The Cemetery on The Hill-a wonderful place of historic importance and for reflection.",
+      fullname: "Sharon F.",
     },
     {
       review:
-        "Excellent customer service and a product that truly delivers on its promises. We’ve seen significant improvements in efficiency. ",
-      rating: 4,
-      fullname: "Dylan Cross",
-      position: "Senior Developer",
-      image: "/images/testimonials/download.jpeg",
+        "Thank you for restoring the graves of the pioneers of the Onkaparinga District.",
+      fullname: "Mary S.",
+    },
+    {
+      review: "Looks beautiful. So glad mum is resting in a beautiful place.",
+      fullname: "Kaylene P.",
     },
     {
       review:
-        "User-friendly interface and outstanding performance. It’s been a vital tool for our day-to-day operations. ",
-      rating: 5,
-      fullname: "Dana White",
-      position: "Business Analyst",
-      image: "/images/testimonials/images.jpeg",
-    },
-    {
-      review:
-        "The best investment we’ve made this year. The features are exactly what we needed, and the support team is phenomenal. ",
-      rating: 5,
-      fullname: "Eli Martinez",
-      position: "IT Director",
-      image: "/images/testimonials/images (1).jpeg",
-    },
-    {
-      review:
-        "User-friendly interface and outstanding performance. It’s been a vital tool for our day-to-day operations. ",
-      rating: 5,
-      fullname: "Dana White",
-      position: "Business Analyst",
-      image: "/images/testimonials/images.jpeg",
-    },
-    {
-      review:
-        "The best investment we’ve made this year. The features are exactly what we needed, and the support team is phenomenal. ",
-      rating: 5,
-      fullname: "Eli Martinez",
-      position: "IT Director",
-      image: "/images/testimonials/images (1).jpeg",
+        "This is very lovely. I recently visited The Cemetery on The Hill and thought it had been kept lovely and well-maintained. Very good team they have keeping it all together up there!",
+      fullname: "Erin S.",
     },
   ];
 
+
   const settings = {
-    infinite: true,
+    infinite: false,
     speed: 500,
     slidesToShow: 4,
     slidesToScroll: 1,
@@ -115,7 +84,7 @@ function TestimonialSlider() {
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
       {
@@ -123,7 +92,7 @@ function TestimonialSlider() {
         settings: {
           slidesToShow: 4,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
       {
@@ -131,7 +100,7 @@ function TestimonialSlider() {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
       {
@@ -139,7 +108,7 @@ function TestimonialSlider() {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
       {
@@ -147,7 +116,7 @@ function TestimonialSlider() {
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
       {
@@ -155,7 +124,7 @@ function TestimonialSlider() {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
       {
@@ -163,7 +132,7 @@ function TestimonialSlider() {
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
-          infinite: true,
+          infinite: false,
         },
       },
 
@@ -196,23 +165,11 @@ function TestimonialSlider() {
       <div className="">
         <Slider {...settings}>
           {testimonials.map(
-            ({ fullname, review, rating, position, image }, index) => {
-              const stars = Array(5)
-                .fill()
-                .map((_, starIndex) =>
-                  starIndex < rating ? (
-                    <IoStar key={starIndex} className="text-4xl text-primary" />
-                  ) : (
-                    <IoStarOutline
-                      key={starIndex}
-                      className="text-4xl text-primary"
-                    />
-                  )
-                );
+            ({ fullname, review }, index) => {
+          
               return (
                 <div
-                  key={index}
-                  className="bg-secondary/50 backdrop-blur-lg px-8 py-8 rounded-md flex flex-col items-center justify-evenly w-full slide-item"
+                  className="flex flex-col items-center max-w-lg mx-12 lg:mx-0 bg-secondary/50 backdrop-blur-lg rounded-md px-8 py-8 slide-item"
                   style={{
                     boxShadow: "0 .1em .8em #212121",
                     display: "flex",
@@ -224,33 +181,20 @@ function TestimonialSlider() {
                     borderRadius: "10px",
                   }}
                 >
-                  <div className="h-20 4xl:h-24 flex justify-center items-center">
-                    <q className="text-paragraph font-semibold text-base tracking-wide h-full lg:text-lg">
+                  <div className="h-64 4xl:h-64 flex justify-center items-center">
+                  
+
+                    <q className="text-paragraph relative font-semibold text-base tracking-wide h-full lg:text-lg">
                       {review}
                     </q>
                   </div>
 
-                  <div className="space-y-4 flex flex-col justify-center items-center h-full">
-                    <div className="flex justify-center items-center">
-                      {stars}
-                    </div>
-                    <div className="h-16 w-16 md:h-24 md:w-24 flex justify-center items-center relative">
-                      <Image
-                        src={image}
-                        fill
-                        loading="lazy"
-                        alt={`${fullname}'s review about 'The Cemetery on the hill'`}
-                        className="absolute rounded-full object-cover"
-                      />
-                    </div>
-                    <div className=" space-y-2 flex flex-col justify-center items-center">
-                      <h3 className="text-2xl text-tertiary font-semibold font-display">
-                        {fullname}
-                      </h3>
-                      <p className="text-base font-medium text-paragraph lg:text-lg">
-                        {position}
-                      </p>
-                    </div>
+                  <div className=" space-y-2 flex flex-col justify-center items-center">
+                    <span className="w-12 h-1 my-2 rounded-lg bg-primary z-50"></span>
+
+                    <h3 className="text-2xl text-tertiary font-semibold font-display">
+                      {fullname}
+                    </h3>
                   </div>
                 </div>
               );
