@@ -170,6 +170,7 @@ function TestimonialSlider() {
               return (
                 <div
                   className="flex flex-col items-center max-w-lg mx-12 lg:mx-0 bg-secondary/50 backdrop-blur-lg rounded-md px-8 py-8 slide-item"
+                  key={index}
                   style={{
                     boxShadow: "0 .1em .8em #212121",
                     display: "flex",
