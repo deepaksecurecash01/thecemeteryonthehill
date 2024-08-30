@@ -33,7 +33,7 @@ const MiscFeesTable = ({ miscFees }) => {
         </h2>
         <div className="flex flex-col py-4 shadow-sm  p-4 mb-4 border border-gray-300 bg-white rounded-lg ">
           {miscFees.map((fee, index) => (
-            <div className="  mb-2">
+            <div key={index} className="  mb-2">
               <span className="font-medium">{fee.name}&nbsp; : &nbsp;</span>
               <span className="text-primary font-display font-bold ">
                 $ {formatNumber(fee.fee)}

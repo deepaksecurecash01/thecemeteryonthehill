@@ -5,8 +5,8 @@ const AshesLocationTable = ({ashesLocations, formattedTotalAmount,totalAmount}) 
   return (
     <>
       <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary py-2 text-start hidden lg:block">
-        Location Fees below to be paid in addition to the 'Administration Fee'
-        as per above
+        Location Fees below to be paid in addition to the &apos;Administration
+        Fee&apos; as per above
       </h2>
       <div
         className="w-full hidden lg:table p-4 border border-gray-300 bg-white rounded-lg shadow-sm"
@@ -50,8 +50,8 @@ const AshesLocationTable = ({ashesLocations, formattedTotalAmount,totalAmount}) 
 
       <div className="flex flex-col py-4  lg:hidden">
         <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary py-2 text-start">
-          Location Fees below to be paid in addition to the 'Administration Fee'
-          as per above
+          Location Fees below to be paid in addition to the &apos;Administration
+          Fee&apos; as per above
         </h2>
         {ashesLocations.map((location, index) => {
           const adminFee = location.adminFee

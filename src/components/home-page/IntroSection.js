@@ -55,9 +55,10 @@ const IntroSection = () => {
           the skill of local stonemasons, including William Davey and Mr.
           Shepard. Despite its isolated location atop a steep hill, which made
           attendance difficult for some, the Church quickly became a spiritual
-          anchor for the community. Bishop Augustus Short, South Australia's
-          first Church of England bishop, laid the foundation stone, marking the
-          beginning of a long history of The Church on The Hill.
+          anchor for the community. Bishop Augustus Short, South
+          Australia&apos;s first Church of England bishop, laid the foundation
+          stone, marking the beginning of a long history of The Church on The
+          Hill.
         </p>
         <p className="text-base tracking-wide md:text-lg text-start text-paragraph">
           The Cemetery, nestled beside the Church, became the resting place for

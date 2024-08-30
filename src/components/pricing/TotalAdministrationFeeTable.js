@@ -10,7 +10,8 @@ const TotalAdministrationFeeTable = ({fees,formattedTotalAmount}) => {
         <thead>
           <tr className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary">
             <th className="py-2 text-start w-[70%]">
-              A breakdown of the 'Administration Fee' is set out in the below:
+              A breakdown of the &apos;Administration Fee&apos; is set out in
+              the below:
             </th>
             <th className="text-center py-2 w-[30%]">Fee</th>
           </tr>
@@ -40,11 +41,12 @@ const TotalAdministrationFeeTable = ({fees,formattedTotalAmount}) => {
       </div>
       <div className="lg:hidden">
         <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary py-2 text-start">
-          A breakdown of the 'Administration Fee' is set out in the below:
+          A breakdown of the &apos;Administration Fee&apos; is set out in the
+          below:
         </h2>
         <div className="flex flex-col py-4 shadow-sm  p-4 mb-4 border border-gray-300 bg-white rounded-lg ">
           {fees.map((fee, index) => (
-            <div className="  mb-2">
+            <div className="  mb-2" key={index}>
               <span className="font-medium">{fee.name}&nbsp; : &nbsp;</span>
               <span className="text-primary font-display font-bold ">
                 $ {fee.amount}
