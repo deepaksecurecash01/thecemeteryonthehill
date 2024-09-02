@@ -7,7 +7,6 @@ import BurialLocationTable from "@/components/pricing/BurialLocationTable";
 import MiscFeesTable from "@/components/pricing/MiscFeesTable";
 
 const Page = () => {
-  // Hard-coded prices for administration fees
   const prices = {
     "Internment Rights (100 Years)": 1000,
     "Preparation for initial Interments": 2000,
@@ -15,7 +14,6 @@ const Page = () => {
     Plaque: 275,
   };
 
-  // List of ashes locations with their respective fees
   const ashesLocations = [
     { name: "New Ashes Bed", fee: 1000 },
     { name: "Historic Ashes Bed", fee: 2000 },
@@ -35,7 +33,6 @@ const Page = () => {
     },
   ];
 
-  // Misc fees list
   const miscFees = [
     { name: "Weekend Surcharge (Saturday or Sunday 10am to 4pm)", fee: 250.0 },
     {
@@ -51,80 +48,75 @@ const Page = () => {
     { name: "Memorial Mason Application Fee", fee: 275.0 },
   ];
 
-  // Calculate total amount from hard-coded prices
-  const calculateTotalAmount = () => {
-    const totalAmount = Object.values(prices).reduce(
-      (acc, price) => acc + price,
-      0
-    );
-    return totalAmount.toFixed(2);
-  };
-
-  const totalAmount = calculateTotalAmount();
+  const totalAmount = Object.values(prices)
+    .reduce((acc, price) => acc + price, 0)
+    .toFixed(2);
   const formattedTotalAmount = formatNumber(totalAmount);
 
-  // Convert prices object to array for rendering
   const fees = Object.entries(prices).map(([name, amount]) => ({
     name,
     amount: formatNumber(amount),
   }));
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden pb-10 w-full ">
+    <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden w-full">
       <div
         className="bg-ourhistoryandvision-bg bg-no-repeat bg-cover h-[30vh] w-full"
         aria-labelledby="banner-heading"
       />
 
-      <div className="absolute right-0  w-[70vw] h-full">
+      <div className="relative h-full w-full">
+        <div className="absolute right-0 w-[70vw] h-full">
+          <div
+            className="absolute w-[70%] right-0 h-full bg-intro-overlay bg-cover bg-no-repeat bottom-0 -z-20"
+            aria-hidden="true"
+          />
+          <div className="absolute -right-[28rem] w-full h-full rounded-t-2xl">
+            <Image
+              src="/images/intro-statue.png"
+              layout="fill"
+              loading="lazy"
+              alt="Historic Cemetery Statue"
+              className="object-contain xl:object-cover 3xl:object-contain"
+            />
+          </div>
+        </div>
+
         <div
-          className="absolute w-[80%] right-0 h-full bg-intro-overlay bg-cover bg-no-repeat object-right -z-20"
+          className="absolute top-0 left-0 h-full w-full bg-ellipse-1 bg-cover bg-no-repeat -z-10"
           aria-hidden="true"
         />
-        <div className="object-bottom rounded-t-2xl w-full h-full -bottom-64 -right-[28rem] absolute">
-          <Image
-            src="/images/intro-statue.png"
-            layout="fill"
-            loading="lazy"
-            alt="Historic Cemetery Statue"
-            className=" object-contain xl:object-cover 3xl:object-contain"
-          />
-        </div>
-      </div>
-      <div
-        className="absolute top-0 left-0 h-full w-full bg-ellipse-1 bg-cover bg-no-repeat -z-10"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bottom-0 right-0 h-full w-full bg-ellipse-2 bg-cover bg-no-repeat -z-10"
-        aria-hidden="true"
-      />
-      <div className=" w-full flex flex-col gap-4  items-center pt-10 lg:pt-2 xl:pt-10">
-        <div className="lg:h-[25vh] xl:h-auto flex flex-col justify-start items-start  w-[90vw] xl:w-[80vw] 3xl:w-[60vw]">
-          <h1 className="text-[1.75rem] text-start md:text-[2.75rem] font-bold font-display text-primary">
-            Pricing
-          </h1>
-        </div>
-        <div className="relative w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col gap-6 lg:pt-0">
-          <TotalAdministrationFeeTable
-            fees={fees}
-            formattedTotalAmount={formattedTotalAmount}
-          />
+        <div
+          className="absolute bottom-0 right-0 h-full w-full bg-ellipse-2 bg-cover bg-no-repeat -z-10"
+          aria-hidden="true"
+        />
 
-          <AshesLocationTable
-            ashesLocations={ashesLocations}
-            formattedTotalAmount={formattedTotalAmount}
-            totalAmount={totalAmount}
-          />
-          <BurialLocationTable
-            ashesLocations={ashesLocations}
-            formattedTotalAmount={formattedTotalAmount}
-            totalAmount={totalAmount}
-          />
-          <MiscFeesTable
-            miscFees={miscFees}
-            formattedTotalAmount={formattedTotalAmount}
-          />
+        <div className="w-full flex flex-col gap-4 items-center pt-10 lg:pt-2 xl:pt-10 pb-10">
+          <div className="lg:h-[25vh] xl:h-auto flex flex-col justify-start items-start w-[90vw] xl:w-[80vw] 3xl:w-[60vw]">
+            <h1 className="text-[1.75rem] text-start md:text-[2.75rem] font-bold font-display text-primary">
+              Pricing
+            </h1>
+          </div>
+          <div className="relative w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col gap-6 lg:pt-0">
+            <TotalAdministrationFeeTable
+              fees={fees}
+              formattedTotalAmount={formattedTotalAmount}
+            />
+            <AshesLocationTable
+              ashesLocations={ashesLocations}
+              formattedTotalAmount={formattedTotalAmount}
+              totalAmount={totalAmount}
+            />
+            <BurialLocationTable
+              ashesLocations={ashesLocations}
+              formattedTotalAmount={formattedTotalAmount}
+              totalAmount={totalAmount}
+            />
+            <MiscFeesTable
+              miscFees={miscFees}
+              formattedTotalAmount={formattedTotalAmount}
+            />
+          </div>
         </div>
       </div>
     </section>
