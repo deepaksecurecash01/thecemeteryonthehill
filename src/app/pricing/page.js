@@ -66,7 +66,7 @@ const Page = () => {
       />
 
       <div className="relative h-full w-full">
-        <div className="absolute right-0 w-[70vw] h-full">
+        <div className="absolute right-0 w-[70vw] h-full hidden lg:block">
           <div
             className="absolute w-[70%] right-0 h-full bg-intro-overlay bg-cover bg-no-repeat bottom-0 -z-20"
             aria-hidden="true"

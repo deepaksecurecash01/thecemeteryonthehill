@@ -11,13 +11,13 @@ const BurialLocationTable = ({ formattedTotalAmount, totalAmount }) => {
         Subject to Availability
       </td>
       <td className="text-sm md:text-base py-2 md:py-3 text-center w-[20%]">
-        $ {locationFee.toLocaleString()}
+        ${locationFee.toLocaleString()}
       </td>
       <td className="text-sm md:text-base py-2 md:py-3 text-center w-[20%]">
-        $ {formattedTotalAmount}
+        ${formattedTotalAmount}
       </td>
       <td className="text-sm md:text-base py-2 md:py-3 text-center w-[20%]">
-        $ {formatNumber(allInclusiveTotal)}
+        ${formatNumber(allInclusiveTotal)}
       </td>
     </tr>
   );
@@ -33,40 +33,41 @@ const BurialLocationTable = ({ formattedTotalAmount, totalAmount }) => {
       <div className="flex mb-2">
         <span className="font-medium">Location Fee :&nbsp;</span>
         <span className="text-primary font-display font-bold">
-          $ {locationFee.toLocaleString()}
+          ${locationFee.toLocaleString()}
         </span>
       </div>
       <div className="flex mb-2">
         <span className="font-medium">Administration Fee :&nbsp;</span>
         <span className="text-primary font-display font-bold">
-          $ {formattedTotalAmount}
+          ${formattedTotalAmount}
         </span>
       </div>
       <div className="flex mb-2">
         <span className="font-medium">All Inclusive Total :&nbsp;</span>
         <span className="text-primary font-display font-bold">
-          $ {formatNumber(allInclusiveTotal)}
+          ${formatNumber(allInclusiveTotal)}
         </span>
       </div>
     </div>
   );
 
   return (
-    <div className="p-4 border border-gray-300 bg-white rounded-lg shadow-sm">
-      <table className="w-full hidden lg:table " id="burialLocationTable">
-        <thead>
-          <tr className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary">
-            <th className="py-2 text-start w-[40%]">Burial Locations</th>
-            <th className="text-center py-2 w-[20%]">Location Fee</th>
-            <th className="text-center py-2 w-[20%]">Administration Fee</th>
-            <th className="text-center py-2 w-[20%]">All Inclusive Total</th>
-          </tr>
-        </thead>
-        <tbody>{renderTableRow()}</tbody>
-      </table>
-
+    <>
+      <div className="p-4 border border-gray-300 bg-white rounded-lg shadow-sm hidden lg:block">
+        <table className="w-full hidden lg:table " id="burialLocationTable">
+          <thead>
+            <tr className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary">
+              <th className="py-2 text-start w-[40%]">Burial Locations</th>
+              <th className="text-center py-2 w-[20%]">Location Fee</th>
+              <th className="text-center py-2 w-[20%]">Administration Fee</th>
+              <th className="text-center py-2 w-[20%]">All Inclusive Total</th>
+            </tr>
+          </thead>
+          <tbody>{renderTableRow()}</tbody>
+        </table>
+      </div>
       <div className="flex flex-col py-4 lg:hidden">{renderMobileCard()}</div>
-    </div>
+    </>
   );
 };
 

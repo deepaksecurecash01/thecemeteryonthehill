@@ -10,7 +10,7 @@ const MiscFeesTable = ({ miscFees }) => {
             {fee.name}
           </td>
           <td className="text-sm md:text-base py-2 md:py-3 text-center w-[30%]">
-            $ {formatNumber(fee.fee)}
+            ${formatNumber(fee.fee)}
           </td>
         </tr>
       ))}
@@ -27,7 +27,7 @@ const MiscFeesTable = ({ miscFees }) => {
           <div key={index} className="mb-2">
             <span className="font-medium">{fee.name}&nbsp; : &nbsp;</span>
             <span className="text-primary font-display font-bold">
-              $ {formatNumber(fee.fee)}
+              ${formatNumber(fee.fee)}
             </span>
           </div>
         ))}
@@ -36,22 +36,23 @@ const MiscFeesTable = ({ miscFees }) => {
   );
 
   return (
-    <div className="p-4 border border-gray-300 bg-white rounded-lg shadow-sm">
-      <table
-        className="w-full hidden lg:table"
-        id="totalAdministrationFeeTable"
-      >
-        <thead>
-          <tr className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary">
-            <th className="py-2 text-start w-[70%]">Misc</th>
-            <th className="text-center py-2 w-[30%]">Fee</th>
-          </tr>
-        </thead>
-        <tbody>{renderTableRows()}</tbody>
-      </table>
-
+    <>
+      <div className="p-4 border border-gray-300 bg-white rounded-lg shadow-sm hidden lg:block">
+        <table
+          className="w-full hidden lg:table"
+          id="totalAdministrationFeeTable"
+        >
+          <thead>
+            <tr className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary">
+              <th className="py-2 text-start w-[70%]">Misc</th>
+              <th className="text-center py-2 w-[30%]">Fee</th>
+            </tr>
+          </thead>
+          <tbody>{renderTableRows()}</tbody>
+        </table>
+      </div>
       {renderMobileView()}
-    </div>
+    </>
   );
 };
 

@@ -9,7 +9,7 @@ const TotalAdministrationFeeTable = ({ fees, formattedTotalAmount }) => {
             {fee.name}
           </td>
           <td className="text-sm md:text-base py-2 md:py-3 text-center w-[30%]">
-            $ {fee.amount}
+            ${fee.amount}
           </td>
         </tr>
       ))}
@@ -27,14 +27,14 @@ const TotalAdministrationFeeTable = ({ fees, formattedTotalAmount }) => {
           <div className="mb-2" key={index}>
             <span className="font-medium">{fee.name}&nbsp; : &nbsp;</span>
             <span className="text-primary font-display font-bold">
-              $ {fee.amount}
+              ${fee.amount}
             </span>
           </div>
         ))}
         <div className="flex mb-2">
           <span className="font-medium">Total Administration Fee : &nbsp;</span>
           <span className="text-primary font-display font-bold">
-            $ {formattedTotalAmount}
+            ${formattedTotalAmount}
           </span>
         </div>
       </div>
@@ -42,34 +42,37 @@ const TotalAdministrationFeeTable = ({ fees, formattedTotalAmount }) => {
   );
 
   return (
-    <div className="p-4 border border-gray-300 bg-white rounded-lg shadow-sm">
-      <table
-        className="w-full hidden lg:table "
-        id="totalAdministrationFeeTable"
-      >
-        <thead>
-          <tr className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary">
-            <th className="py-2 text-start w-[70%]">
-              A breakdown of the &apos;Administration Fee&apos; is set out in
-              the below:
-            </th>
-            <th className="text-center py-2 w-[30%]">Fee</th>
-          </tr>
-        </thead>
-        <tbody>{renderTableRows()}</tbody>
-        <tfoot>
-          <tr className="font-bold font-display text-sm md:text-base lg:text-lg text-primary border-primary">
-            <td className="text-start py-2 w-[70%]">
-              Total Administration Fee
-            </td>
-            <td className="text-center py-2 w-[30%]">
-              $ {formattedTotalAmount}
-            </td>
-          </tr>
-        </tfoot>
-      </table>
+    <>
+      <div className="p-4 border border-gray-300 bg-white rounded-lg shadow-sm hidden lg:block">
+        <table
+          className="w-full hidden lg:table "
+          id="totalAdministrationFeeTable"
+        >
+          <thead>
+            <tr className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary">
+              <th className="py-2 text-start w-[70%]">
+                A breakdown of the &apos;Administration Fee&apos; is set out in
+                the below:
+              </th>
+              <th className="text-center py-2 w-[30%]">Fee</th>
+            </tr>
+          </thead>
+          <tbody>{renderTableRows()}</tbody>
+          <tfoot>
+            <tr className="font-bold font-display text-sm md:text-base lg:text-lg text-primary border-primary">
+              <td className="text-start py-2 w-[70%]">
+                Total Administration Fee
+              </td>
+              <td className="text-center py-2 w-[30%]">
+                ${formattedTotalAmount}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
       {renderMobileView()}
-    </div>
+    </>
   );
 };
 

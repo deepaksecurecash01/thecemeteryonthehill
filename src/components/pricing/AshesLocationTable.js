@@ -19,13 +19,13 @@ const AshesLocationTable = ({
             {location.name}
           </td>
           <td className="text-sm md:text-base py-2 md:py-3 text-center w-[20%]">
-            $ {formatNumber(location.fee)}
+            ${formatNumber(location.fee)}
           </td>
           <td className="text-sm md:text-base py-2 md:py-3 text-center w-[20%]">
-            {adminFee !== "N/A" ? `$ ${adminFee}` : "N/A"}
+            {adminFee !== "N/A" ? `$${adminFee}` : "N/A"}
           </td>
           <td className="text-sm md:text-base py-2 md:py-3 text-center w-[20%]">
-            $ {formatNumber(allInclusiveTotal)}
+            ${formatNumber(allInclusiveTotal)}
           </td>
         </tr>
       );
@@ -53,19 +53,19 @@ const AshesLocationTable = ({
           <div className="flex mb-2">
             <span className="font-medium">Location Fee :&nbsp;</span>
             <span className="text-primary font-display font-bold">
-              $ {location.fee}
+              ${location.fee}
             </span>
           </div>
           <div className="flex mb-2">
             <span className="font-medium">Administration Fee :&nbsp;</span>
             <span className="text-primary font-display font-bold">
-              {adminFee !== "N/A" ? `$ ${adminFee}` : "N/A"}
+              {adminFee !== "N/A" ? `$${adminFee}` : "N/A"}
             </span>
           </div>
           <div className="flex mb-2">
             <span className="font-medium">All Inclusive Total :&nbsp;</span>
             <span className="text-primary font-display font-bold">
-              $ {formatNumber(allInclusiveTotal)}
+              ${formatNumber(allInclusiveTotal)}
             </span>
           </div>
         </div>
@@ -79,7 +79,7 @@ const AshesLocationTable = ({
         Location Fees below to be paid in addition to the &apos;Administration
         Fee&apos; as per above
       </h2>
-      <div className="p-4 border border-gray-300 bg-white rounded-lg shadow-sm">
+      <div className="p-4 border border-gray-300 bg-white rounded-lg shadow-sm hidden lg:block">
         <table className="w-full hidden lg:table " id="ashesLocationTable">
           <thead>
             <tr className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary">
