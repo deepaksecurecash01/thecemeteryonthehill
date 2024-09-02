@@ -19,7 +19,7 @@ const MiscFeesTable = ({ miscFees }) => {
 
   const renderMobileView = () => (
     <div className="lg:hidden">
-      <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary py-2 text-start">
+      <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary p-2 text-start">
         Misc Fee
       </h2>
       <div className="flex flex-col py-4 shadow-sm p-4 mb-4 border border-gray-300 bg-white rounded-lg">

@@ -66,7 +66,12 @@ const BurialLocationTable = ({ formattedTotalAmount, totalAmount }) => {
           <tbody>{renderTableRow()}</tbody>
         </table>
       </div>
-      <div className="flex flex-col py-4 lg:hidden">{renderMobileCard()}</div>
+      <div className="flex flex-col py-4 lg:hidden">
+        <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary p-2 text-start">
+          Burial Location Fee
+        </h2>
+        {renderMobileCard()}
+      </div>
     </>
   );
 };

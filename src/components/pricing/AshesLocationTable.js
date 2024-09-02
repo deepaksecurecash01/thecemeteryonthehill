@@ -75,7 +75,7 @@ const AshesLocationTable = ({
 
   return (
     <>
-      <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary py-2 text-start hidden lg:table">
+      <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary p-2 text-start hidden lg:table">
         Location Fees below to be paid in addition to the &apos;Administration
         Fee&apos; as per above
       </h2>
@@ -94,9 +94,12 @@ const AshesLocationTable = ({
       </div>
 
       <div className="flex flex-col py-4 lg:hidden">
-        <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary py-2 text-start">
+        <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary py-2 px-2 text-start">
           Location Fees below to be paid in addition to the &apos;Administration
-          Fee&apos; as per above
+          Fee&apos; as per above.
+        </h2>
+        <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary py-2 px-2 text-start">
+          Ashes Location Fee
         </h2>
         {renderMobileCards()}
       </div>

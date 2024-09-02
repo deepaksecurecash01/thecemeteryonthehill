@@ -18,7 +18,7 @@ const TotalAdministrationFeeTable = ({ fees, formattedTotalAmount }) => {
 
   const renderMobileView = () => (
     <div className="lg:hidden">
-      <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary py-2 text-start">
+      <h2 className="font-bold font-display text-primary text-sm md:text-base lg:text-lg border-primary p-2 text-start">
         A breakdown of the &apos;Administration Fee&apos; is set out in the
         below:
       </h2>
