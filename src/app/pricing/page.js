@@ -10,7 +10,7 @@ const Page = () => {
   const prices = {
     "Internment Rights (100 Years)": 1000,
     "Preparation for initial Interments": 2000,
-    "Ongoing maintenance Fee ($ 50 per year)": 5000,
+    "Ongoing maintenance Fee ($50 per year)": 5000,
     Plaque: 275,
   };
 
@@ -66,7 +66,7 @@ const Page = () => {
       />
 
       <div className="relative h-full w-full">
-        <div className="absolute right-0 w-[70vw] h-full hidden lg:block">
+        <div className="absolute right-0 w-[70vw] h-full hidden 2xl:block">
           <div
             className="absolute w-[70%] right-0 h-full bg-intro-overlay bg-cover bg-no-repeat bottom-0 -z-20"
             aria-hidden="true"
@@ -92,12 +92,12 @@ const Page = () => {
         />
 
         <div className="w-full flex flex-col gap-4 items-center pt-10 lg:pt-2 xl:pt-10 pb-10">
-          <div className="lg:h-[25vh] xl:h-auto flex flex-col justify-start items-start w-[90vw] xl:w-[80vw] 3xl:w-[60vw]">
+          <div className=" flex flex-col justify-start items-start w-[90vw] xl:w-[80vw] 3xl:w-[60vw]">
             <h1 className="text-[1.75rem] text-start md:text-[2.75rem] font-bold font-display text-primary">
               Pricing
             </h1>
           </div>
-          <div className="relative w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col gap-6 lg:pt-0">
+          <div className="relative w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col lg:gap-6 lg:pt-0">
             <TotalAdministrationFeeTable
               fees={fees}
               formattedTotalAmount={formattedTotalAmount}
