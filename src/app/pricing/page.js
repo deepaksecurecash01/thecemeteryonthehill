@@ -1,7 +1,7 @@
 import Image from "next/image";
 import React from "react";
 import { formatNumber } from "@/lib/helper";
-import TotalAdministrationFeeTable from '@/components/pricing/TotalAdministrationFeeTable'
+import TotalAdministrationFeeTable from "@/components/pricing/TotalAdministrationFeeTable";
 import AshesLocationTable from "@/components/pricing/AshesLocationTable";
 import BurialLocationTable from "@/components/pricing/BurialLocationTable";
 import MiscFeesTable from "@/components/pricing/MiscFeesTable";
@@ -70,7 +70,27 @@ const Page = () => {
   }));
 
   return (
-    <section className="relative min-h-screen flex justify-center items-center overflow-hidden pb-10">
+    <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden pb-10 w-full ">
+      <div
+        className="bg-ourhistoryandvision-bg bg-no-repeat bg-cover h-[30vh] w-full"
+        aria-labelledby="banner-heading"
+      />
+
+      <div className="absolute right-0  w-[70vw] h-full">
+        <div
+          className="absolute w-[80%] right-0 h-full bg-intro-overlay bg-cover bg-no-repeat object-right -z-20"
+          aria-hidden="true"
+        />
+        <div className="object-bottom rounded-t-2xl w-full h-full -bottom-64 -right-[28rem] absolute">
+          <Image
+            src="/images/intro-statue.png"
+            layout="fill"
+            loading="lazy"
+            alt="Historic Cemetery Statue"
+            className=" object-contain xl:object-cover 3xl:object-contain"
+          />
+        </div>
+      </div>
       <div
         className="absolute top-0 left-0 h-full w-full bg-ellipse-1 bg-cover bg-no-repeat -z-10"
         aria-hidden="true"
@@ -79,9 +99,9 @@ const Page = () => {
         className="absolute bottom-0 right-0 h-full w-full bg-ellipse-2 bg-cover bg-no-repeat -z-10"
         aria-hidden="true"
       />
-      <div className=" w-full flex flex-col gap-4 items-center pt-10 lg:pt-2 xl:pt-10">
-        <div className="lg:h-[25vh] xl:h-auto flex flex-col justify-center items-center">
-          <h1 className="text-[1.75rem] md:text-[2.75rem] font-bold font-display text-primary">
+      <div className=" w-full flex flex-col gap-4  items-center pt-10 lg:pt-2 xl:pt-10">
+        <div className="lg:h-[25vh] xl:h-auto flex flex-col justify-start items-start  w-[90vw] xl:w-[80vw] 3xl:w-[60vw]">
+          <h1 className="text-[1.75rem] text-start md:text-[2.75rem] font-bold font-display text-primary">
             Pricing
           </h1>
         </div>
