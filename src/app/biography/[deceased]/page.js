@@ -2,7 +2,6 @@
 import BiographyTimeline from "@/components/biography/BiographyTimeline";
 import BiographySlider from "@/components/ui/BiographySlider";
 import { selectBiographyData } from "@/redux/slice";
-import { useRouter, useParams } from "next/navigation";
 import { useSelector } from "react-redux";
 
 const timelineData = [
@@ -159,8 +158,7 @@ const timelineData = [
 ];
 const page = () =>
 {
-  const router = useRouter();
-  console.log(router.query);
+ 
   const BiographyData = useSelector(selectBiographyData);
   const fullName = BiographyData?.givenName + " " + BiographyData?.lastName;
   return (
