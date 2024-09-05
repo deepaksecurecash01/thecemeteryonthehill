@@ -5,6 +5,7 @@ import TotalAdministrationFeeTable from "@/components/pricing/TotalAdministratio
 import AshesLocationTable from "@/components/pricing/AshesLocationTable";
 import BurialLocationTable from "@/components/pricing/BurialLocationTable";
 import MiscFeesTable from "@/components/pricing/MiscFeesTable";
+import BannerSection from "@/components/pricing/BannerSection";
 
 const Page = () => {
   const prices = {
@@ -59,67 +60,75 @@ const Page = () => {
   }));
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden w-full">
-      <div
-        className="bg-ourhistoryandvision-bg bg-no-repeat bg-cover h-[30vh] w-full"
-        aria-labelledby="banner-heading"
-      />
+    <>
+      <section className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden w-full">
+        <div
+          className="bg-ourhistoryandvision-bg bg-no-repeat bg-cover h-[30vh] w-full"
+          aria-labelledby="banner-heading"
+        />
 
-      <div className="relative h-full w-full">
-        <div className="absolute right-0 w-[70vw] h-full hidden 2xl:block">
+        <div className="relative h-full w-full">
+          <div className="absolute right-0 w-[70vw] h-full hidden 2xl:block">
+            <div
+              className="absolute w-[70%] right-0 h-full bg-intro-overlay bg-cover bg-no-repeat bottom-0 -z-20"
+              aria-hidden="true"
+            />
+            <div className="absolute -right-[28rem] w-full h-full rounded-t-2xl">
+              <Image
+                src="/images/intro-statue.png"
+                layout="fill"
+                loading="lazy"
+                alt="Historic Cemetery Statue"
+                className="object-contain xl:object-cover 3xl:object-contain"
+              />
+            </div>
+          </div>
+
           <div
-            className="absolute w-[70%] right-0 h-full bg-intro-overlay bg-cover bg-no-repeat bottom-0 -z-20"
+            className="absolute top-0 left-0 h-full w-full bg-ellipse-1 bg-cover bg-no-repeat -z-10"
             aria-hidden="true"
           />
-          <div className="absolute -right-[28rem] w-full h-full rounded-t-2xl">
-            <Image
-              src="/images/intro-statue.png"
-              layout="fill"
-              loading="lazy"
-              alt="Historic Cemetery Statue"
-              className="object-contain xl:object-cover 3xl:object-contain"
-            />
+          <div
+            className="absolute bottom-0 right-0 h-full w-full bg-ellipse-2 bg-cover bg-no-repeat -z-10"
+            aria-hidden="true"
+          />
+
+          <div className="w-full flex flex-col gap-6 items-center pt-10 pb-10">
+            <div className=" flex flex-col justify-center items-center 2xl:items-start w-[90vw] xl:w-[80vw] 3xl:w-[60vw]">
+              <h1 className="text-[1.75rem] text-start 2xl:text-center md:text-[2.75rem] font-bold font-display text-primary">
+                Pricing
+              </h1>
+              <p className="text-paragraph text-base font-bold tracking-wide p-2 lg:text-lg 2xl:w-[70%]">
+                {`At The Cemetery on The Hill, we understand the importance of clear and transparent pricing during this challenging time. Our goal is to ensure that you have all the information you need to make thoughtful decisions for your family. Below, you will find a breakdown of pricing for each of our services. If you have any questions or require further details, we are always here to assist you.`}
+              </p>
+            </div>
+            <div className="relative w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col lg:gap-6">
+              <TotalAdministrationFeeTable
+                fees={fees}
+                formattedTotalAmount={formattedTotalAmount}
+              />
+              <AshesLocationTable
+                ashesLocations={ashesLocations}
+                formattedTotalAmount={formattedTotalAmount}
+                totalAmount={totalAmount}
+              />
+              <BurialLocationTable
+                ashesLocations={ashesLocations}
+                formattedTotalAmount={formattedTotalAmount}
+                totalAmount={totalAmount}
+              />
+              <MiscFeesTable
+                miscFees={miscFees}
+                formattedTotalAmount={formattedTotalAmount}
+              />
+            </div>
+           
           </div>
         </div>
+      </section>
 
-        <div
-          className="absolute top-0 left-0 h-full w-full bg-ellipse-1 bg-cover bg-no-repeat -z-10"
-          aria-hidden="true"
-        />
-        <div
-          className="absolute bottom-0 right-0 h-full w-full bg-ellipse-2 bg-cover bg-no-repeat -z-10"
-          aria-hidden="true"
-        />
-
-        <div className="w-full flex flex-col gap-4 items-center pt-10 lg:pt-2 xl:pt-10 pb-10">
-          <div className=" flex flex-col justify-start items-start w-[90vw] xl:w-[80vw] 3xl:w-[60vw]">
-            <h1 className="text-[1.75rem] text-start md:text-[2.75rem] font-bold font-display text-primary">
-              Pricing
-            </h1>
-          </div>
-          <div className="relative w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col lg:gap-6 lg:pt-0">
-            <TotalAdministrationFeeTable
-              fees={fees}
-              formattedTotalAmount={formattedTotalAmount}
-            />
-            <AshesLocationTable
-              ashesLocations={ashesLocations}
-              formattedTotalAmount={formattedTotalAmount}
-              totalAmount={totalAmount}
-            />
-            <BurialLocationTable
-              ashesLocations={ashesLocations}
-              formattedTotalAmount={formattedTotalAmount}
-              totalAmount={totalAmount}
-            />
-            <MiscFeesTable
-              miscFees={miscFees}
-              formattedTotalAmount={formattedTotalAmount}
-            />
-          </div>
-        </div>
-      </div>
-    </section>
+      <BannerSection />
+    </>
   );
 };
 

@@ -1,0 +1,107 @@
+[
+  {
+    "lastName": "Nixon",
+    "givenName": "Tiger",
+    "maidenName": "Smith",
+    "birthDate": "15/05/1962",
+    "deathDate": "10/07/2023",
+    "intermentType": "Cremation",
+    "plotNo": "A12",
+    "biography": true
+  },
+  {
+    "lastName": "Snider",
+    "givenName": "Donna",
+    "maidenName": "Williams",
+    "birthDate": "28/02/1996",
+    "deathDate": "05/11/2080",
+    "intermentType": "Burial",
+    "plotNo": "B07"
+  },
+  {
+    "lastName": "Doe",
+    "givenName": "Jane",
+    "maidenName": "Johnson",
+    "birthDate": "22/08/1989",
+    "deathDate": "30/04/2085",
+    "intermentType": "Burial",
+    "plotNo": "C19",
+    "biography": true
+  },
+  {
+    "lastName": "Smith",
+    "givenName": "John",
+    "maidenName": "Brown",
+    "birthDate": "17/01/1984",
+    "deathDate": "21/09/2080",
+    "intermentType": "Cremation",
+    "plotNo": "D22",
+    "biography": true
+  },
+  {
+    "lastName": "Brown",
+    "givenName": "Emily",
+    "maidenName": "Davis",
+    "birthDate": "05/06/1995",
+    "deathDate": "13/12/2080",
+    "intermentType": "Burial",
+    "plotNo": "E08",
+    "biography": true
+  },
+  {
+    "lastName": "Johnson",
+    "givenName": "Michael",
+    "maidenName": "Miller",
+    "birthDate": "09/04/1979",
+    "deathDate": "14/10/2080",
+    "intermentType": "Cremation",
+    "plotNo": "F14"
+  },
+  {
+    "lastName": "Wilson",
+    "givenName": "Sarah",
+    "maidenName": "Martinez",
+    "birthDate": "30/11/1992",
+    "deathDate": "02/03/2080",
+    "intermentType": "Burial",
+    "plotNo": "G11"
+  },
+  {
+    "lastName": "Lee",
+    "givenName": "Kevin",
+    "maidenName": "Garcia",
+    "birthDate": "18/09/1986",
+    "deathDate": "23/08/2080",
+    "intermentType": "Cremation",
+    "plotNo": "H09",
+    "biography": true
+  },
+  {
+    "lastName": "Miller",
+    "givenName": "Megan",
+    "maidenName": "Martinez",
+    "birthDate": "21/03/1993",
+    "deathDate": "19/07/2080",
+    "intermentType": "Burial",
+    "plotNo": "I20"
+  },
+  {
+    "lastName": "Garcia",
+    "givenName": "David",
+    "maidenName": "Lopez",
+    "birthDate": "02/12/1988",
+    "deathDate": "25/01/2080",
+    "intermentType": "Cremation",
+    "plotNo": "J05",
+    "biography": true
+  },
+  {
+    "lastName": "Martinez",
+    "givenName": "Olivia",
+    "maidenName": "Rodriguez",
+    "birthDate": "07/07/1991",
+    "deathDate": "11/05/2080",
+    "intermentType": "Burial",
+    "plotNo": "K13"
+  }
+]

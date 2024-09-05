@@ -129,14 +129,7 @@ export default function DataTablePage() {
 
   return (
     <div className="flex justify-center items-center relative w-full overflow-hidden py-20">
-      <div
-        className="absolute bg-ellipse-2 bg-cover bg-no-repeat bottom-0 right-0 h-full w-full -z-10"
-        aria-hidden="true"
-      />
-      <div
-        className="absolute bg-ellipse-1 bg-cover bg-no-repeat top-0 left-0 h-full w-full -z-10"
-        aria-hidden="true"
-      />
+    
       <div className="lg:shadow-xl rounded-xl overflow-hidden w-[90vw] xl:w-[80vw] 3xl:w-[60vw]">
         <div
           className="relative 6xl:min-h-[35vh] flex justify-center items-center"
@@ -150,7 +143,7 @@ export default function DataTablePage() {
           <div className="absolute bg-tertiary bg-opacity-60 w-full h-full -z-10" />
           <div className="grid place-items-center gap-6 py-12 px-4 md:px-8">
             <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-white text-center font-display">
-              THE CEMETERY RECORDS
+              Expired Plots
             </h2>
             <div className="mb-3 w-[60%]">
               <div className="relative mb-4 flex w-full items-stretch">
@@ -185,10 +178,10 @@ export default function DataTablePage() {
           </div>
         </div>
 
-        <div className="h-[33rem] overflow-y-scroll bg-transparent lg:bg-white">
+        <div className="h-[33rem] overflow-y-scroll bg-transparent xl:bg-white font-roboto">
           {isClient ? (
             <>
-              <div className=" w-full table-fixed hidden lg:table">
+              <div className=" w-full table-fixed hidden xl:table">
                 <thead className="bg-secondary/50 text-paragraph sticky top-0 backdrop-blur-xl">
                   <tr>
                     <th className="py-2 text-center">LAST NAME</th>
@@ -203,77 +196,65 @@ export default function DataTablePage() {
                 <tbody>
                   {filteredData.map((item, index) => (
                     <tr key={index}>
-                      <td className="py-3 text-center font-semibold">
-                        {item.lastName}
-                      </td>
-                      <td className="py-3 text-center font-semibold">
-                        {item.givenName}
-                      </td>
-                      <td className="py-3 text-center font-semibold">
-                        {item.yearOfBirth}
-                      </td>
-                      <td className="py-3 text-center font-semibold">
-                        {item.yearOfDeath}
-                      </td>
-                      <td className="py-3 text-center font-semibold">
+                      <td className="py-3 text-center ">{item.lastName}</td>
+                      <td className="py-3 text-center ">{item.givenName}</td>
+                      <td className="py-3 text-center ">{item.yearOfBirth}</td>
+                      <td className="py-3 text-center ">{item.yearOfDeath}</td>
+                      <td className="py-3 text-center ">
                         {item.intermentType}
                       </td>
-                      <td className="py-3 text-center font-semibold">
-                        {item.plotNo}
-                      </td>
-                      <td className="py-3 text-center font-semibold">
+                      <td className="py-3 text-center ">{item.plotNo}</td>
+                      <td className="py-3 text-center ">
                         {item.leaseExpiration}
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </div>
-              <div className="flex flex-col py-4 shadow-xl lg:hidden">
+              <div className="flex flex-col py-4 shadow-xl xl:hidden">
                 {filteredData.map((item, index) => (
                   <div
                     key={index}
                     className="p-4 mb-4 border border-gray-300 bg-white rounded-lg shadow-sm"
                   >
                     <div className="flex  mb-2">
-                      <span className="font-medium">LAST NAME:&nbsp;</span>
+                      <span className="">LAST NAME:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
                         {item.lastName}
                       </span>
                     </div>
                     <div className="flex  mb-2">
-                      <span className="font-medium">GIVEN NAME:&nbsp;</span>
+                      <span className="">GIVEN NAME:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
                         {item.givenName}
                       </span>
                     </div>
                     <div className="flex  mb-2">
-                      <span className="font-medium">YEAR OF BIRTH:&nbsp;</span>
+                      <span className="">YEAR OF BIRTH:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
                         {item.yearOfBirth}
                       </span>
                     </div>
                     <div className="flex  mb-2">
-                      <span className="font-medium">YEAR OF DEATH:&nbsp;</span>
+                      <span className="">YEAR OF DEATH:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
                         {item.yearOfDeath}
                       </span>
                     </div>
                     <div className="flex  mb-2">
-                      <span className="font-medium">INTERMENT TYPE:&nbsp;</span>
+                      <span className="">INTERMENT TYPE:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
                         {item.intermentType}
                       </span>
                     </div>
                     <div className="flex  mb-2">
-                      <span className="font-medium">PLOT NO.:&nbsp;</span>
+                      <span className="">PLOT NO.:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
                         {item.plotNo}
                       </span>
                     </div>
                     <div className="flex ">
-                      <span className="font-medium">
-                        LEASE EXPIRATION:&nbsp;
-                      </span>
+                      <span className="">LEASE EXPIRATION:&nbsp;</span>
                       <span className="text-primary font-display font-bold ">
                         {item.leaseExpiration}
                       </span>
@@ -283,10 +264,20 @@ export default function DataTablePage() {
               </div>
             </>
           ) : (
-            <div>Loading...</div>
+            <div className="h-full w-full flex justify-center items-center">
+              <div
+                className="inline-block h-14 w-14 animate-spin rounded-full border-[6px] border-solid border-primary border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status"
+              >
+                <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                  Loading...
+                </span>
+              </div>
+            </div>
           )}
         </div>
       </div>
+      
     </div>
   );
 }

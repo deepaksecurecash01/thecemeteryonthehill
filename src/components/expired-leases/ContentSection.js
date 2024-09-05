@@ -6,14 +6,14 @@ import { setPopupForm } from "@/redux/slice";
 const servicesData = [
   {
     title: "RENEW INTERMENT",
-    description: `Interment right holders are entitled to renew their interment right for a set period of time prior to its expiry. The renewal term will depend on the type of interment. Ashes interment right can be renewed for another 25 years, whereas burial interment right is for 50 years. The price for renewal is determined by the plot being renewed.`,
+    description: `As the expiration date of an Interment Right approaches, holders have the option to renew for an additional period. Renewal fees vary based on the specific plot. Our team is available to guide you through the renewal process and provide all the necessary information to help you maintain your interment right at The Cemetery on The Hill.`,
     backgroundClass: "bg-expiredleases-overlay-bg",
     link: "/services/ashes",
     button: "Renew",
   },
   {
     title: "RELEASE INTERMENT",
-    description: `In the event that an interment right holder surrenders their interment right, The Cemetery on the Hill regains the right to the associated plot. The plot Interment Rights may be offered to a new holder and reused.`,
+    description: `If you choose to surrender your Interment Right, The Cemetery on The Hill will regain the right to the associated plot. Once released, the plot may become available for a new holder, ensuring the continued respectful use of our historic grounds. Rest assured that we handle all aspects of this process with care and in full compliance with South Australian regulations.`,
     backgroundClass: "bg-expiredleases-overlay-bg",
     link: "/services/pet-interments",
     button: "Release",
@@ -29,13 +29,14 @@ const ServiceCard = ({ title, description, backgroundClass, link, button }) => {
 
   return (
     <div
-      className={`${backgroundClass} backgroundClass bg-center bg-contain bg-no-repeat h-[20rem] w-full sm:w-[28rem] md:w-[40rem] lg:h-[22rem] xl:h-[24rem] md:h-[32rem] xl:w-[36rem] lg:w-[30rem]`}
+      id="leases-form"
+      className={`${backgroundClass} backgroundClass bg-center bg-contain bg-no-repeat h-[20rem] w-full sm:w-[28rem] md:w-[40rem] lg:h-[22rem] xl:h-[24rem] md:h-[32rem] xl:w-[36rem] lg:w-[31rem]`}
     >
-      <div className="h-full w-full pb-8 pt-10 flex flex-col justify-evenly px-10  sm:px-20  md:px-28 lg:px-10 xl:px-24 items-center space-y-0 md:space-y-4 lg:space-y-2 xl:space-y-0  row-span-1">
+      <div className="h-full w-full pb-8 pt-10 flex flex-col justify-evenly px-10  sm:px-20  md:px-28 lg:px-14 xl:px-24 items-center space-y-0 md:space-y-4 lg:space-y-2 xl:space-y-0  row-span-1">
         <h3 className="text-xl md:text-3xl lg:text-2xl font-bold text-primary font-display ">
           {title}
         </h3>
-        <p className="text-sm md:h-28 lg:h-44 flex justify-center items-center md:text-lg text-paragraph font-semibold tracking-wide text-center lg:text-base">
+        <p className="text-sm md:h-28 lg:h-44 flex justify-center items-center md:text-lg text-paragraph font-semibold tracking-wide text-justify lg:text-base">
           {description}
         </p>
 

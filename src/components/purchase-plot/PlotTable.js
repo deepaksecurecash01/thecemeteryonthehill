@@ -13,14 +13,22 @@ import StatusIndicator from "../ui/StatusIndicator";
 import CemeteryData from "@/json/CemeteryData.json"; // Import the JSON file directly
 
 const Legend = () => (
-  <div className="flex flex-col gap-2">
-    <StatusIndicator color="green-500" text="Available now" />
+  <div className="flex flex-col gap-4">
+    <StatusIndicator
+      color="green-500"
+      text="Green (Available Now):"
+      description=" These plots are currently available for purchase. Click on an available plot to proceed with your selection."
+    />
     <StatusIndicator
       color="orange-500"
-      text="Expired, Notifying Period - Register Interest"
+      text="Orange (Expired, Notifying Period - Register Interest):"
+      description="These plots are in the notifying period after the expiration of their lease. You can register your interest, and we will notify you if the plot becomes available."
     />
-    <StatusIndicator color="gray-200" text="Leased - Unavailable" />
-    <h5>Click on a plot number to select.</h5>
+    <StatusIndicator
+      color="gray-200"
+      text="Grey (Leased - Unavailable):"
+      description="These plots are currently leased and unavailable."
+    />
   </div>
 );
 
@@ -148,7 +156,7 @@ const PlotTable = () => {
           <div className="w-full lg:w-[80%] order-2 lg:order-1">
             <FirstRow data={CemeteryData.thecemeteryonthehill.NormalPlots} />
           </div>
-          <div className="flex flex-col gap-0 font-roboto text-paragraph text-lg order-1 lg:order-2">
+          <div className="flex flex-col gap-0 font-roboto text-lg text-paragraph order-1 lg:order-2">
             <div className="flex lg:justify-start lg:items-end lg:h-full order-2 lg:order-1">
               <Legend />
             </div>

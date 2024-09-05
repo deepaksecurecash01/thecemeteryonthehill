@@ -72,7 +72,7 @@ function BiographySlider() {
   }
 
   return (
-    <div className="slider-container space-x-2 py-10 relative cursor-grab biography-slider">
+    <div className="slider-container space-x-2 relative cursor-grab biography-slider">
       <Slider {...settings}>
         {images.map((image, index) => (
           <div
