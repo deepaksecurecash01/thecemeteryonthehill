@@ -1,8 +1,6 @@
 "use client";
 import BiographyTimeline from "@/components/biography/BiographyTimeline";
 import BiographySlider from "@/components/ui/BiographySlider";
-import { selectBiographyData } from "@/redux/slice";
-import { useSelector } from "react-redux";
 
 const timelineData = [
   {
@@ -156,11 +154,9 @@ const timelineData = [
       "On the 31st of May 1868, Mary also passed. Sadly her death came about from an accident when she was in the company of her son-in-law, Mr. Gray. They were coming into the township of Littlehampton when the horse pulling the trap, shied and overturned the vehicle, trapping Mary underneath the horse. She died the following day from her injuries, also in her 70th year. Both Richard and Mary were buried in The Cemetery on The Hill.",
   },
 ];
-const page = () =>
-{
+
+const page = ({params}) => {
  
-  const BiographyData = useSelector(selectBiographyData);
-  const fullName = BiographyData?.givenName + " " + BiographyData?.lastName;
   return (
     <div className="flex flex-col items-center justify-center relative w-full overflow-hidden py-10 gap-8">
       <div
@@ -174,7 +170,7 @@ const page = () =>
       <div className="max-w-[90%] md:max-w-[75%] xl:max-w-[60%] flex flex-col justify-center items-center gap-8">
         <div className="flex flex-col justify-center items-center gap-8">
           <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
-            {BiographyData ? fullName : "The Life of Richard and Mary Bosworth"}
+            {params ? params.deceased : "The Life of Richard and Mary Bosworth"}
           </h2>
         </div>
       </div>
