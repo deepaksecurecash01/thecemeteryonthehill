@@ -30,7 +30,7 @@ const HeroSection = () => {
         aria-hidden="true"
       />
       <div className="flex flex-col justify-between items-center w-full h-full overflow-hidden px-4 sm:px-8">
-        <div className="flex flex-col h-full justify-center lg:justify-center xl:justify-end items-center max-w-2xl lg:max-w-5xl xl:pt-16 gap-6 md:h-[60vh] xl:h-auto text-center">
+        <div className="flex flex-col h-full justify-center lg:justify-center items-center max-w-2xl lg:max-w-5xl xl:pt-16 gap-6 md:h-[60vh] xl:h-full text-center">
           <motion.h1
             className="text-4xl sm:text-4xl md:text-5xl font-script font-semibold text-secondary tracking-wider"
             initial="hidden"

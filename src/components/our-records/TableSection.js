@@ -140,7 +140,7 @@ export default function DataTablePage() {
 
   const handleNameClick = (item) =>
   {
-    dispatch(setBiographyData(item))
+    console.log(item)
     const encodedName = encodeURIComponent(
       `${item.lastName}-${item.givenName}` //id pass - solution
     ); 
