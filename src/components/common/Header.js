@@ -46,7 +46,7 @@ const Header = () => {
               </svg>
             </button>
           </div>
-          <div className="flex xl:block justify-center items-center w-full xl:w-fit">
+          <div className="flex xl:block justify-center items-center w-full xl:w-auto">
             <Link href="/" passHref>
               <Image
                 src="/images/logo.png"
@@ -57,11 +57,8 @@ const Header = () => {
               />
             </Link>
           </div>
-
           <ul
-            className={`absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2  lg:mx-auto lg:items-center lg:w-auto lg:space-x-6 xl:flex xl:space-x-4 2xl:space-x-6 ${
-             "hidden"
-            }`}
+            className={`  lg:mx-auto lg:items-center lg:w-auto lg:space-x-6 xl:flex xl:space-x-4 2xl:space-x-6 ${"hidden"} `}
           >
             {[
               { href: "/", label: "Home" },
@@ -154,6 +151,7 @@ const Header = () => {
               { href: "/pricing", label: "Pricing" },
               { href: "/purchase-plot", label: "Purchase a Plot" },
               { href: "/expired-leases", label: "Expired Leases" },
+              { href: "/our-records", label: "Our Records" },
             ].map((item) => (
               <li key={item.href}>
                 <Link href={item.href} passHref>
@@ -307,6 +305,7 @@ const Header = () => {
               { href: "/pricing", label: "Pricing" },
               { href: "/purchase-plot", label: "Purchase a Plot" },
               { href: "/expired-leases", label: "Expired Leases" },
+              { href: "/our-records", label: "Our Records" },
             ].map((item) => (
               <li key={item.href}>
                 <Link href={item.href} passHref>

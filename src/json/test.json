@@ -1,0 +1,131 @@
+{
+  "thecemeteryonthehill": {
+    "NormalPlots": {
+      "A": [
+        {
+          "Plot_Number": "A-1",
+          "Status": "available",
+          "prices": {
+            "plot_Price": 5000,
+            "Internment_Rights_100_Years": 1000,
+            "Preparation_for_initial_Interments": 2000,
+            "Ongoing_maintenance_Fee_per_year": 5000,
+            "Plaque": 275
+          },
+          "Holders": [
+            {
+              "Deceased": {
+                "Last_Name": "Doe",
+                "First_Name": "John",
+                "Maiden_Name": "",
+                "Gender": "Male",
+                "Birthdate": "1980-01-01",
+                "Birthplace": "Cityville",
+                "Baptism_Date": "",
+                "Baptism_Place": "",
+                "Address": "123 Main St"
+              },
+              "Internment": {
+                "Type": "Grave",
+                "Date": "2024-07-18",
+                "Plot_Number": "A-1",
+                "GPS": "",
+                "Celebrant": "",
+                "Death_Date": "2024-07-15",
+                "Date_Place": "Hospital",
+                "Cause_of_Death": "Natural causes",
+                "Age_of_Death": 44,
+                "Status": "internment-current"
+              },
+              "Lease": {
+                "Number": "L-001",
+                "Payment": "$1000",
+                "Payment_Date": "2024-07-01",
+                "Term_Years": 10,
+                "Expiration": "2034-07-01",
+                "Name": "Jane Doe",
+                "Email": "jane.doe@example.com",
+                "Mobile": "+1234567890",
+                "Address": "456 Oak Ave"
+              }
+            }
+          ]
+        }
+      ],
+      "B": [],
+      "C": [],
+      "D": [],
+      "E": [],
+      "F": [],
+      "G": [],
+      "H": [],
+      "I": [],
+      "J": [],
+      "K": [],
+      "L": [],
+      "M": [],
+      "N": [],
+      "O": [],
+      "P": []
+    },
+    "AshesSections": {
+      "SandStoneAshesBed": [
+        {
+          "Plot_Number": "1",
+          "Status": "available",
+          "prices": {
+            "plot_Price": 5000,
+            "Internment_Rights_100_Years": 1000,
+            "Preparation_for_initial_Interments": 2000,
+            "Ongoing_maintenance_Fee_per_year": 5000,
+            "Plaque": 275
+          },
+          "Holders": [
+            {
+              "Deceased": {
+                "Last_Name": "Doe",
+                "First_Name": "John",
+                "Maiden_Name": "",
+                "Gender": "Male",
+                "Birthdate": "1980-01-01",
+                "Birthplace": "Cityville",
+                "Baptism_Date": "",
+                "Baptism_Place": "",
+                "Address": "123 Main St"
+              },
+              "Internment": {
+                "Type": "Grave",
+                "Date": "2024-07-18",
+                "Plot_Number": "1",
+                "GPS": "",
+                "Celebrant": "",
+                "Death_Date": "2024-07-15",
+                "Date_Place": "Hospital",
+                "Cause_of_Death": "Natural causes",
+                "Age_of_Death": 44,
+                "Status": "internment-current"
+              },
+              "Lease": {
+                "Number": "001",
+                "Payment": "$1000",
+                "Payment_Date": "2024-07-01",
+                "Term_Years": 10,
+                "Expiration": "2034-07-01",
+                "Name": "Jane Doe",
+                "Email": "jane.doe@example.com",
+                "Mobile": "+1234567890",
+                "Address": "456 Oak Ave"
+              }
+            }
+          ]
+        }
+      ],
+      "NewAshesBed": [],
+      "HistoricAshesBed": [],
+      "RoseGardenBed": [],
+      "AshesWall1": [],
+      "AshesWall2": [],
+      "FrontFence": []
+    }
+  }
+}

@@ -184,13 +184,13 @@ export default function DataTablePage() {
               <div className=" w-full table-fixed hidden xl:table">
                 <thead className="bg-secondary/50 text-paragraph sticky top-0 backdrop-blur-xl">
                   <tr>
-                    <th className="py-2 text-center">LAST NAME</th>
-                    <th className="py-2 text-center">GIVEN NAME</th>
-                    <th className="py-2 text-center">YEAR OF BIRTH</th>
-                    <th className="py-2 text-center">YEAR OF DEATH</th>
-                    <th className="py-2 text-center">INTERMENT TYPE</th>
-                    <th className="py-2 text-center">PLOT NO.</th>
-                    <th className="py-2 text-center">LEASE EXPIRATION</th>
+                    <th className="py-2 text-center font-normal">LAST NAME</th>
+                    <th className="py-2 text-center font-normal">GIVEN NAME</th>
+                    <th className="py-2 text-center font-normal">YEAR OF BIRTH</th>
+                    <th className="py-2 text-center font-normal">YEAR OF DEATH</th>
+                    <th className="py-2 text-center font-normal">INTERMENT TYPE</th>
+                    <th className="py-2 text-center font-normal">PLOT NO.</th>
+                    <th className="py-2 text-center font-normal">LEASE EXPIRATION</th>
                   </tr>
                 </thead>
                 <tbody>

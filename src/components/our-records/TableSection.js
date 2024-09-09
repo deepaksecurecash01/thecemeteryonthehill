@@ -150,7 +150,7 @@ export default function DataTablePage() {
   };
 
   return (
-    <div className="lg:shadow-xl rounded-xl overflow-hidden w-[90vw] xl:w-[80vw] 3xl:w-[60vw] my-10">
+    <div className="lg:shadow-xl rounded-xl overflow-hidden w-[90vw] xl:w-[80vw] my-10">
       <div
         className="relative 6xl:min-h-[35vh] flex justify-center items-center"
         aria-labelledby="banner-heading"
@@ -198,20 +198,20 @@ export default function DataTablePage() {
         </div>
       </div>
 
-      <div className="h-[33rem] overflow-y-scroll bg-transparent xl:bg-white font-roboto">
+      <div className="h-[34rem] overflow-y-scroll bg-transparent xl:bg-white font-roboto">
         {isClient ? (
           <>
             <div className=" w-full table-fixed hidden xl:table">
               <thead className="bg-secondary/50 text-paragraph sticky top-0 backdrop-blur-xl">
                 <tr>
-                  <th className="py-2 text-center">LAST NAME</th>
-                  <th className="py-2 text-center">GIVEN NAME</th>
-                  <th className="py-2 text-center">MAIDEN NAME</th>
-                  <th className="py-2 text-center">BIRTH DATE</th>
-                  <th className="py-2 text-center">DEATH DATE</th>
-                  <th className="py-2 text-center">INTERMENT TYPE</th>
-                  <th className="py-2 text-center">PLOT NO.</th>
-                  <th className="py-2 text-center">BIOGRAPHY</th>
+                  <th className="py-2 text-center font-normal">LAST NAME</th>
+                  <th className="py-2 text-center font-normal">GIVEN NAME</th>
+                  <th className="py-2 text-center font-normal">MAIDEN NAME</th>
+                  <th className="py-2 text-center font-normal">BIRTH DATE</th>
+                  <th className="py-2 text-center font-normal">DEATH DATE</th>
+                  <th className="py-2 text-center font-normal">INTERMENT TYPE</th>
+                  <th className="py-2 text-center font-normal">PLOT NO.</th>
+                  <th className="py-2 text-center font-normal">BIOGRAPHY</th>
                 </tr>
               </thead>
               <tbody>
