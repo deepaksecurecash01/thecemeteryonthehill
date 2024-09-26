@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 
-export const db = async () => {
+export const connectMongo = async () => {
+  if (mongoose.connections[0].readyState) {
+    return; // Already connected
+  }
+
   try {
     await mongoose.connect(process.env.MONGODB_URL, {
       dbName: "edockets",

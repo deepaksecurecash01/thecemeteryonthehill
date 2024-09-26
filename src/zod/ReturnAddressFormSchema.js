@@ -3,29 +3,29 @@ import countries from "@/json/ListOfCountries.json"; // Import the JSON file dir
 
 export const ReturnAddressFormSchema = z
   .object({
-    address: z.string().nonempty("Address is required."),
-    city: z.string().nonempty("Suburb is required."),
-    state: z.string().nonempty("State is required."),
+    Address: z.string().nonempty("Address is required."),
+    City: z.string().nonempty("Suburb is required."),
+    State: z.string().nonempty("State is required."),
 
-    postalCode: z.string().nonempty("Post Code is required."),
-    country: z.enum(countries, {
+    PostalCode: z.string().nonempty("Post Code is required."),
+    Country: z.enum(countries, {
       errorMap: () => ({ message: "Country is required." }),
     }),
   })
   .superRefine((data, ctx) => {
-    if (data.country === "Australia") {
-      if (!/^\d{4}$/.test(data.postalCode)) {
+    if (data.Country === "Australia") {
+      if (!/^\d{4}$/.test(data.PostalCode)) {
         ctx.addIssue({
-          path: ["postalCode"],
+          path: ["PostalCode"],
           message: "Australian postal code contains 4 digits.",
         });
       }
     } else {
       // Example for other countries, adjust as needed
-      if (!/^\d+$/.test(data.postalCode)) {
+      if (!/^\d+$/.test(data.PostalCode)) {
         ctx.addIssue({
-          path: ["postalCode"],
-          message: "Invalid post code format for the selected country.",
+          path: ["PostalCode"],
+          message: "Invalid post code format for the selected Country.",
         });
       }
     }

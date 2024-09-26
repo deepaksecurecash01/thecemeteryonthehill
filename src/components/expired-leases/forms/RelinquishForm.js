@@ -55,20 +55,20 @@ const RelinquishForm = () => {
     resolver: zodResolver(RelinquishFormSchema),
   });
 
-  const selectedDateOfBirth = watch("dateofBirth");
-  const selectedDateOfDeath = watch("dateOfDeath");
-  const selectedInternmentType = watch("internmentType");
+  const selectedDateOfBirth = watch("DateOfBirth");
+  const selectedDateOfDeath = watch("DateOfDeath");
+  const selectedInternmentType = watch("InternmentType");
 
   const handleSignatureEnd = () => {
     const sigDataUrl = signCanvas.current.toDataURL();
     setSignature(sigDataUrl);
-    setValue("signature", sigDataUrl, { shouldValidate: true });
+    setValue("Signature", sigDataUrl, { shouldValidate: true });
   };
 
   const clearSignature = () => {
     signCanvas.current.clear();
     setSignature(null);
-    setValue("signature", null, { shouldValidate: true });
+    setValue("Signature", null, { shouldValidate: true });
   };
 
   const handleFileChange = async (e) => {
@@ -76,16 +76,16 @@ const RelinquishForm = () => {
 
     const file = e.target.files[0];
     setFile(file);
-    setValue("attachment", file);
-    await trigger("attachment");
+    setValue("Id", file);
+    await trigger("Id");
     console.log(file);
   };
 
-  const dateofBirthRef = useRef(null);
-  const dateOfDeathRef = useRef(null);
-  const internmentTypeRef = useRef(null);
+  const DateOfBirthRef = useRef(null);
+  const DateOfDeathRef = useRef(null);
+  const InternmentTypeRef = useRef(null);
   const signCanvas = useRef(null);
-  const fileRef = useRef(null); 
+  const fileRef = useRef(null);
 
   const onSubmit = async (data) => {
     if (!signature) {
@@ -101,16 +101,28 @@ const RelinquishForm = () => {
       setErrorMessage("File upload is required");
       return;
     }
+    // Function to convert dates to Unix timestamps
+    const formatDate = (date) => {
+      const unixTimestamp = Math.floor(new Date(date).getTime() / 1000);
+      return unixTimestamp;
+    };
 
-    // Append signature and file to form data
     const formData = new FormData();
-    formData.append("signature", signature);
-    formData.append("file", file);
+    formData.append("Signature", signature);
+    formData.append("Id", file);
+    formData.append("DateOfBirth", formatDate(data.DateOfBirth));
+    formData.append("DateOfDeath", formatDate(data.DateOfDeath));
+    formData.append("Returned", false);
+
     // Append other form data
-    Object.keys(data).forEach((key) => formData.append(key, data[key]));
+    Object.keys(data).forEach((key) => {
+      if (key !== "DateOfBirth" && key !== "DateOfDeath") {
+        formData.append(key, data[key]);
+      }
+    });
     console.log("Form Data:", ...formData.entries());
 
-    if (selectedInternmentType === "ashes") {
+    if (selectedInternmentType === "Ashes") {
       setAshesReturned(null);
       setAshesReturnAddress(true);
       setReleaseFormData(formData);
@@ -125,7 +137,7 @@ const RelinquishForm = () => {
         setTimeout(resolve, 1000);
       });
 
-      const response = await fetch("/api/s3-upload", {
+      const response = await fetch("/api/release-form", {
         method: "POST",
         body: formData,
       });
@@ -149,27 +161,26 @@ const RelinquishForm = () => {
     }
   };
 
-  useEffect(() =>
-  {
-    console.log(errors)
+  useEffect(() => {
+    console.log(errors);
     if (errors) {
       const errorField = Object.keys(errors)[0]; // Get the first error field
-       setCurrentErrorField(errorField);
+      setCurrentErrorField(errorField);
 
       switch (errorField) {
-        case "dateofBirth":
-          focusInput(dateofBirthRef);
+        case "DateOfBirth":
+          focusInput(DateOfBirthRef);
           break;
-        case "dateOfDeath":
-          focusInput(dateOfDeathRef);
+        case "DateOfDeath":
+          focusInput(DateOfDeathRef);
           break;
-        case "internmentType": // Assuming this is a field in the errors object
+        case "InternmentType": // Assuming this is a field in the errors object
           focusInput(null);
           break;
-        case "signature": // Assuming this is a field in the errors object
+        case "Signature": // Assuming this is a field in the errors object
           focusInput(null);
           break;
-        case "attachment": // Assuming this is a field in the errors object
+        case "Id": // Assuming this is a field in the errors object
           focusInput(null);
           break;
         default:
@@ -181,9 +192,9 @@ const RelinquishForm = () => {
     }
   }, [
     errors,
-    dateofBirthRef,
-    dateOfDeathRef,
-    internmentTypeRef,
+    DateOfBirthRef,
+    DateOfDeathRef,
+    InternmentTypeRef,
     signCanvas,
     fileRef,
   ]);
@@ -229,13 +240,13 @@ const RelinquishForm = () => {
                   {
                     label: "Full Name of Lease Holder",
                     shortLabel: "Full Name",
-                    name: "fullName",
+                    name: "FullName",
                     type: "text",
                   },
                   {
                     label: "Name of Deceased",
                     shortLabel: "Name of Deceased",
-                    name: "nameOfDeceased",
+                    name: "NameOfDeceased",
                     type: "text",
                   },
                 ].map(({ label, shortLabel, name, type }) => (
@@ -270,55 +281,55 @@ const RelinquishForm = () => {
                 <div className="relative w-full mb-5  xl:mb-5 group contact">
                   <input
                     type="text"
-                    {...register("email")}
+                    {...register("Email")}
                     className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                     placeholder=" "
                     autoComplete="new-password"
-                    onFocus={() => setCurrentErrorField("email")}
+                    onFocus={() => setCurrentErrorField("Email")}
                     onBlur={() => setCurrentErrorField(null)}
                   />
                   <label
-                    htmlFor="email"
+                    htmlFor="Email"
                     className="peer-focus:font-medium absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Email Address
                   </label>
-                  {errors.email && (
+                  {errors.Email && (
                     <WarningPopup
-                      error={errors.email.message}
-                      isFirstError={currentErrorField === "email"}
+                      error={errors.Email.message}
+                      isFirstError={currentErrorField === "Email"}
                     />
                   )}
                 </div>
                 <div className="relative w-full mb-5  xl:mb-5 group contact">
                   <DatePicker
                     value={selectedDateOfBirth || null}
-                    onChange={(date) =>
-                      setValue("dateofBirth", date, { shouldValidate: true })
-                    }
-                    onFocus={() => setCurrentErrorField("dateofBirth")}
+                    onChange={(date) => {
+                      setValue("DateOfBirth", date, { shouldValidate: true });
+                    }}
+                    onFocus={() => setCurrentErrorField("DateOfBirth")}
                     onBlur={() => setCurrentErrorField(null)}
-                    openCalendarOnFocus={true}
                     dayPlaceholder="DD"
                     monthPlaceholder="MM"
                     yearPlaceholder="YYYY"
-                    firstInputRef={dateofBirthRef}
-                    onInvalid={() => setCurrentErrorField("dateofBirth")}
+                    errors={errors}
+                    ref={DateOfBirthRef}
                     format="dd/MM/yyyy"
                     className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
                     autoComplete="new-password"
                   />
+
                   <label
-                    htmlFor="dateOfBirth"
+                    htmlFor="DateOfBirth"
                     className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Date of Birth&nbsp;
                     <span className="hidden md:block">of Deceased</span>
                   </label>
-                  {errors.dateofBirth && (
+                  {errors.DateOfBirth && (
                     <WarningPopup
-                      error={errors.dateofBirth.message}
-                      isFirstError={currentErrorField === "dateofBirth"}
+                      error={errors.DateOfBirth.message}
+                      isFirstError={currentErrorField === "DateOfBirth"}
                     />
                   )}
                 </div>
@@ -327,29 +338,29 @@ const RelinquishForm = () => {
                   <DatePicker
                     value={selectedDateOfDeath || null}
                     onChange={(date) =>
-                      setValue("dateOfDeath", date, { shouldValidate: true })
+                      setValue("DateOfDeath", date, { shouldValidate: true })
                     }
                     dayPlaceholder="DD"
                     monthPlaceholder="MM"
                     yearPlaceholder="YYYY"
                     errors={errors}
-                    ref={dateOfDeathRef}
+                    ref={DateOfDeathRef}
                     format="dd/MM/yyyy"
                     className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
                     autoComplete="new-password"
-                    onFocus={() => setCurrentErrorField("dateOfDeath")}
+                    onFocus={() => setCurrentErrorField("DateOfDeath")}
                     onBlur={() => setCurrentErrorField(null)}
                   />
                   <label
-                    htmlFor="dateOfDeath"
+                    htmlFor="DateOfDeath"
                     className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Date of Death
                   </label>
-                  {errors.dateOfDeath && (
+                  {errors.DateOfDeath && (
                     <WarningPopup
-                      error={errors.dateOfDeath.message}
-                      isFirstError={currentErrorField === "dateOfDeath"}
+                      error={errors.DateOfDeath.message}
+                      isFirstError={currentErrorField === "DateOfDeath"}
                     />
                   )}
                 </div>
@@ -357,15 +368,15 @@ const RelinquishForm = () => {
                   <div className="relative w-full group contact">
                     <input
                       type="text"
-                      {...register("row")}
+                      {...register("Row")}
                       className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                       placeholder=" "
                       autoComplete="new-password"
-                      onFocus={() => setCurrentErrorField("rowPlot")}
+                      onFocus={() => setCurrentErrorField("Row")}
                       onBlur={() => setCurrentErrorField(null)}
                     />
                     <label
-                      htmlFor="row"
+                      htmlFor="Row"
                       className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       <span className="hidden md:block">Located In</span>
@@ -375,15 +386,15 @@ const RelinquishForm = () => {
                   <div className="relative w-full group contact">
                     <input
                       type="text"
-                      {...register("plot")}
+                      {...register("Plot")}
                       className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                       placeholder=" "
                       autoComplete="new-password"
-                      onFocus={() => setCurrentErrorField("rowPlot")}
+                      onFocus={() => setCurrentErrorField("Plot")}
                       onBlur={() => setCurrentErrorField(null)}
                     />
                     <label
-                      htmlFor="plot"
+                      htmlFor="Plot"
                       className="peer-focus:font-medium absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Plot
@@ -393,15 +404,15 @@ const RelinquishForm = () => {
 
                 <div className="relative w-full mb-5 xl:mb-5 group contact">
                   <label
-                    htmlFor="internmentType"
+                    htmlFor="InternmentType"
                     className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Internment Type
                   </label>
                   <select
-                    {...register("internmentType")}
+                    {...register("InternmentType")}
                     onChange={(e) => {
-                      setValue("internmentType", e.target.value, {
+                      setValue("InternmentType", e.target.value, {
                         shouldValidate: true,
                       });
                       if (e.target.value === "ashes") {
@@ -410,25 +421,25 @@ const RelinquishForm = () => {
                       setCurrentErrorField(null); // Reset error field when a selection is made
                     }}
                     className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                    onFocus={() => setCurrentErrorField("internmentType")}
+                    onFocus={() => setCurrentErrorField("InternmentType")}
                     onBlur={() => setCurrentErrorField(null)}
-                    ref={internmentTypeRef}
+                    ref={InternmentTypeRef}
                   >
                     <option value="">Select Internment Type</option>
-                    <option value="ashes">Ashes</option>
-                    <option value="burial">Burial</option>
+                    <option value="Ashes">Ashes</option>
+                    <option value="Burial">Burial</option>
                   </select>
 
-                  {errors.internmentType && (
+                  {errors.InternmentType && (
                     <WarningPopup
-                      error={errors.internmentType.message}
-                      isFirstError={currentErrorField === "internmentType"}
+                      error={errors.InternmentType.message}
+                      isFirstError={currentErrorField === "InternmentType"}
                     />
                   )}
                 </div>
                 <div className="relative w-full mb-5  xl:mb-5 group contact">
                   <label
-                    htmlFor="signature"
+                    htmlFor="Signature"
                     className="peer-focus:font-medium absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Lease Holder Signature
@@ -453,10 +464,10 @@ const RelinquishForm = () => {
                     )}
                   </div>
 
-                  {errors.signature && (
+                  {errors.Signature && (
                     <WarningPopup
-                      error={errors.signature.message}
-                      isFirstError={currentErrorField === "signature"}
+                      error={errors.Signature.message}
+                      isFirstError={currentErrorField === "Signature"}
                     />
                   )}
                 </div>
@@ -464,10 +475,10 @@ const RelinquishForm = () => {
                   <input
                     type="file"
                     ref={fileRef}
-                    {...register("attachment")}
+                    {...register("Id")}
                     accept=".jpg,.jpeg,.png,.pdf"
                     onChange={handleFileChange}
-                    onFocus={() => setCurrentErrorField("attachment")}
+                    onFocus={() => setCurrentErrorField("Id")}
                     onBlur={() => setCurrentErrorField(null)}
                     className="block pt-4 px-0 w-full cursor-pointer file:cursor-pointer text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer file:bg-primary file:font-normal file:rounded-sm file:text-white file:border-0 file:outline-none file:mr-2 text-opacity-0"
                   />
@@ -484,10 +495,10 @@ const RelinquishForm = () => {
                     Upload ID
                   </label>
 
-                  {errors.attachment && (
+                  {errors.Id && (
                     <WarningPopup
-                      error={errors.attachment.message}
-                      isFirstError={currentErrorField === "attachment"}
+                      error={errors.Id.message}
+                      isFirstError={currentErrorField === "Id"}
                     />
                   )}
                 </div>
@@ -498,7 +509,7 @@ const RelinquishForm = () => {
                   type="submit"
                   className={`text-primary font-display uppercase rounded-sm border-2 cursor-pointer border-primary px-8 py-2 flex justify-center items-center hover:text-white hover:bg-primary text-sm sm:text-base md:text-lg`}
                 >
-                  {selectedInternmentType === "ashes" ? "Continue" : "Submit"}
+                  {selectedInternmentType === "Ashes" ? "Continue" : "Submit"}
                 </button>
               </div>
             </form>

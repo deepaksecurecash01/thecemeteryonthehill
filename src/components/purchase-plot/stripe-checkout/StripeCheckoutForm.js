@@ -137,6 +137,7 @@ const CardPayment = ({
   setLoading,
   setError,
   setPaymentSuccess,
+  purchaseFormData,
 }) => {
   const stripe = useStripe();
   const elements = useElements();
@@ -168,7 +169,7 @@ const CardPayment = ({
     }
   };
 
-  const onSubmit = async (event) => {
+ const onSubmit = async (event) => {
     event.preventDefault();
 
     const cardNumber = elements.getElement(CardNumberElement);
@@ -176,76 +177,74 @@ const CardPayment = ({
     const cardCvc = elements.getElement(CardCvcElement);
 
     if (!cardNumber || !cardExpiry || !cardCvc) {
-      setError("Please fill out all fields.");
-      return;
+        setError("Please fill out all fields.");
+        return;
     }
 
     // Validate card number
-    const { error: cardNumberError } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardNumber,
-    });
+    const { error: cardNumberError, paymentMethod } =
+        await stripe.createPaymentMethod({
+            type: "card",
+            card: cardNumber,
+        });
 
-
-    if (cardNumberError?.code == "incomplete_number") {
-      setCardNumberError(cardNumberError.message);
-      cardNumber.focus(); // Focus on the card number field
-      return;
+    if (cardNumberError?.code === "incomplete_number") {
+        setCardNumberError(cardNumberError.message);
+        cardNumber.focus();
+        return;
     }
 
     if (
-      cardNumberError?.code == "incomplete_expiry" ||
-      cardNumberError?.code == "invalid_expiry_year_past"
+        cardNumberError?.code === "incomplete_expiry" ||
+        cardNumberError?.code === "invalid_expiry_year_past"
     ) {
-      setExpiryDateError(cardNumberError.message);
-      cardExpiry.focus(); // Focus on the expiry date field
-      return;
+        setExpiryDateError(cardNumberError.message);
+        cardExpiry.focus();
+        return;
     }
 
     if (cardNumberError) {
-      setCvcError(cardNumberError.message);
-      cardCvc.focus(); // Focus on the CVC field
-      return;
+        setCvcError(cardNumberError.message);
+        cardCvc.focus();
+        return;
     }
 
     setLoading(true);
 
     try {
-      const res = await fetch("/api/create-payment-intent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount: stripeAmount }),
-      });
+        const res = await fetch("/api/create-payment-intent", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                ...purchaseFormData,
+                paymentMethod: paymentMethod,
+            }),
+        });
 
-      if (!res.ok) {
-        throw new Error("Failed to fetch client secret.");
-      }
+        if (!res.ok) {
+            throw new Error("Failed to fetch client secret.");
+        }
 
-      const { clientSecret } = await res.json();
+        const { clientSecret } = await res.json();
 
-      const result = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: elements.getElement(CardNumberElement),
-          billing_details: {},
-        },
-      });
-
-      if (result.error) {
-        setCardNumberError(result.error.message);
-        setError(result.error.message);
-      } else if (result.paymentIntent.status === "succeeded") {
+        // Instead of confirming the payment, just log the message
+        console.log("Payment method created successfully:", paymentMethod.id);
+        console.log("Client secret received:", clientSecret);
+        
+        // Optionally, handle the success state
         setPaymentSuccess(true);
-      }
+
     } catch (err) {
-      setError(err.message);
+        setError(err.message);
     } finally {
-      setLoading(false);
+        setLoading(false);
     }
-  };
+};
+
+
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      
       <div className="relative w-full mb-5 xl:mb-5">
         <div aria-modal>
           <CardNumberElement
@@ -354,8 +353,8 @@ const CheckoutForm = ({
   paymentSuccess,
   paymentMethod,
   setPaymentSuccess,
+  purchaseFormData,
 }) => {
-
   return (
     <div>
       {paymentMethod === "card" && (
@@ -367,6 +366,7 @@ const CheckoutForm = ({
           setError={setError}
           paymentSuccess={paymentSuccess}
           setPaymentSuccess={setPaymentSuccess}
+          purchaseFormData={purchaseFormData}
         />
       )}
       {paymentMethod === "googlePay" && <OnlinePay totalAmount={totalAmount} />}
@@ -383,6 +383,7 @@ const StripeCheckoutForm = ({
   paymentSuccess,
   paymentMethod,
   setPaymentSuccess,
+  purchaseFormData,
 }) => (
   <Elements stripe={stripePromise}>
     <CheckoutForm
@@ -394,6 +395,7 @@ const StripeCheckoutForm = ({
       paymentSuccess={paymentSuccess}
       paymentMethod={paymentMethod}
       setPaymentSuccess={setPaymentSuccess}
+      purchaseFormData={purchaseFormData}
     />
   </Elements>
 );

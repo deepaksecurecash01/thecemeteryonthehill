@@ -1,15 +1,15 @@
 import { z } from "zod";
 
 export const RegisterInterestSchema = z.object({
-  fullName: z
+  FullName: z
     .string()
     .nonempty("Full Name is required.")
     .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-  email: z
+  Email: z
     .string()
     .nonempty("Email is required.")
     .email("Please enter a valid email address."),
-  phoneNumber: z
+  PhoneNumber: z
     .string()
     .nonempty("Phone Number is required.")
     .regex(/^[0-9]+$/, "Phone Number must contain only digits."),

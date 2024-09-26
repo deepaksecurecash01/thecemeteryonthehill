@@ -19,13 +19,15 @@ const StripeCheckout = ({
   screenToShow,
   setscreenToShow,
   totalAmount,
+  purchaseFormData,
 }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-    const [paymentMethod, setPaymentMethod] = useState("card");
-
+  const [paymentMethod, setPaymentMethod] = useState("card");
   const dispatch = useDispatch();
+
+
 
   useEffect(() => {
     if (paymentSuccess) {
@@ -89,6 +91,7 @@ const StripeCheckout = ({
             paymentSuccess={paymentSuccess}
             paymentMethod={paymentMethod}
             setPaymentSuccess={setPaymentSuccess}
+            purchaseFormData={purchaseFormData}
           />
         </div>
       )}

@@ -4,132 +4,47 @@ import { useRouter } from "next/navigation";
 import { setBiographyData } from "@/redux/slice";
 import { useDispatch } from "react-redux";
 
-const dummyData = [
-  {
-    lastName: "Nixon",
-    givenName: "Tiger",
-    maidenName: "Smith",
-    birthDate: "15/05/1962",
-    deathDate: "10/07/2023",
-    intermentType: "Cremation",
-    plotNo: "A12",
-    biography: true,
-  },
-  {
-    lastName: "Snider",
-    givenName: "Donna",
-    maidenName: "Williams",
-    birthDate: "28/02/1996",
-    deathDate: "05/11/2080",
-    intermentType: "Burial",
-    plotNo: "B07",
-  },
-  {
-    lastName: "Doe",
-    givenName: "Jane",
-    maidenName: "Johnson",
-    birthDate: "22/08/1989",
-    deathDate: "30/04/2085",
-    intermentType: "Burial",
-    plotNo: "C19",
-    biography: true,
-  },
-  {
-    lastName: "Smith",
-    givenName: "John",
-    maidenName: "Brown",
-    birthDate: "17/01/1984",
-    deathDate: "21/09/2080",
-    intermentType: "Cremation",
-    plotNo: "D22",
-    biography: true,
-  },
-  {
-    lastName: "Brown",
-    givenName: "Emily",
-    maidenName: "Davis",
-    birthDate: "05/06/1995",
-    deathDate: "13/12/2080",
-    intermentType: "Burial",
-    plotNo: "E08",
-    biography: true,
-  },
-  {
-    lastName: "Johnson",
-    givenName: "Michael",
-    maidenName: "Miller",
-    birthDate: "09/04/1979",
-    deathDate: "14/10/2080",
-    intermentType: "Cremation",
-    plotNo: "F14",
-  },
-  {
-    lastName: "Wilson",
-    givenName: "Sarah",
-    maidenName: "Martinez",
-    birthDate: "30/11/1992",
-    deathDate: "02/03/2080",
-    intermentType: "Burial",
-    plotNo: "G11",
-  },
-  {
-    lastName: "Lee",
-    givenName: "Kevin",
-    maidenName: "Garcia",
-    birthDate: "18/09/1986",
-    deathDate: "23/08/2080",
-    intermentType: "Cremation",
-    plotNo: "H09",
-    biography: true,
-  },
-  {
-    lastName: "Miller",
-    givenName: "Megan",
-    maidenName: "Martinez",
-    birthDate: "21/03/1993",
-    deathDate: "19/07/2080",
-    intermentType: "Burial",
-    plotNo: "I20",
-  },
-  {
-    lastName: "Garcia",
-    givenName: "David",
-    maidenName: "Lopez",
-    birthDate: "02/12/1988",
-    deathDate: "25/01/2080",
-    intermentType: "Cremation",
-    plotNo: "J05",
-    biography: true,
-  },
-  {
-    lastName: "Martinez",
-    givenName: "Olivia",
-    maidenName: "Rodriguez",
-    birthDate: "07/07/1991",
-    deathDate: "11/05/2080",
-    intermentType: "Burial",
-    plotNo: "K13",
-  },
-];
 
 export default function DataTablePage() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [filteredData, setFilteredData] = useState(dummyData);
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
-  const dispatch = useDispatch();
+  const [persons, setPersons] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [filteredData, setFilteredData] = useState([]);
 
   useEffect(() => {
     setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    const fetchPersons = async () => {
+      try {
+        const res = await fetch("/api/person"); // Fetch data from your API
+        if (!res.ok) {
+          throw new Error("Failed to fetch");
+        }
+        const data = await res.json();
+        setFilteredData(data);
+        setPersons(data); // Set person data
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPersons(); // Call the fetch function
   }, []);
 
   const handleSearch = (e) => {
     const query = e.target.value;
     setSearchQuery(query);
     if (query === "") {
-      setFilteredData(dummyData);
+      setFilteredData(persons);
     } else {
-      const filtered = dummyData.filter((item) =>
+      const filtered = persons.filter((item) =>
         Object.values(item).some((value) =>
           String(value).toLowerCase().includes(query.toLowerCase())
         )
@@ -138,19 +53,14 @@ export default function DataTablePage() {
     }
   };
 
-  const handleNameClick = (item) =>
-  {
-    console.log(item)
-    const encodedName = encodeURIComponent(
-      `${item.lastName}-${item.givenName}` //id pass - solution
-    ); 
-    router.push(`/biography/${encodedName}`, {
+  const handleNameClick = (item) => {
+    router.push(`/biography/${item._id}`, {
       query: { data: encodeURIComponent(JSON.stringify(item)) },
     });
   };
 
   return (
-    <div className="lg:shadow-xl rounded-xl overflow-hidden w-[90vw] xl:w-[80vw] my-10">
+    <div className="lg:shadow-xl rounded-xl overflow-hidden ">
       <div
         className="relative 6xl:min-h-[35vh] flex justify-center items-center"
         aria-labelledby="banner-heading"
@@ -198,8 +108,8 @@ export default function DataTablePage() {
         </div>
       </div>
 
-      <div className="h-[34rem] overflow-y-scroll bg-transparent xl:bg-white font-roboto">
-        {isClient ? (
+      <div className="h-[33rem] overflow-y-scroll bg-transparent xl:bg-white font-roboto">
+        {isClient && !loading ? (
           <>
             <div className=" w-full table-fixed hidden xl:table">
               <thead className="bg-secondary/50 text-paragraph sticky top-0 backdrop-blur-xl">
@@ -209,106 +119,158 @@ export default function DataTablePage() {
                   <th className="py-2 text-center font-normal">MAIDEN NAME</th>
                   <th className="py-2 text-center font-normal">BIRTH DATE</th>
                   <th className="py-2 text-center font-normal">DEATH DATE</th>
-                  <th className="py-2 text-center font-normal">INTERMENT TYPE</th>
+                  <th className="py-2 text-center font-normal">
+                    INTERMENT TYPE
+                  </th>
                   <th className="py-2 text-center font-normal">PLOT NO.</th>
                   <th className="py-2 text-center font-normal">BIOGRAPHY</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredData.map((item, index) => (
-                  <tr key={index}>
-                    <td className="py-3 text-center ">{item.lastName}</td>
-                    <td className="py-3 text-center ">{item.givenName}</td>
-                    <td className="py-3 text-center ">{item.maidenName}</td>
-                    <td className="py-3 text-center ">{item.birthDate}</td>
-                    <td className="py-3 text-center ">{item.deathDate}</td>
-                    <td className="py-3 text-center ">{item.intermentType}</td>
-                    <td className="py-3 text-center ">{item.plotNo}</td>
-                    <td className="py-3 flex justify-center items-center">
-                      <button
-                        type="button"
-                        onClick={() => handleNameClick(item)}
-                        className={`bg-primary text-white rounded-lg border-2 cursor-pointer border-primary px-6 flex justify-center items-center  ${
-                          !item.biography && "hidden"
-                        }`}
-                      >
-                        See More
-                      </button>
-                      {!item.biography && "Coming Soon"}
-                    </td>
-                  </tr>
-                ))}
+                {filteredData
+                  .sort((a, b) => a.LastName.localeCompare(b.LastName)) // Sort by LastName
+                  .map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td className="py-3 text-center ">{item.LastName}</td>
+                        <td className="py-3 text-center ">{item.FirstName}</td>
+                        <td className="py-3 text-center ">
+                          {item.MaidenName ? (
+                            item.MaidenName
+                          ) : (
+                            <span className="text-paragraph/50">
+                              Not Applicable
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3 text-center ">
+                          {item.BirthDate ? (
+                            item.BirthDate
+                          ) : (
+                            <span className="text-paragraph/50">
+                              Not Available
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3 text-center ">
+                          {item.DeathDate ? (
+                            item.DeathDate
+                          ) : (
+                            <span className="text-paragraph/50">
+                              Not Available
+                            </span>
+                          )}
+                        </td>
+                        <td className="py-3 text-center ">{item.Internment}</td>
+                        <td className="py-3 text-center ">
+                          {item.InternmentNumber}
+                        </td>
+                        <td className="py-3 flex justify-center items-center">
+                          <button
+                            type="button"
+                            onClick={() => handleNameClick(item)}
+                            className={`bg-primary text-white rounded-lg border-2 cursor-pointer border-primary px-6 flex justify-center items-center  ${
+                              !item.biography && "hidden"
+                            }`}
+                          >
+                            See More
+                          </button>
+                          {!item.biography && "Coming Soon"}
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </div>
             <div className="flex flex-col py-4 shadow-xl xl:hidden">
-              {filteredData.map((item, index) => (
-                <div
-                  key={index}
-                  className="p-4 mb-4 border border-gray-300 bg-white rounded-lg shadow-sm"
-                >
-                  <div className="flex mb-2">
-                    <span className="">LAST NAME:&nbsp;</span>
-                    <span className="text-primary font-display font-bold ">
-                      <button onClick={() => handleNameClick(item)}>
-                        {item.lastName}
-                      </button>
-                    </span>
+              {filteredData
+                .sort((a, b) => a.LastName.localeCompare(b.LastName)) // Sort by LastName
+                .map((item, index) => (
+                  <div
+                    key={index}
+                    className="p-4 mb-4 border border-gray-300 bg-white rounded-lg shadow-sm"
+                  >
+                    <div className="flex mb-2">
+                      <span className="">LAST NAME:&nbsp;</span>
+                      <span className="text-primary font-display font-bold ">
+                        <button onClick={() => handleNameClick(item)}>
+                          {item.LastName}
+                        </button>
+                      </span>
+                    </div>
+                    <div className="flex mb-2">
+                      <span className="">GIVEN NAME:&nbsp;</span>
+                      <span className="text-primary font-display font-bold ">
+                        <button onClick={() => handleNameClick(item)}>
+                          {item.FirstName}
+                        </button>
+                      </span>
+                    </div>
+                    <div className="flex mb-2">
+                      <span className="">MAIDEN NAME:&nbsp;</span>
+                      <span className="text-primary font-display font-bold ">
+                        {item.MaidenName ? (
+                          item.MaidenName
+                        ) : (
+                          <span className="text-paragraph/50">
+                            Not Applicable
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex mb-2">
+                      <span className="">BIRTH DATE:&nbsp;</span>
+                      <span className="text-primary font-display font-bold ">
+                        {item.BirthDate ? (
+                          item.BirthDate
+                        ) : (
+                          <span className="text-paragraph/50">
+                            Not Available
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex mb-2">
+                      <span className="">DEATH DATE:&nbsp;</span>
+                      <span className="text-primary font-display font-bold ">
+                        {item.DeathDate ? (
+                          item.DeathDate
+                        ) : (
+                          <span className="text-paragraph/50">
+                            Not Available
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                    <div className="flex mb-2">
+                      <span className="">INTERMENT TYPE:&nbsp;</span>
+                      <span className="text-primary font-display font-bold ">
+                        {item.Internment}
+                      </span>
+                    </div>
+                    <div className="flex mb-2">
+                      <span className="">PLOT NO.:&nbsp;</span>
+                      <span className="text-primary font-display font-bold ">
+                        {item.InternmentNumber}
+                      </span>
+                    </div>
+                    <div className="flex items-center mb-2">
+                      <span className="">BIOGRAPHY:&nbsp;</span>
+                      <span className="flex justify-center items-center">
+                        <button
+                          type="button"
+                          onClick={() => handleNameClick(item)}
+                          className={`bg-primary text-white   rounded-lg border-2 cursor-pointer border-primary px-6 flex justify-center items-center  ${
+                            !item.biography && "hidden"
+                          }`}
+                        >
+                          See More
+                        </button>
+                        {!item.biography && "Coming Soon"}{" "}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex mb-2">
-                    <span className="">GIVEN NAME:&nbsp;</span>
-                    <span className="text-primary font-display font-bold ">
-                      <button onClick={() => handleNameClick(item)}>
-                        {item.givenName}
-                      </button>
-                    </span>
-                  </div>
-                  <div className="flex mb-2">
-                    <span className="">MAIDEN NAME:&nbsp;</span>
-                    <span className="text-primary font-display font-bold ">
-                      {item.maidenName}
-                    </span>
-                  </div>
-                  <div className="flex mb-2">
-                    <span className="">BIRTH DATE:&nbsp;</span>
-                    <span className="text-primary font-display font-bold ">
-                      {item.birthDate}
-                    </span>
-                  </div>
-                  <div className="flex mb-2">
-                    <span className="">DEATH DATE:&nbsp;</span>
-                    <span className="text-primary font-display font-bold ">
-                      {item.deathDate}
-                    </span>
-                  </div>
-                  <div className="flex mb-2">
-                    <span className="">INTERMENT TYPE:&nbsp;</span>
-                    <span className="text-primary font-display font-bold ">
-                      {item.intermentType}
-                    </span>
-                  </div>
-                  <div className="flex mb-2">
-                    <span className="">PLOT NO.:&nbsp;</span>
-                    <span className="text-primary font-display font-bold ">
-                      {item.plotNo}
-                    </span>
-                  </div>
-                  <div className="flex items-center mb-2">
-                    <span className="">BIOGRAPHY:&nbsp;</span>
-                    <span className="flex justify-center items-center">
-                      <button
-                        type="button"
-                        onClick={() => handleNameClick(item)}
-                        className={`bg-primary text-white   rounded-lg border-2 cursor-pointer border-primary px-6 flex justify-center items-center  ${
-                          !item.biography && "hidden"
-                        }`}
-                      >
-                        See More
-                      </button>
-                      {!item.biography && "Coming Soon"}{" "}
-                    </span>
-                  </div>
-                </div>
-              ))}
+                ))}
             </div>
           </>
         ) : (
@@ -324,6 +286,7 @@ export default function DataTablePage() {
           </div>
         )}
       </div>
+      
     </div>
   );
 }

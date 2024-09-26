@@ -28,19 +28,38 @@ const RegisterInterestForm = ({ elementData }) => {
   } = useForm({ resolver: zodResolver(RegisterInterestSchema) });
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     try {
-      // Simulate a form submission
-      await new Promise((resolve, reject) => {
-        // Change to resolve() for success simulation, reject() for error simulation
-        setTimeout(resolve, 1000);
+      // Make a POST request to the API endpoint
+      const response = await fetch("/api/register-interest", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          FullName: data.FullName,
+          Email: data.Email,
+          PhoneNumber: data.PhoneNumber,
+          PlotNumber: elementData[0]?.Plot_number, // Assuming this is available from your component props
+        }),
       });
 
-      setSubmissionStatus("success");
-      setErrorMessage("");
-      reset(); // Reset form fields
+      const result = await response.json(); // Parse the JSON response
+
+      if (response.ok) {
+        // Form submission successful
+        setSubmissionStatus("success");
+        setErrorMessage(""); // Clear any error messages
+        reset(); // Reset the form fields
+      } else {
+        // Handle error case
+        setSubmissionStatus("error");
+        setErrorMessage(
+          result.error || "Failed to submit the form. Please try again."
+        );
+      }
     } catch (error) {
+      // Handle any unexpected errors
+      console.error("An error occurred during form submission:", error);
       setSubmissionStatus("error");
       setErrorMessage("Failed to submit the form. Please try again.");
     }
@@ -97,8 +116,8 @@ const RegisterInterestForm = ({ elementData }) => {
             </p>
           </div>
           {[
-            { label: "Full Name", name: "fullName", type: "text" },
-            { label: "Email Address", name: "email", type: "text" },
+            { label: "Full Name", name: "FullName", type: "text" },
+            { label: "Email Address", name: "Email", type: "text" },
           ].map(({ label, name, type }) => (
             <div
               key={name}
@@ -130,28 +149,28 @@ const RegisterInterestForm = ({ elementData }) => {
           <div className="relative w-full mb-5 xl:mb-5 group contact">
             <input
               type="text"
-              {...register("phoneNumber")}
+              {...register("PhoneNumber")}
               className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
               placeholder=" "
               autoComplete="new-password"
               onChange={handleNumericOnly}
-              onFocus={() => setCurrentErrorField("phoneNumber")}
+              onFocus={() => setCurrentErrorField("PhoneNumber")}
               onBlur={() => {
                 setCurrentErrorField(null);
-                trigger("phoneNumber");
+                trigger("PhoneNumber");
               }}
             />
             <label
-              htmlFor="phoneNumber"
+              htmlFor="PhoneNumber"
               className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               <span className="hidden md:block">Phone Number</span>
               <span className="block md:hidden">Phone Number</span>
             </label>
-            {errors.phoneNumber && (
+            {errors.PhoneNumber && (
               <WarningPopup
-                error={errors.phoneNumber?.message}
-                isFirstError={currentErrorField === "phoneNumber"}
+                error={errors.PhoneNumber?.message}
+                isFirstError={currentErrorField === "PhoneNumber"}
               />
             )}
           </div>

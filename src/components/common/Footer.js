@@ -50,6 +50,7 @@ const Footer = () => {
                   { href: "/biography", label: "Biography" },
                   { href: "/purchase-plot", label: "Purchase a Plot" },
                   { href: "/expired-leases", label: "Expired Leases" },
+                  { href: "/our-records", label: "Our Records" },
                   { href: "/contac-us", label: "Contact Us" },
                 ].map((item) => (
                   <li key={item.href}>

@@ -18,6 +18,7 @@ const PurchaseForm = ({ elementData }) => {
   const [screenToShow, setscreenToShow] = useState("receipt"); // null,//stripecheckout , //receipt
   const [currentErrorField, setCurrentErrorField] = useState(null);
   const [errorMessage, setErrorMessage] = useState();
+  const [purchaseFormData, setPurchaseFormData] = useState();
 
   const {
     register,
@@ -30,11 +31,11 @@ const PurchaseForm = ({ elementData }) => {
   } = useForm({
     resolver: zodResolver(PurchaseFormSchema),
     defaultValues: {
-      country: "Australia", // Set default value for country
+      Country: "Australia", // Set default value for Country
     },
   });
 
-  const country = watch("country");
+  const Country = watch("Country");
 
   const handleAlphaOnly = (e) => {
     const value = e.target.value.replace(/[^a-zA-Z\s]/g, "");
@@ -47,33 +48,38 @@ const PurchaseForm = ({ elementData }) => {
   };
 
   const handleChangePostCodeValidation = () => {
-    if (country) {
-      trigger("postalCode"); // Trigger validation for postalCode when country changes
+    if (Country) {
+      trigger("PostalCode"); // Trigger validation for PostalCode when Country changes
     }
   };
 
-  const onSubmit = async (data) => {
-    try {
-      // Simulate a form submission
-      await new Promise((resolve, reject) => {
-        // Change to resolve() for success simulation, reject() for error simulation
-        setTimeout(resolve, 1000);
-      });
-      console.log("Form submitted:", data);
-
-      setSubmissionStatus("success");
-      setErrorMessage("");
-      setscreenToShow("stripecheckout");
-      reset(); // Reset form fields
-    } catch (error) {
-      setSubmissionStatus("error");
-      setErrorMessage("Failed to submit the form. Please try again.");
-    }
-  };
 
   const totalAmount = getTotalAmount(elementData);
 
   const formattedTotalAmount = formatNumber(totalAmount);
+
+ const onSubmit = async (data) => {
+   try {
+     // Prepare a simple JSON object instead of FormData for API submission
+     const purchaseData = {
+       PlotNumber: elementData[0]?.Plot_number,
+       Amount: totalAmount,
+       ...data, // Spread the form data fields into the object
+     };
+
+     console.log("Purchase Data:", purchaseData);
+
+     // Set the JSON object to state, ready for API call in Stripe Checkout
+     setPurchaseFormData(purchaseData);
+
+     setSubmissionStatus("success");
+     setErrorMessage("");
+     setscreenToShow("stripecheckout");
+   } catch (error) {
+     setSubmissionStatus("error");
+     setErrorMessage("Failed to submit the form. Please try again.");
+   }
+ };
 
   return (
     <>
@@ -104,48 +110,48 @@ const PurchaseForm = ({ elementData }) => {
             <div className="relative w-full mb-5 xl:mb-5 group contact">
               <input
                 type="text"
-                {...register("fullName")}
+                {...register("FullName")}
                 className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
                 autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("fullName")}
+                onFocus={() => setCurrentErrorField("FullName")}
                 onBlur={() => setCurrentErrorField(null)}
               />
               <label
-                htmlFor="fullName"
+                htmlFor="FullName"
                 className="peer-focus:font-medium absolute w-full text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 <span className="hidden md:block">Full Name</span>
                 <span className="block md:hidden">Full Name</span>
               </label>
-              {errors.fullName && (
+              {errors.FullName && (
                 <WarningPopup
-                  error={errors.fullName?.message}
-                  isFirstError={currentErrorField === "fullName"}
+                  error={errors.FullName?.message}
+                  isFirstError={currentErrorField === "FullName"}
                 />
               )}
             </div>
             <div className="relative w-full mb-5 xl:mb-5 group contact">
               <input
                 type="text"
-                {...register("address")}
+                {...register("Address")}
                 className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
                 autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("address")}
+                onFocus={() => setCurrentErrorField("Address")}
                 onBlur={() => setCurrentErrorField(null)}
               />
               <label
-                htmlFor="address"
+                htmlFor="Address"
                 className="peer-focus:font-medium absolute w-full text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 <span className="hidden md:block">Address</span>
                 <span className="block md:hidden">Address</span>
               </label>
-              {errors.address && (
+              {errors.Address && (
                 <WarningPopup
-                  error={errors.address?.message}
-                  isFirstError={currentErrorField === "address"}
+                  error={errors.Address?.message}
+                  isFirstError={currentErrorField === "Address"}
                 />
               )}
             </div>
@@ -154,32 +160,32 @@ const PurchaseForm = ({ elementData }) => {
                 <div className="w-full relative">
                   <input
                     type="text"
-                    {...register("city")}
+                    {...register("City")}
                     className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                     placeholder=" "
                     autoComplete="new-password"
                     onChange={handleAlphaOnly}
-                    onFocus={() => setCurrentErrorField("city")}
+                    onFocus={() => setCurrentErrorField("City")}
                     onBlur={() => {
                       setCurrentErrorField(null);
-                      trigger("city");
+                      trigger("City");
                     }}
                   />
 
                   <label
-                    htmlFor="city"
+                    htmlFor="City"
                     className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Suburb
                   </label>
                 </div>
 
-                {errors.city && currentErrorField === "city" && (
+                {errors.City && currentErrorField === "City" && (
                   <span className="absolute backdrop-blur-lg py-1 px-2 w-full text-[0.85rem] md:text-base -bottom-8 left-0  flex items-center text-primary shadow-sm z-10">
                     <span className="bg-primary p-1 rounded-sm mr-1">
                       <FaExclamation className="text-xs text-white" />
                     </span>
-                    {errors?.city?.message}
+                    {errors?.City?.message}
                   </span>
                 )}
               </div>
@@ -188,31 +194,31 @@ const PurchaseForm = ({ elementData }) => {
                 <div className="w-full relative">
                   <input
                     type="text"
-                    {...register("state")}
+                    {...register("State")}
                     className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                     placeholder=" "
                     autoComplete="new-password"
                     onChange={handleAlphaOnly}
-                    onFocus={() => setCurrentErrorField("state")}
+                    onFocus={() => setCurrentErrorField("State")}
                     onBlur={() => {
                       setCurrentErrorField(null);
-                      trigger("state");
+                      trigger("State");
                     }}
                   />
                   <label
-                    htmlFor="city"
+                    htmlFor="State"
                     className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     State
                   </label>
                 </div>
 
-                {errors.state && currentErrorField === "state" && (
+                {errors.State && currentErrorField === "State" && (
                   <span className="absolute backdrop-blur-lg py-1 px-2 w-full text-[0.85rem] md:text-base -bottom-8 left-0  flex items-center text-primary shadow-sm z-10">
                     <span className="bg-primary p-1 rounded-sm mr-1">
                       <FaExclamation className="text-xs text-white" />
                     </span>
-                    {errors?.state?.message}
+                    {errors?.State?.message}
                   </span>
                 )}
               </div>
@@ -222,30 +228,30 @@ const PurchaseForm = ({ elementData }) => {
                 <div className="w-full relative">
                   <input
                     type="text"
-                    {...register("postalCode")}
+                    {...register("PostalCode")}
                     className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                     placeholder=" "
                     autoComplete="new-password"
                     onChange={handleNumericOnly}
-                    onFocus={() => setCurrentErrorField("postalCode")}
+                    onFocus={() => setCurrentErrorField("PostalCode")}
                     onBlur={() => {
                       setCurrentErrorField(null);
                       handleChangePostCodeValidation();
                     }}
                   />
                   <label
-                    htmlFor="postalCode"
+                    htmlFor="PostalCode"
                     className="peer-focus:font-medium absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                   >
                     Post Code
                   </label>
                 </div>
-                {errors.postalCode && currentErrorField === "postalCode" && (
+                {errors.PostalCode && currentErrorField === "PostalCode" && (
                   <span className="absolute backdrop-blur-lg py-1 px-2 w-full text-[0.85rem] md:text-base -bottom-8 left-0  flex items-center text-primary shadow-sm z-10">
                     <span className="bg-primary p-1 rounded-sm mr-1">
                       <FaExclamation className="text-xs text-white" />
                     </span>
-                    {errors?.postalCode?.message}
+                    {errors?.PostalCode?.message}
                   </span>
                 )}
               </div>
@@ -257,31 +263,31 @@ const PurchaseForm = ({ elementData }) => {
                   Country
                 </label>
                 <select
-                  {...register("country")}
+                  {...register("Country")}
                   onChange={(e) => {
-                    setValue("country", e.target.value, {
+                    setValue("Country", e.target.value, {
                       shouldValidate: true,
                     });
                     handleChangePostCodeValidation();
                     setCurrentErrorField(null); // Reset error field when a selection is made
                   }}
                   className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                  onFocus={() => setCurrentErrorField("country")}
+                  onFocus={() => setCurrentErrorField("Country")}
                   onBlur={() => setCurrentErrorField(null)}
                 >
                   <option value="">Select a country</option>
-                  {countries.map((country) => (
-                    <option key={country} value={country}>
-                      {country}
+                  {countries.map((Country) => (
+                    <option key={Country} value={Country}>
+                      {Country}
                     </option>
                   ))}
                 </select>
-                {errors.country && currentErrorField === "country" && (
+                {errors.Country && currentErrorField === "Country" && (
                   <span className="absolute backdrop-blur-lg py-1 px-2 w-full text-[0.85rem] md:text-base -bottom-8 left-0  flex items-center text-primary shadow-sm z-10">
                     <span className="bg-primary p-1 rounded-sm mr-1">
                       <FaExclamation className="text-xs text-white" />
                     </span>
-                    {errors?.country?.message}
+                    {errors?.Country?.message}
                   </span>
                 )}
               </div>
@@ -290,51 +296,51 @@ const PurchaseForm = ({ elementData }) => {
             <div className="relative w-full mb-5 xl:mb-5 group contact">
               <input
                 type="text"
-                {...register("phoneNumber")}
+                {...register("PhoneNumber")}
                 className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
                 autoComplete="new-password"
                 onChange={handleNumericOnly}
-                onFocus={() => setCurrentErrorField("phoneNumber")}
+                onFocus={() => setCurrentErrorField("PhoneNumber")}
                 onBlur={() => {
                   setCurrentErrorField(null);
-                  trigger("phoneNumber");
+                  trigger("PhoneNumber");
                 }}
               />
               <label
-                htmlFor="phoneNumber"
+                htmlFor="PhoneNumber"
                 className="peer-focus:font-medium absolute w-full text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 <span className="hidden md:block">Phone Number</span>
                 <span className="block md:hidden">Phone Number</span>
               </label>
-              {errors.phoneNumber && (
+              {errors.PhoneNumber && (
                 <WarningPopup
-                  error={errors.phoneNumber?.message}
-                  isFirstError={currentErrorField === "phoneNumber"}
+                  error={errors.PhoneNumber?.message}
+                  isFirstError={currentErrorField === "PhoneNumber"}
                 />
               )}
             </div>
             <div className="relative w-full mb-5  xl:mb-5 group contact">
               <input
                 type="text"
-                {...register("email")}
+                {...register("Email")}
                 className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
                 autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("email")}
+                onFocus={() => setCurrentErrorField("Email")}
                 onBlur={() => setCurrentErrorField(null)}
               />
               <label
-                htmlFor="email"
+                htmlFor="Email"
                 className="peer-focus:font-medium absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Email Address
               </label>
-              {errors.email && (
+              {errors.Email && (
                 <WarningPopup
-                  error={errors.email.message}
-                  isFirstError={currentErrorField === "email"}
+                  error={errors.Email.message}
+                  isFirstError={currentErrorField === "Email"}
                 />
               )}
             </div>
@@ -376,6 +382,7 @@ const PurchaseForm = ({ elementData }) => {
               totalAmount={totalAmount}
               screenToShow={screenToShow}
               setscreenToShow={setscreenToShow}
+              purchaseFormData={purchaseFormData}
             />
           </div>
         </div>

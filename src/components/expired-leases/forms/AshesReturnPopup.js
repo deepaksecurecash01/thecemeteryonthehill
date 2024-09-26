@@ -15,7 +15,7 @@ const AshesReturnPopup = ({
   setAshesReturned,
   submissionStatus,
   setSubmissionStatus,
-  releaseFormData
+  releaseFormData,
 }) => {
   const resolver =
     ashesReturned === true
@@ -33,7 +33,7 @@ const AshesReturnPopup = ({
   } = useForm({
     resolver,
     defaultValues: {
-      country: "Australia",
+      Country: "Australia",
     },
   });
 
@@ -50,62 +50,101 @@ const AshesReturnPopup = ({
       shouldDirty: true,
     });
   };
-  const country = watch("country");
+  const Country = watch("Country");
 
   const handleChangePostCodeValidation = () => {
-    if (country) {
-      trigger("postalCode"); // Trigger validation for postalCode when country changes
+    if (Country) {
+      trigger("PostalCode"); // Trigger validation for PostalCode when Country changes
     }
   };
 
- const onSubmit = async (data) => {
-   const formData = new FormData();
 
-   // If releaseFormData is provided and is a FormData instance, append its entries
-   if (releaseFormData instanceof FormData) {
-     for (const [key, value] of releaseFormData.entries()) {
-       formData.append(key, value);
-     }
-   }
 
-   // Append the new form data
-   Object.keys(data).forEach((key) => formData.append(key, data[key]));
+const onSubmit = async (data) => {
+  const formData = new FormData();
 
-   // Add no-returned flag if ashesReturned is false
-   if (ashesReturned === false) {
-     formData.append("no-returned", "true");
-   }
+  // Function to combine releaseFormData and additionalData
+  const combineData = (releaseFormData, data) => {
+    // Create a copy of releaseFormData entries as an object
+    const releaseData = {};
+    for (const [key, value] of releaseFormData.entries()) {
+      if (value instanceof File) {
+        releaseData[key] = value; // Preserve File objects
+      } else {
+        releaseData[key] = value;
+      }
+    }
 
-   console.log("Form Data:", ...formData.entries());
+    // Merge with additional data
+    return { ...releaseData, ...data };
+  };
 
-   try {
-     // Simulate a form submission
-     await new Promise((resolve, reject) => {
-       // Change to resolve() for success simulation, reject() for error simulation
-       setTimeout(resolve, 1000);
-     });
+  // Merge data from releaseFormData and additionalData
+  const finalData = combineData(releaseFormData, data);
 
-     const response = await fetch("/api/s3-upload", {
-       method: "POST",
-       body: formData,
-     });
+  // Append merged data to FormData
+  for (const [key, value] of Object.entries(finalData)) {
+    if (value instanceof File) {
+      // Append file directly
+      formData.append(key, value);
+    } else if (value && typeof value === "object") {
+      if (key === "Attachments") {
+        // Flatten nested attachments object
+        for (const [subKey, subValue] of Object.entries(value)) {
+          formData.append(`Attachments.${subKey}`, subValue);
+        }
+      }
+    } else {
+      formData.append(key, value);
+    }
+  }
 
-     if (!response.ok) {
-       throw new Error("Failed to submit the form");
-     }
+if (ashesReturned === true) {
+  // Flatten and append ReturnAddressScheme data
+  const returnAddressScheme = {
+    Address: data?.Address || "",
+    City: data?.City || "",
+    State: data?.State || "",
+    PostalCode: data?.PostalCode || "",
+    Country: data?.Country || "",
+  };
 
-     const result = await response.json();
-     console.log(result);
+  for (const [key, value] of Object.entries(returnAddressScheme)) {
+    formData.append(`ReturnAddressScheme.${key}`, value);
+  }
+}
 
-     setSubmissionStatus("success");
-     setErrorMessage("");
-     reset(); // Reset form fields
-   } catch (error) {
-     console.error("Submission Error:", error);
-     setSubmissionStatus("error");
-     setErrorMessage("Failed to submit the form. Please try again.");
-   }
- };
+  // Add `Returned` flag if `ashesReturned` is false
+  formData.append("Returned", ashesReturned === false ? false : true);
+
+  console.log("Form Data:", ...formData.entries());
+
+  try {
+    const response = await fetch("/api/release-form", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to submit the form");
+    }
+
+    const result = await response.json();
+    console.log(result);
+
+    setSubmissionStatus("success");
+    setErrorMessage("");
+    reset(); // Reset form fields
+  } catch (error) {
+    console.error("Submission Error:", error);
+    setSubmissionStatus("error");
+    setErrorMessage("Failed to submit the form. Please try again.");
+  }
+};
+
+
+
+
 
 
   return (
@@ -166,24 +205,24 @@ const AshesReturnPopup = ({
               <div className="relative w-full mb-5 xl:mb-5 group contact">
                 <input
                   type="text"
-                  {...register("address")}
+                  {...register("Address")}
                   className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                   placeholder=" "
                   autoComplete="new-password"
-                  onFocus={() => setCurrentErrorField("address")}
+                  onFocus={() => setCurrentErrorField("Address")}
                   onBlur={() => setCurrentErrorField(null)}
                 />
                 <label
-                  htmlFor="address"
+                  htmlFor="Address"
                   className="peer-focus:font-medium absolute w-full text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   <span className="hidden md:block">Address</span>
                   <span className="block md:hidden">Address</span>
                 </label>
-                {errors.address && (
+                {errors.Address && (
                   <WarningPopup
-                    error={errors.address?.message}
-                    isFirstError={currentErrorField === "address"}
+                    error={errors.Address?.message}
+                    isFirstError={currentErrorField === "Address"}
                   />
                 )}
               </div>
@@ -192,32 +231,32 @@ const AshesReturnPopup = ({
                   <div className="w-full relative">
                     <input
                       type="text"
-                      {...register("city")}
+                      {...register("City")}
                       className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                       placeholder=" "
                       autoComplete="new-password"
                       onChange={handleAlphaOnly}
-                      onFocus={() => setCurrentErrorField("city")}
+                      onFocus={() => setCurrentErrorField("City")}
                       onBlur={() => {
                         setCurrentErrorField(null);
-                        trigger("city");
+                        trigger("City");
                       }}
                     />
 
                     <label
-                      htmlFor="city"
+                      htmlFor="City"
                       className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Suburb
                     </label>
                   </div>
 
-                  {errors.city && currentErrorField === "city" && (
+                  {errors.City && currentErrorField === "City" && (
                     <span className="absolute backdrop-blur-lg py-1 px-2 w-full text-[0.85rem] md:text-base -bottom-8 left-0  flex items-center text-primary shadow-sm z-10">
                       <span className="bg-primary p-1 rounded-sm mr-1">
                         <FaExclamation className="text-xs text-white" />
                       </span>
-                      {errors?.city?.message}
+                      {errors?.City?.message}
                     </span>
                   )}
                 </div>
@@ -226,31 +265,31 @@ const AshesReturnPopup = ({
                   <div className="w-full relative">
                     <input
                       type="text"
-                      {...register("state")}
+                      {...register("State")}
                       className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                       placeholder=" "
                       autoComplete="new-password"
                       onChange={handleAlphaOnly}
-                      onFocus={() => setCurrentErrorField("state")}
+                      onFocus={() => setCurrentErrorField("State")}
                       onBlur={() => {
                         setCurrentErrorField(null);
-                        trigger("state");
+                        trigger("State");
                       }}
                     />
                     <label
-                      htmlFor="city"
+                      htmlFor="City"
                       className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       State
                     </label>
                   </div>
 
-                  {errors.state && currentErrorField === "state" && (
+                  {errors.State && currentErrorField === "State" && (
                     <span className="absolute backdrop-blur-lg py-1 px-2 w-full text-[0.85rem] md:text-base -bottom-8 left-0  flex items-center text-primary shadow-sm z-10">
                       <span className="bg-primary p-1 rounded-sm mr-1">
                         <FaExclamation className="text-xs text-white" />
                       </span>
-                      {errors?.state?.message}
+                      {errors?.State?.message}
                     </span>
                   )}
                 </div>
@@ -260,30 +299,30 @@ const AshesReturnPopup = ({
                   <div className="w-full relative">
                     <input
                       type="text"
-                      {...register("postalCode")}
+                      {...register("PostalCode")}
                       className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                       placeholder=" "
                       autoComplete="new-password"
                       onChange={handleNumericOnly}
-                      onFocus={() => setCurrentErrorField("postalCode")}
+                      onFocus={() => setCurrentErrorField("PostalCode")}
                       onBlur={() => {
                         setCurrentErrorField(null);
                         handleChangePostCodeValidation();
                       }}
                     />
                     <label
-                      htmlFor="postalCode"
+                      htmlFor="PostalCode"
                       className="peer-focus:font-medium absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Post Code
                     </label>
                   </div>
-                  {errors.postalCode && currentErrorField === "postalCode" && (
+                  {errors.PostalCode && currentErrorField === "PostalCode" && (
                     <span className="absolute backdrop-blur-lg py-1 px-2 w-full text-[0.85rem] md:text-base -bottom-8 left-0  flex items-center text-primary shadow-sm z-10">
                       <span className="bg-primary p-1 rounded-sm mr-1">
                         <FaExclamation className="text-xs text-white" />
                       </span>
-                      {errors?.postalCode?.message}
+                      {errors?.PostalCode?.message}
                     </span>
                   )}
                 </div>
@@ -295,31 +334,31 @@ const AshesReturnPopup = ({
                     Country
                   </label>
                   <select
-                    {...register("country")}
+                    {...register("Country")}
                     onChange={(e) => {
-                      setValue("country", e.target.value, {
+                      setValue("Country", e.target.value, {
                         shouldValidate: true,
                       });
                       handleChangePostCodeValidation();
                       setCurrentErrorField(null); // Reset error field when a selection is made
                     }}
                     className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                    onFocus={() => setCurrentErrorField("country")}
+                    onFocus={() => setCurrentErrorField("Country")}
                     onBlur={() => setCurrentErrorField(null)}
                   >
                     <option value="">Select a country</option>
-                    {countries.map((country) => (
-                      <option key={country} value={country}>
-                        {country}
+                    {countries.map((Country) => (
+                      <option key={Country} value={Country}>
+                        {Country}
                       </option>
                     ))}
                   </select>
-                  {errors.country && currentErrorField === "country" && (
+                  {errors.Country && currentErrorField === "Country" && (
                     <span className="absolute backdrop-blur-lg py-1 px-2 w-full text-[0.85rem] md:text-base -bottom-8 left-0  flex items-center text-primary shadow-sm z-10">
                       <span className="bg-primary p-1 rounded-sm mr-1">
                         <FaExclamation className="text-xs text-white" />
                       </span>
-                      {errors?.country?.message}
+                      {errors?.Country?.message}
                     </span>
                   )}
                 </div>

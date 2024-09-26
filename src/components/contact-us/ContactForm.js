@@ -34,19 +34,36 @@ const ContactForm = () => {
   };
 
   // Form submission handler
-  const onSubmit = async (data) => {
-    console.log(data);
-    try {
-      // Simulate a form submission
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+const onSubmit = async (data) => {
+  try {
+    // Make a POST request to your API endpoint
+    const response = await fetch("/api/contact-form", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (response.ok) {
       setSubmissionStatus("success");
-      setErrorMessage("");
       reset(); // Reset form fields
-    } catch (error) {
+    } else {
+      const errorData = await response.json();
       setSubmissionStatus("error");
-      setErrorMessage("Failed to submit the form. Please try again.");
+      setErrorMessage(
+        errorData.error || "Failed to submit the form. Please try again."
+      );
     }
-  };
+  } catch (error) {
+    setSubmissionStatus("error");
+    setErrorMessage(
+      "An error occurred while submitting the form. Please try again."
+    );
+  }
+};
+
+
 
   // Hide submission status message after a delay
   useEffect(() => {
@@ -85,98 +102,98 @@ const ContactForm = () => {
           <div className="relative z-0 w-full mb-5 xl:mb-5 group contact">
             <input
               type="text"
-              {...register("fullName")}
+              {...register("FullName")}
               className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
               placeholder=" "
               autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("fullName")}
+              onFocus={() => setCurrentErrorField("FullName")}
               onBlur={() => setCurrentErrorField(null)}
             />
             <label
-              htmlFor="fullName"
+              htmlFor="FullName"
               className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               <span className="hidden md:block">Full Name</span>
               <span className="block md:hidden">Full Name</span>
             </label>
-            {errors.fullName && (
+            {errors.FullName && (
               <WarningPopup
-                error={errors.fullName?.message}
-                isFirstError={currentErrorField === "fullName"}
+                error={errors.FullName?.message}
+                isFirstError={currentErrorField === "FullName"}
               />
             )}
           </div>
           <div className="relative z-0 w-full mb-5 xl:mb-5 group contact">
             <input
               type="text"
-              {...register("email")}
+              {...register("Email")}
               className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
               placeholder=" "
               autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("email")}
+              onFocus={() => setCurrentErrorField("Email")}
               onBlur={() => setCurrentErrorField(null)}
             />
             <label
-              htmlFor="email"
+              htmlFor="Email"
               className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Email Address
             </label>
-            {errors.email && (
+            {errors.Email && (
               <WarningPopup
-                error={errors.email.message}
-                isFirstError={currentErrorField === "email"}
+                error={errors.Email.message}
+                isFirstError={currentErrorField === "Email"}
               />
             )}
           </div>
           <div className="relative z-0 w-full mb-5 xl:mb-5 group contact">
             <input
               type="text"
-              {...register("phoneNumber")}
+              {...register("PhoneNumber")}
               className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
               placeholder=" "
               autoComplete="new-password"
               onChange={handleNumericOnly}
-              onFocus={() => setCurrentErrorField("phoneNumber")}
+              onFocus={() => setCurrentErrorField("PhoneNumber")}
               onBlur={() => {
                 setCurrentErrorField(null);
-                trigger("phoneNumber");
+                trigger("PhoneNumber");
               }}
             />
             <label
-              htmlFor="phoneNumber"
+              htmlFor="PhoneNumber"
               className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               <span className="hidden md:block">Phone Number</span>
               <span className="block md:hidden">Phone Number</span>
             </label>
-            {errors.phoneNumber && (
+            {errors.PhoneNumber && (
               <WarningPopup
-                error={errors.phoneNumber?.message}
-                isFirstError={currentErrorField === "phoneNumber"}
+                error={errors.PhoneNumber?.message}
+                isFirstError={currentErrorField === "PhoneNumber"}
               />
             )}
           </div>
           <div className="relative z-0 w-full mb-5 xl:mb-5 group contact">
             <textarea
-              {...register("message")}
+              {...register("Message")}
               className="block py-6 px-0 w-full mt-4 text-lg font-roboto text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
               placeholder=" "
               rows="4"
               autoComplete="off"
-              onFocus={() => setCurrentErrorField("message")}
+              onFocus={() => setCurrentErrorField("Message")}
               onBlur={() => setCurrentErrorField(null)}
             ></textarea>
             <label
-              htmlFor="message"
+              htmlFor="Message"
               className="peer-focus:font-medium absolute text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Message
             </label>
-            {errors.message && (
+            {errors.Message && (
               <WarningPopup
-                error={errors.message?.message}
-                isFirstError={currentErrorField === "message"}
+                error={errors.Message?.message}
+                isFirstError={currentErrorField === "Message"}
               />
             )}
           </div>

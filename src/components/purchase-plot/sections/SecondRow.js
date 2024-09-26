@@ -26,7 +26,6 @@ export default function FirstRow({ data, CemeteryData }) {
 
   const bedColorClassRoseGarden = getBedColorClass(statusesRoseGarden);
 
-  console.log(statusesRoseGarden);
 
   const dispatch = useDispatch();
   return (

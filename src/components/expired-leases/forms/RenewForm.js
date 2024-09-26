@@ -16,7 +16,6 @@ import { RenewFormSchema } from "@/zod/RenewFormSchema";
 import FormSuccessMessage from "../../ui/FormSuccessMessage";
 import FormFailedMessage from "@/components/ui/FormFailedMessage";
 
-
 const focusInput = (ref) => {
   if (ref && ref.current) {
     ref.current.focus();
@@ -39,9 +38,14 @@ const RenewForm = () => {
     reset,
   } = useForm({ resolver: zodResolver(RenewFormSchema) });
 
-  const selectedDateOfBirth = watch("dateofBirth");
-  const selectedDateOfDeath = watch("dateOfDeath");
-  const selectedContactDate = watch("preferredContactDate");
+ const formatDate = (date) => {
+   const unixTimestamp = Math.floor(new Date(date).getTime() / 1000);
+   return unixTimestamp;
+ };
+
+  const selectedDateOfBirth = watch("DateOfBirth");
+  const selectedDateOfDeath = watch("DateOfDeath");
+  const selectedContactDate = watch("PreferredContactDate");
 
   const handleNumericOnly = (e) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
@@ -49,28 +53,45 @@ const RenewForm = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
-
     try {
-      // Simulate a form submission
-      await new Promise((resolve, reject) => {
-        // Change to resolve() for success simulation, reject() for error simulation
-        setTimeout(resolve, 1000);
+      // Format the date fields only if they are valid
+      const formattedData = {
+        ...data,
+        DateOfBirth: data.DateOfBirth ? formatDate(data.DateOfBirth) : null,
+        DateOfDeath: data.DateOfDeath ? formatDate(data.DateOfDeath) : null,
+        PreferredContactDate: data.PreferredContactDate
+          ? formatDate(data.PreferredContactDate)
+          : null,
+      };
+console.log(formattedData);
+      const response = await fetch("/api/renew-form", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formattedData),
       });
 
+      if (!response.ok)
+        throw new Error(`HTTP error! status: ${response.status}`);
+
+      const result = await response.json();
+
+      if (result.error) throw new Error(result.error);
+
       setSubmissionStatus("success");
-      setErrorMessage("");
-      reset(); // Reset form fields
+      reset();
     } catch (error) {
+      console.error("Form submission error:", error);
       setSubmissionStatus("error");
       setErrorMessage("Failed to submit the form. Please try again.");
     }
   };
 
-  const dateofBirthRef = useRef(null);
-  const dateOfDeathRef = useRef(null);
-  const preferredContactMethodRef = useRef(null);
-  const preferredContactDateRef = useRef(null);
+  const DateOfBirthRef = useRef(null);
+  const DateOfDeathRef = useRef(null);
+  const PreferredContactMethodRef = useRef(null);
+  const PreferredContactDateRef = useRef(null);
 
   useEffect(() => {
     if (errors) {
@@ -78,16 +99,16 @@ const RenewForm = () => {
       setCurrentErrorField(errorField);
 
       switch (errorField) {
-        case "dateofBirth":
-          focusInput(dateofBirthRef);
+        case "DateOfBirth":
+          focusInput(DateOfBirthRef);
           break;
-        case "dateOfDeath":
-          focusInput(dateOfDeathRef);
+        case "DateOfDeath":
+          focusInput(DateOfDeathRef);
           break;
-        case "preferredContactMethod":
-          focusInput(preferredContactMethodRef); // No specific input ref for this field
+        case "PreferredContactMethod":
+          focusInput(PreferredContactMethodRef); // No specific input ref for this field
           break;
-        case "preferredContactDate":
+        case "PreferredContactDate":
           focusInput(null); // No specific input ref for this field (consider adding a ref if needed)
           break;
         default:
@@ -96,7 +117,7 @@ const RenewForm = () => {
     } else {
       setCurrentErrorField(null);
     }
-  }, [errors, dateofBirthRef, dateOfDeathRef]);
+  }, [errors, DateOfBirthRef, DateOfDeathRef]);
 
   useEffect(() => {
     if (submissionStatus) {
@@ -133,8 +154,8 @@ const RenewForm = () => {
           autoComplete="off"
         >
           {[
-            { label: "Full Name", name: "fullName", type: "text" },
-            { label: "Email Address", name: "email", type: "text" },
+            { label: "Full Name", name: "FullName", type: "text" },
+            { label: "Email Address", name: "Email", type: "text" },
           ].map(({ label, name, type }) => (
             <div
               key={name}
@@ -166,84 +187,83 @@ const RenewForm = () => {
           <div className="relative w-full mb-5 xl:mb-5 group contact">
             <input
               type="text"
-              {...register("phoneNumber")}
+              {...register("PhoneNumber")}
               className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
               placeholder=" "
               autoComplete="new-password"
               onChange={handleNumericOnly}
-              onFocus={() => setCurrentErrorField("phoneNumber")}
+              onFocus={() => setCurrentErrorField("PhoneNumber")}
               onBlur={() => {
                 setCurrentErrorField(null);
-                trigger("phoneNumber");
+                trigger("PhoneNumber");
               }}
             />
             <label
-              htmlFor="phoneNumber"
+              htmlFor="PhoneNumber"
               className="peer-focus:font-medium absolute w-full text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               <span className="hidden md:block">Phone Number</span>
               <span className="block md:hidden">Phone Number</span>
             </label>
-            {errors.phoneNumber && (
+            {errors.PhoneNumber && (
               <WarningPopup
-                error={errors.phoneNumber?.message}
-                isFirstError={currentErrorField === "phoneNumber"}
+                error={errors.PhoneNumber?.message}
+                isFirstError={currentErrorField === "PhoneNumber"}
               />
             )}
           </div>
           <div className="relative w-full mb-5 xl:mb-5 group contact">
             <input
               type="text"
-              {...register("nameOfDeceased")}
+              {...register("NameOfDeceased")}
               className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
               placeholder=" "
               autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("nameOfDeceased")}
+              onFocus={() => setCurrentErrorField("NameOfDeceased")}
               onBlur={() => setCurrentErrorField(null)}
             />
             <label
-              htmlFor="nameOfDeceased"
+              htmlFor="NameOfDeceased"
               className="peer-focus:font-medium absolute w-full text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Full Name of Deceased
             </label>
-            {errors.nameOfDeceased && (
+            {errors.NameOfDeceased && (
               <WarningPopup
-                error={errors.nameOfDeceased?.message}
-                isFirstError={currentErrorField === "nameOfDeceased"}
+                error={errors.NameOfDeceased?.message}
+                isFirstError={currentErrorField === "NameOfDeceased"}
               />
             )}
           </div>
           <div className="relative w-full mb-5  xl:mb-5 group contact">
             <DatePicker
               value={selectedDateOfBirth || null}
-              onChange={(date) =>
-                setValue("dateofBirth", date, { shouldValidate: true })
-              }
-              onFocus={() => setCurrentErrorField("dateofBirth")}
+              onChange={(date) => {
+                setValue("DateOfBirth", date, { shouldValidate: true });
+              }}
+              onFocus={() => setCurrentErrorField("DateOfBirth")}
               onBlur={() => setCurrentErrorField(null)}
-              openCalendarOnFocus={true}
               dayPlaceholder="DD"
               monthPlaceholder="MM"
               yearPlaceholder="YYYY"
-              firstInputRef={dateofBirthRef}
-              onInvalid={() => setCurrentErrorField("dateofBirth")}
+              errors={errors}
+              ref={DateOfBirthRef}
               format="dd/MM/yyyy"
               className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
               autoComplete="new-password"
             />
 
             <label
-              htmlFor="dateOfBirth"
+              htmlFor="DateOfBirth"
               className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Date of Birth&nbsp;
               <span className="hidden md:block">of Deceased</span>
             </label>
-            {errors.dateofBirth && (
+            {errors.DateOfBirth && (
               <WarningPopup
-                error={errors.dateofBirth.message}
-                isFirstError={currentErrorField === "dateofBirth"}
+                error={errors.DateOfBirth.message}
+                isFirstError={currentErrorField === "DateOfBirth"}
               />
             )}
           </div>
@@ -252,29 +272,29 @@ const RenewForm = () => {
             <DatePicker
               value={selectedDateOfDeath || null}
               onChange={(date) =>
-                setValue("dateOfDeath", date, { shouldValidate: true })
+                setValue("DateOfDeath", date, { shouldValidate: true })
               }
               dayPlaceholder="DD"
               monthPlaceholder="MM"
               yearPlaceholder="YYYY"
               errors={errors}
-              ref={dateOfDeathRef}
+              ref={DateOfDeathRef}
               format="dd/MM/yyyy"
               className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer uppercase"
               autoComplete="new-password"
-              onFocus={() => setCurrentErrorField("dateOfDeath")}
+              onFocus={() => setCurrentErrorField("DateOfDeath")}
               onBlur={() => setCurrentErrorField(null)}
             />
             <label
-              htmlFor="dateOfDeath"
+              htmlFor="DateOfDeath"
               className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               Date of Death
             </label>
-            {errors.dateOfDeath && (
+            {errors.DateOfDeath && (
               <WarningPopup
-                error={errors.dateOfDeath.message}
-                isFirstError={currentErrorField === "dateOfDeath"}
+                error={errors.DateOfDeath.message}
+                isFirstError={currentErrorField === "DateOfDeath"}
               />
             )}
           </div>
@@ -283,15 +303,15 @@ const RenewForm = () => {
             <div className="relative w-full group contact">
               <input
                 type="text"
-                {...register("row")}
+                {...register("Row")}
                 className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
                 autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("rowPlot")}
+                onFocus={() => setCurrentErrorField("Row")}
                 onBlur={() => setCurrentErrorField(null)}
               />
               <label
-                htmlFor="row"
+                htmlFor="Row"
                 className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 <span className="hidden md:block">Located In</span>&nbsp;Row
@@ -300,15 +320,15 @@ const RenewForm = () => {
             <div className="relative w-full group contact">
               <input
                 type="text"
-                {...register("plot")}
+                {...register("Plot")}
                 className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                 placeholder=" "
                 autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("rowPlot")}
+                onFocus={() => setCurrentErrorField("Plot")}
                 onBlur={() => setCurrentErrorField(null)}
               />
               <label
-                htmlFor="plot"
+                htmlFor="Plot"
                 className="peer-focus:font-medium absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
               >
                 Plot
@@ -316,35 +336,35 @@ const RenewForm = () => {
             </div>
           </div>
 
-                        <div className="relative w-full mb-5 xl:mb-5 group contact">
+          <div className="relative w-full mb-5 xl:mb-5 group contact">
             <label
-              htmlFor="preferredContactMethod"
+              htmlFor="PreferredContactMethod"
               className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               <span className="hidden md:block">Preferred</span>&nbsp;Contact
               Method
             </label>
             <select
-              {...register("preferredContactMethod")}
+              {...register("PreferredContactMethod")}
               onChange={(e) => {
-                setValue("preferredContactMethod", e.target.value, {
+                setValue("PreferredContactMethod", e.target.value, {
                   shouldValidate: true,
                 });
                 setCurrentErrorField(null); // Reset error field when a selection is made
               }}
               className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-              onFocus={() => setCurrentErrorField("preferredContactMethod")}
+              onFocus={() => setCurrentErrorField("PreferredContactMethod")}
               onBlur={() => setCurrentErrorField(null)}
-              ref={preferredContactMethodRef}
+              ref={PreferredContactMethodRef}
             >
               <option value="">Select Method</option>
-              <option value="phone">Phone</option>
-              <option value="email">Email</option>
+              <option value="Phone">Phone</option>
+              <option value="Email">Email</option>
             </select>
-            {errors.preferredContactMethod && (
+            {errors.PreferredContactMethod && (
               <WarningPopup
-                error={errors.preferredContactMethod.message}
-                isFirstError={currentErrorField === "preferredContactMethod"}
+                error={errors.PreferredContactMethod.message}
+                isFirstError={currentErrorField === "PreferredContactMethod"}
               />
             )}
           </div>
@@ -353,14 +373,14 @@ const RenewForm = () => {
             <DatePicker
               value={selectedContactDate || null}
               onChange={(date) =>
-                setValue("preferredContactDate", date, {
+                setValue("PreferredContactDate", date, {
                   shouldValidate: true,
                 })
               }
-              onFocus={() => setCurrentErrorField("preferredContactDate")}
+              onFocus={() => setCurrentErrorField("PreferredContactDate")}
               onBlur={() => setCurrentErrorField(null)}
               errors={errors}
-              ref={preferredContactDateRef}
+              ref={PreferredContactDateRef}
               dayPlaceholder="DD"
               monthPlaceholder="MM"
               yearPlaceholder="YYYY"
@@ -369,16 +389,16 @@ const RenewForm = () => {
               autoComplete="new-password"
             />
             <label
-              htmlFor="preferredContactDate"
+              htmlFor="PreferredContactDate"
               className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 placeholder:text-primary peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               <span className="hidden sm:block">Preferred</span>&nbsp;Contact
               Date
             </label>
-            {errors.preferredContactDate && (
+            {errors.PreferredContactDate && (
               <WarningPopup
-                error={errors.preferredContactDate.message}
-                isFirstError={currentErrorField === "preferredContactDate"}
+                error={errors.PreferredContactDate.message}
+                isFirstError={currentErrorField === "PreferredContactDate"}
               />
             )}
           </div>

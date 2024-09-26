@@ -179,7 +179,7 @@ export default function DataTablePage() {
         </div>
 
         <div className="h-[33rem] overflow-y-scroll bg-transparent xl:bg-white font-roboto">
-          {isClient ? (
+          {isClient  ? (
             <>
               <div className=" w-full table-fixed hidden xl:table">
                 <thead className="bg-secondary/50 text-paragraph sticky top-0 backdrop-blur-xl">

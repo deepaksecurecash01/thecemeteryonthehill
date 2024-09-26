@@ -1,7 +1,10 @@
-import BannerSection from '@/components/our-records/BannerSection';
-import FaqSection from '@/components/our-records/FaqSection';
-import TableSection from '@/components/our-records/TableSection';
-import React from 'react'
+import BannerSection from "@/components/our-records/BannerSection";
+import BannerSection2 from "@/components/our-records/BannerSection2";
+import FaqSection from "@/components/our-records/FaqSection";
+import TableSection from "@/components/our-records/TableSection";
+import Link from "next/link";
+import React from "react";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const page = () => {
   return (
@@ -23,7 +26,13 @@ const page = () => {
             {`Here's the list of our burial records.`}
           </p>
         </div>
-        <TableSection />
+        <div className="w-[90vw] xl:w-[80vw] my-10">
+          <TableSection />
+          
+        </div>
+        <div className="w-full my-10">
+          <BannerSection2 />
+        </div>
         <div className="w-[90vw] xl:w-[80vw]">
           <div className="flex flex-col justify-center items-center">
             <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
@@ -39,6 +48,6 @@ const page = () => {
       <BannerSection />
     </>
   );
-}
+};
 
-export default page
+export default page;

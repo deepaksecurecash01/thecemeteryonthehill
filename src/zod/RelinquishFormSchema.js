@@ -2,19 +2,19 @@ import { z } from "zod";
 
 export const RelinquishFormSchema = z
   .object({
-    fullName: z
+    FullName: z
       .string()
       .nonempty("Full Name is required.")
       .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-    nameOfDeceased: z
+    NameOfDeceased: z
       .string()
       .nonempty("Name of Deceased is required.")
       .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
-    email: z
+    Email: z
       .string()
       .nonempty("Email is required.")
       .email("Please enter a valid email address."),
-    dateofBirth: z
+    DateOfBirth: z
       .date({
         required_error: "Date of Birth is required",
         invalid_type_error: "Date of Birth is required",
@@ -22,7 +22,7 @@ export const RelinquishFormSchema = z
       .refine((date) => date <= new Date(), {
         message: "Date of Birth must be in the past or today",
       }),
-    dateOfDeath: z
+    DateOfDeath: z
       .date({
         required_error: "Date of Death is required",
         invalid_type_error: "Date of Death must be a valid date",
@@ -30,14 +30,15 @@ export const RelinquishFormSchema = z
       .refine((date) => date <= new Date(), {
         message: "Date of Death must be in the past or today",
       }),
-    rowPlot: z.string().optional(),
-    internmentType: z.enum(["ashes", "burial"], {
+    Row: z.string().optional(),
+    Plot: z.string().optional(),
+    InternmentType: z.enum(["Ashes", "Burial"], {
       errorMap: () => ({ message: "Internment Type is required." }),
     }),
-    signature: z.string({
+    Signature: z.string({
       errorMap: () => ({ message: "Lease Holder Signature is required." }),
     }),
-    attachment: z
+    Id: z
       .any() // `any` here is used because we can't directly enforce `File` in Zod
       .refine((file) => file instanceof File, {
         message: "File is required.",
@@ -56,9 +57,9 @@ export const RelinquishFormSchema = z
       ),
   })
   .superRefine((data, ctx) => {
-    if (data.dateofBirth <= data.dateOfDeath) {
+    if (data.DateOfBirth >= data.DateOfDeath) {
       ctx.addIssue({
-        path: ["dateOfDeath"],
+        path: ["DateOfDeath"],
         message: "Date of Death must be after Date of Birth.",
       });
     }
