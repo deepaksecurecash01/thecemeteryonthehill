@@ -24,10 +24,10 @@ const ContentSection = () => (
       <div className="max-w-[90%] md:max-w-[75%] xl:max-w-[60%] gap-8">
         <div className="flex flex-col justify-center items-center gap-8">
           <div className="flex flex-col justify-center items-center">
-            <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
+            <h2 className="text-[1.75rem] md:text-[2.75rem] text-center font-bold text-primary font-display">
               Pet Cemetery In The South Of Adelaide
             </h2>
-            <h2 className="text-xl md:text-2xl lg:text-[1.75rem] font-roboto text-primary">
+            <h2 className="text-xl md:text-2xl lg:text-[1.75rem] text-center font-roboto text-primary">
               Peaceful Pet Interments at The Cemetery on The Hill
             </h2>
           </div>
@@ -213,7 +213,7 @@ const ContentSection = () => (
               id="banner-heading"
               className=" w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col gap-4"
             >
-              <h1 className="text-[1.75rem] text-start 2xl:text-center md:text-[2rem] font-bold font-display text-white">
+              <h1 className="text-[1.75rem] 2xl:text-center md:text-[2rem] text-center font-bold font-display text-white">
                 A Resting Place Worthy Of Your Pet
               </h1>
               <p className="text-lg sm:text-lg lg:text-xl font-roboto text-white text-center tracking-wide">
@@ -234,23 +234,13 @@ const ContentSection = () => (
       <div className="max-w-[90%] md:max-w-[75%] xl:max-w-[60%] gap-8">
         <div className="flex flex-col justify-center items-center gap-8">
           <div className="flex flex-col justify-center items-center">
-            <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
+            <h2 className="text-[1.75rem] md:text-[2.75rem] text-center font-bold text-primary font-display">
               The History Of Pet Cemeteries
             </h2>
           </div>
 
           <p className="text-paragraph text-base text-justify font-bold tracking-wide lg:text-lg">
-            Long before we began sharing photos of our beloved pets online, and
-            centuries before dogs were celebrated as "man’s best friend,"
-            animals were already an indispensable part of human life. These
-            early bonds were often practical—dogs served as protectors, hunters,
-            and companions, while cats kept our homes free of pests. But over
-            time, these relationships deepened, evolving into something far more
-            profound. Our pets became our friends, our confidants, and
-            eventually, cherished members of our families. This shift in
-            perception is beautifully reflected in the history of pet
-            cemeteries, where the love and loyalty between humans and their
-            animals is honoured and preserved.
+           {'Long before we began sharing photos of our beloved pets online, and centuries before dogs were celebrated as "man’s best friend," animals were already an indispensable part of human life. These early bonds were often practical—dogs served as protectors, hunters, and companions, while cats kept our homes free of pests. But over time, these relationships deepened, evolving into something far more profound. Our pets became our friends, our confidants, and eventually, cherished members of our families. This shift in perception is beautifully reflected in the history of pet cemeteries, where the love and loyalty between humans and their animals is honoured and preserved.'}
           </p>
         </div>
 

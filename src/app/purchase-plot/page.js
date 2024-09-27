@@ -1,6 +1,10 @@
 "use client";
+import dynamic from "next/dynamic";
 import PlotTable from "@/components/purchase-plot/PlotTable";
-import PopupForm from "@/components/purchase-plot/PopupForm";
+const PopupForm = dynamic(
+  () => import("@/components/purchase-plot/PopupForm"),
+  { ssr: false }
+);
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import React from "react";

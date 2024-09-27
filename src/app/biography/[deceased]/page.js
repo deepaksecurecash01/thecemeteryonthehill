@@ -1,9 +1,9 @@
 "use client";
 import BiographyTimeline from "@/components/biography/BiographyTimeline";
 import BiographySlider from "@/components/ui/BiographySlider";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
   const [persons, setPersons] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -60,4 +60,4 @@ const page = ({ params }) => {
   );
 };
 
-export default page;
+export default Page;
