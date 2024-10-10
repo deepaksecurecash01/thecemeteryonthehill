@@ -9,7 +9,7 @@ export const ContactFormSchema = z.object({
     .string()
     .nonempty("Email is required.")
     .email("Please enter a valid email address."),
-  PhoneNumber: z
+  MobileNumber: z
     .string()
     .nonempty("Phone Number is required.")
     .regex(/^[0-9]+$/, "Phone Number must contain only digits."),

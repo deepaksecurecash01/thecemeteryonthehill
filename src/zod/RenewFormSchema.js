@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-
 export const RenewFormSchema = z
   .object({
     FullName: z
@@ -11,7 +10,7 @@ export const RenewFormSchema = z
       .string()
       .nonempty("Email is required.")
       .email("Please enter a valid email address."),
-    PhoneNumber: z
+    MobileNumber: z
       .string()
       .nonempty("Phone Number is required.")
       .regex(/^[0-9]+$/, "Phone Number must contain only digits."),
@@ -35,16 +34,19 @@ export const RenewFormSchema = z
       .refine((date) => date <= new Date(), {
         message: "Date of Death must be in the past or today",
       }),
-    Row: z.string().optional(),
-    Plot: z.string().optional(),
+    PlotNumber: z.string().optional(),
 
     PreferredContactMethod: z.enum(["Email", "Phone"], {
       errorMap: () => ({ message: "Contact Method is required." }),
     }),
-    PreferredContactDate: z.date({
-      required_error: "Preferred Contact Date is required.",
-      invalid_type_error: "Preferred Contact Date is required.",
-    }),
+    PreferredContactDate: z
+      .date({
+        required_error: "Preferred Contact Date is required.",
+        invalid_type_error: "Preferred Contact Date is required.",
+      })
+      .refine((date) => date >= new Date(), {
+        message: "Preferred Contact Date must be in the future or today.",
+      }),
   })
   .superRefine((data, ctx) => {
     if (data.DateOfBirth >= data.DateOfDeath) {

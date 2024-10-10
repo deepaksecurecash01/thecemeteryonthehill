@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import ReturnAddressSchema from "./ReturnAddress";
+import ReturnAshesDetails from "./ReturnAshesDetails";
 
 const ReleaseFormSchema = new mongoose.Schema({
   FullName: {
@@ -25,7 +25,7 @@ const ReleaseFormSchema = new mongoose.Schema({
     required: [true, "Date of Birth is required."],
     validate: {
       validator: function (v) {
-        return v <= Math.floor(Date.now() / 1000); // Compare with current Unix timestamp
+        return v <= Math.floor(Date.now()); // Compare with current Unix timestamp
       },
       message: "Date of Birth must be in the past or today.",
     },
@@ -35,16 +35,12 @@ const ReleaseFormSchema = new mongoose.Schema({
     required: [true, "Date of Death is required."],
     validate: {
       validator: function (v) {
-        return v <= Math.floor(Date.now() / 1000); // Compare with current Unix timestamp
+        return v <= Math.floor(Date.now()); // Compare with current Unix timestamp
       },
       message: "Date of Death must be in the past or today.",
     },
   },
-  Row: {
-    type: String,
-    default: null,
-  },
-  Plot: {
+  PlotNumber: {
     type: String,
     default: null,
   },
@@ -72,14 +68,14 @@ const ReleaseFormSchema = new mongoose.Schema({
   Comments: {
     type: String,
   },
-  Returned: {
+  ReturnAshes: {
     type: Boolean,
     required: [true, "Returned status is required."],
   },
-  ReturnAddressScheme: {
-    type: ReturnAddressSchema,
+  ReturnAshesDetails: {
+    type: ReturnAshesDetails,
     required: function () {
-      return this.Returned; // Include if Returned is true
+      return this.ReturnAshes; // Include if Returned is true
     },
   },
   Created_At: {

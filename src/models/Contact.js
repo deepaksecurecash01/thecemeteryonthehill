@@ -19,7 +19,7 @@ const ContactSchema = new mongoose.Schema({
       "Please enter a valid email address.",
     ],
   },
-  PhoneNumber: {
+  MobileNumber: {
     type: String,
     required: [true, "Phone Number is required."],
     match: [/^[0-9]+$/, "Phone Number must contain only digits."],

@@ -54,98 +54,91 @@ const AshesReturnPopup = ({
 
   const handleChangePostCodeValidation = () => {
     if (Country) {
-      trigger("PostalCode"); // Trigger validation for PostalCode when Country changes
+      trigger("PostCode"); // Trigger validation for PostCode when Country changes
     }
   };
 
+  const onSubmit = async (data) => {
+    const formData = new FormData();
 
-
-const onSubmit = async (data) => {
-  const formData = new FormData();
-
-  // Function to combine releaseFormData and additionalData
-  const combineData = (releaseFormData, data) => {
-    // Create a copy of releaseFormData entries as an object
-    const releaseData = {};
-    for (const [key, value] of releaseFormData.entries()) {
-      if (value instanceof File) {
-        releaseData[key] = value; // Preserve File objects
-      } else {
-        releaseData[key] = value;
-      }
-    }
-
-    // Merge with additional data
-    return { ...releaseData, ...data };
-  };
-
-  // Merge data from releaseFormData and additionalData
-  const finalData = combineData(releaseFormData, data);
-
-  // Append merged data to FormData
-  for (const [key, value] of Object.entries(finalData)) {
-    if (value instanceof File) {
-      // Append file directly
-      formData.append(key, value);
-    } else if (value && typeof value === "object") {
-      if (key === "Attachments") {
-        // Flatten nested attachments object
-        for (const [subKey, subValue] of Object.entries(value)) {
-          formData.append(`Attachments.${subKey}`, subValue);
+    // Function to combine releaseFormData and additionalData
+    const combineData = (releaseFormData, data) => {
+      // Create a copy of releaseFormData entries as an object
+      const releaseData = {};
+      for (const [key, value] of releaseFormData.entries()) {
+        if (value instanceof File) {
+          releaseData[key] = value; // Preserve File objects
+        } else {
+          releaseData[key] = value;
         }
       }
-    } else {
-      formData.append(key, value);
-    }
-  }
 
-if (ashesReturned === true) {
-  // Flatten and append ReturnAddressScheme data
-  const returnAddressScheme = {
-    Address: data?.Address || "",
-    City: data?.City || "",
-    State: data?.State || "",
-    PostalCode: data?.PostalCode || "",
-    Country: data?.Country || "",
+      // Merge with additional data
+      return { ...releaseData, ...data };
+    };
+
+    // Merge data from releaseFormData and additionalData
+    const finalData = combineData(releaseFormData, data);
+
+    // Append merged data to FormData
+    for (const [key, value] of Object.entries(finalData)) {
+      if (value instanceof File) {
+        // Append file directly
+        formData.append(key, value);
+      } else if (value && typeof value === "object") {
+        if (key === "Attachments") {
+          // Flatten nested attachments object
+          for (const [subKey, subValue] of Object.entries(value)) {
+            formData.append(`Attachments.${subKey}`, subValue);
+          }
+        }
+      } else {
+        formData.append(key, value);
+      }
+    }
+
+    if (ashesReturned === true) {
+      // Flatten and append ReturnAshesDetails data
+      const ReturnAshesDetails = {
+        Address: data?.Address || "",
+        Suburb: data?.Suburb || "",
+        State: data?.State || "",
+        PostCode: data?.PostCode || "",
+        Country: data?.Country || "",
+      };
+
+      for (const [key, value] of Object.entries(ReturnAshesDetails)) {
+        formData.append(`ReturnAshesDetails.${key}`, value);
+      }
+    }
+
+    // Add `Returned` flag if `ashesReturned` is false
+    formData.append("ReturnAshes", ashesReturned === false ? false : true);
+
+    console.log("Form Data:", ...formData.entries());
+
+    try {
+      const response = await fetch("/api/release-form", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit the form");
+      }
+
+      const result = await response.json();
+      console.log(result);
+
+      setSubmissionStatus("success");
+      setErrorMessage("");
+      reset(); // Reset form fields
+    } catch (error) {
+      console.error("Submission Error:", error);
+      setSubmissionStatus("error");
+      setErrorMessage("Failed to submit the form. Please try again.");
+    }
   };
-
-  for (const [key, value] of Object.entries(returnAddressScheme)) {
-    formData.append(`ReturnAddressScheme.${key}`, value);
-  }
-}
-
-  // Add `Returned` flag if `ashesReturned` is false
-  formData.append("Returned", ashesReturned === false ? false : true);
-
-  console.log("Form Data:", ...formData.entries());
-
-  try {
-    const response = await fetch("/api/release-form", {
-      method: "POST",
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to submit the form");
-    }
-
-    const result = await response.json();
-    console.log(result);
-
-    setSubmissionStatus("success");
-    setErrorMessage("");
-    reset(); // Reset form fields
-  } catch (error) {
-    console.error("Submission Error:", error);
-    setSubmissionStatus("error");
-    setErrorMessage("Failed to submit the form. Please try again.");
-  }
-};
-
-
-
-
-
 
   return (
     <form
@@ -231,32 +224,32 @@ if (ashesReturned === true) {
                   <div className="w-full relative">
                     <input
                       type="text"
-                      {...register("City")}
+                      {...register("Suburb")}
                       className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                       placeholder=" "
                       autoComplete="new-password"
                       onChange={handleAlphaOnly}
-                      onFocus={() => setCurrentErrorField("City")}
+                      onFocus={() => setCurrentErrorField("Suburb")}
                       onBlur={() => {
                         setCurrentErrorField(null);
-                        trigger("City");
+                        trigger("Suburb");
                       }}
                     />
 
                     <label
-                      htmlFor="City"
+                      htmlFor="Suburb"
                       className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Suburb
                     </label>
                   </div>
 
-                  {errors.City && currentErrorField === "City" && (
+                  {errors.Suburb && currentErrorField === "Suburb" && (
                     <span className="absolute backdrop-blur-lg py-1 px-2 w-full text-[0.85rem] md:text-base -bottom-8 left-0  flex items-center text-primary shadow-sm z-10">
                       <span className="bg-primary p-1 rounded-sm mr-1">
                         <FaExclamation className="text-xs text-white" />
                       </span>
-                      {errors?.City?.message}
+                      {errors?.Suburb?.message}
                     </span>
                   )}
                 </div>
@@ -277,7 +270,7 @@ if (ashesReturned === true) {
                       }}
                     />
                     <label
-                      htmlFor="City"
+                      htmlFor="State"
                       className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       State
@@ -299,30 +292,30 @@ if (ashesReturned === true) {
                   <div className="w-full relative">
                     <input
                       type="text"
-                      {...register("PostalCode")}
+                      {...register("PostCode")}
                       className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
                       placeholder=" "
                       autoComplete="new-password"
                       onChange={handleNumericOnly}
-                      onFocus={() => setCurrentErrorField("PostalCode")}
+                      onFocus={() => setCurrentErrorField("PostCode")}
                       onBlur={() => {
                         setCurrentErrorField(null);
                         handleChangePostCodeValidation();
                       }}
                     />
                     <label
-                      htmlFor="PostalCode"
+                      htmlFor="PostCode"
                       className="peer-focus:font-medium absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                     >
                       Post Code
                     </label>
                   </div>
-                  {errors.PostalCode && currentErrorField === "PostalCode" && (
+                  {errors.PostCode && currentErrorField === "PostCode" && (
                     <span className="absolute backdrop-blur-lg py-1 px-2 w-full text-[0.85rem] md:text-base -bottom-8 left-0  flex items-center text-primary shadow-sm z-10">
                       <span className="bg-primary p-1 rounded-sm mr-1">
                         <FaExclamation className="text-xs text-white" />
                       </span>
-                      {errors?.PostalCode?.message}
+                      {errors?.PostCode?.message}
                     </span>
                   )}
                 </div>

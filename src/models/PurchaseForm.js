@@ -12,7 +12,7 @@ const PurchaseFormSchema = new mongoose.Schema({
     type: String,
     required: [true, "Address is required."],
   },
-  City: {
+  Suburb: {
     type: String,
     required: [true, "Suburb is required."],
   },
@@ -20,7 +20,7 @@ const PurchaseFormSchema = new mongoose.Schema({
     type: String,
     required: [true, "State is required."],
   },
-  PostalCode: {
+  PostCode: {
     type: String,
     required: [true, "Post Code is required."],
     validate: {
@@ -32,7 +32,7 @@ const PurchaseFormSchema = new mongoose.Schema({
       },
       message: function () {
         return this.Country === "Australia"
-          ? "Australian postal code must contain 4 digits."
+          ? "Australian post code must contain 4 digits."
           : "Invalid post code format for the selected country.";
       },
     },
@@ -42,7 +42,7 @@ const PurchaseFormSchema = new mongoose.Schema({
     enum: countries, // Use countries list from JSON
     required: [true, "Country is required."],
   },
-  PhoneNumber: {
+  MobileNumber: {
     type: String,
     required: [true, "Phone Number is required."],
     match: [/^[0-9]+$/, "Phone Number must contain only digits."],

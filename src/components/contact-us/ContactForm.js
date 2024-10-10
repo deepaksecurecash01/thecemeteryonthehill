@@ -149,28 +149,28 @@ const onSubmit = async (data) => {
           <div className="relative z-0 w-full mb-5 xl:mb-5 group contact">
             <input
               type="text"
-              {...register("PhoneNumber")}
+              {...register("MobileNumber")}
               className="block pt-4 px-0 w-full text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
               placeholder=" "
               autoComplete="new-password"
               onChange={handleNumericOnly}
-              onFocus={() => setCurrentErrorField("PhoneNumber")}
+              onFocus={() => setCurrentErrorField("MobileNumber")}
               onBlur={() => {
                 setCurrentErrorField(null);
-                trigger("PhoneNumber");
+                trigger("MobileNumber");
               }}
             />
             <label
-              htmlFor="PhoneNumber"
+              htmlFor="MobileNumber"
               className="peer-focus:font-medium absolute w-full text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               <span className="hidden md:block">Phone Number</span>
               <span className="block md:hidden">Phone Number</span>
             </label>
-            {errors.PhoneNumber && (
+            {errors.MobileNumber && (
               <WarningPopup
-                error={errors.PhoneNumber?.message}
-                isFirstError={currentErrorField === "PhoneNumber"}
+                error={errors.MobileNumber?.message}
+                isFirstError={currentErrorField === "MobileNumber"}
               />
             )}
           </div>

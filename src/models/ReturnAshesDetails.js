@@ -14,13 +14,13 @@ const validatePostalCode = (Country) => {
   };
 };
 
-const ReturnAddressSchema = new mongoose.Schema({
+const ReturnAshesDetailsSchema = new mongoose.Schema({
   Address: {
     type: String,
     required: [true, "Address is required when returned is true."],
     trim: true, // Remove extra whitespace
   },
-  City: {
+  Suburb: {
     type: String,
     required: [true, "City is required when returned is true."],
     trim: true,
@@ -30,7 +30,7 @@ const ReturnAddressSchema = new mongoose.Schema({
     required: [true, "State is required when returned is true."],
     trim: true,
   },
-  PostalCode: {
+  PostCode: {
     type: String,
     required: [true, "Postal Code is required when returned is true."],
     validate: function (v) {
@@ -242,4 +242,4 @@ const ReturnAddressSchema = new mongoose.Schema({
   },
 });
 
-export default ReturnAddressSchema;
+export default ReturnAshesDetailsSchema;

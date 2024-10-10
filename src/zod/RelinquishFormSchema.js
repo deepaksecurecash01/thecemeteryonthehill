@@ -30,8 +30,7 @@ export const RelinquishFormSchema = z
       .refine((date) => date <= new Date(), {
         message: "Date of Death must be in the past or today",
       }),
-    Row: z.string().optional(),
-    Plot: z.string().optional(),
+    PlotNumber: z.string().optional(),
     InternmentType: z.enum(["Ashes", "Burial"], {
       errorMap: () => ({ message: "Internment Type is required." }),
     }),

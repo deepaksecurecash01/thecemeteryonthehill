@@ -19,7 +19,7 @@ const RegisterInterestSchema = new mongoose.Schema({
       "Please enter a valid email address.",
     ],
   },
-  PhoneNumber: {
+  MobileNumber: {
     type: String,
     required: [true, "Phone Number is required."],
     match: [/^[0-9]+$/, "Phone Number must contain only digits."],
@@ -43,6 +43,6 @@ const RegisterInterestSchema = new mongoose.Schema({
 });
 
 const Interest =
-  mongoose.models.Interest ||
-  mongoose.model("Interest", RegisterInterestSchema);
+  mongoose.models.Plot_Interest ||
+  mongoose.model("Plot_Interest", RegisterInterestSchema);
 export default Interest;

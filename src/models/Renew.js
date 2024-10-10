@@ -19,7 +19,7 @@ const RenewFormSchema = new mongoose.Schema({
       "Please enter a valid email address.",
     ],
   },
-  PhoneNumber: {
+  MobileNumber: {
     type: String,
     required: [true, "Phone Number is required."],
     match: [/^[0-9]+$/, "Phone Number must contain only digits."],
@@ -39,7 +39,7 @@ const RenewFormSchema = new mongoose.Schema({
     required: [true, "Date of Birth is required."],
     validate: {
       validator: function (v) {
-        return v <= Math.floor(Date.now() / 1000); // Compare with current Unix timestamp
+        return v <= Math.floor(Date.now()); // Compare with current Unix timestamp
       },
       message: "Date of Birth must be in the past or today.",
     },
@@ -49,16 +49,12 @@ const RenewFormSchema = new mongoose.Schema({
     required: [true, "Date of Death is required."],
     validate: {
       validator: function (v) {
-        return v <= Math.floor(Date.now() / 1000); // Compare with current Unix timestamp
+        return v <= Math.floor(Date.now()); // Compare with current Unix timestamp
       },
       message: "Date of Death must be in the past or today.",
     },
   },
-  Row: {
-    type: String,
-    default: null,
-  },
-  Plot: {
+  PlotNumber: {
     type: String,
     default: null,
   },
@@ -72,9 +68,9 @@ const RenewFormSchema = new mongoose.Schema({
     required: [true, "Date of Birth is required."],
     validate: {
       validator: function (v) {
-        return v >= Math.floor(Date.now() / 1000); // Compare with current Unix timestamp
+        return v >= Math.floor(Date.now()); // Compare with current Unix timestamp
       },
-      message: "Date of Birth must be in the past or today.",
+      message: "Preferred Contact Date must be in the future or today.",
     },
   },
   Created_At: {

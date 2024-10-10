@@ -39,7 +39,7 @@ const RenewForm = () => {
   } = useForm({ resolver: zodResolver(RenewFormSchema) });
 
  const formatDate = (date) => {
-   const unixTimestamp = Math.floor(new Date(date).getTime() / 1000);
+   const unixTimestamp = Math.floor(new Date(date).getTime());
    return unixTimestamp;
  };
 
@@ -187,28 +187,28 @@ console.log(formattedData);
           <div className="relative w-full mb-5 xl:mb-5 group contact">
             <input
               type="text"
-              {...register("PhoneNumber")}
+              {...register("MobileNumber")}
               className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
               placeholder=" "
               autoComplete="new-password"
               onChange={handleNumericOnly}
-              onFocus={() => setCurrentErrorField("PhoneNumber")}
+              onFocus={() => setCurrentErrorField("MobileNumber")}
               onBlur={() => {
                 setCurrentErrorField(null);
-                trigger("PhoneNumber");
+                trigger("MobileNumber");
               }}
             />
             <label
-              htmlFor="PhoneNumber"
+              htmlFor="MobileNumber"
               className="peer-focus:font-medium absolute w-full text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
             >
               <span className="hidden md:block">Phone Number</span>
               <span className="block md:hidden">Phone Number</span>
             </label>
-            {errors.PhoneNumber && (
+            {errors.MobileNumber && (
               <WarningPopup
-                error={errors.PhoneNumber?.message}
-                isFirstError={currentErrorField === "PhoneNumber"}
+                error={errors.MobileNumber?.message}
+                isFirstError={currentErrorField === "MobileNumber"}
               />
             )}
           </div>
@@ -299,41 +299,28 @@ console.log(formattedData);
             )}
           </div>
 
-          <div className="flex space-x-4 mb-5  xl:mb-5">
-            <div className="relative w-full group contact">
-              <input
-                type="text"
-                {...register("Row")}
-                className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=" "
-                autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("Row")}
-                onBlur={() => setCurrentErrorField(null)}
+          <div className="relative w-full mb-5 xl:mb-5 group contact">
+            <input
+              type="text"
+              {...register("PlotNumber")}
+              className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
+              placeholder=" "
+              autoComplete="new-password"
+              onFocus={() => setCurrentErrorField("PlotNumber")}
+              onBlur={() => setCurrentErrorField(null)}
+            />
+            <label
+              htmlFor="PlotNumber"
+              className="peer-focus:font-medium absolute w-full text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+            >
+              Plot Number
+            </label>
+            {errors.PlotNumber && (
+              <WarningPopup
+                error={errors.PlotNumber?.message}
+                isFirstError={currentErrorField === "PlotNumber"}
               />
-              <label
-                htmlFor="Row"
-                className="peer-focus:font-medium flex absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                <span className="hidden md:block">Located In</span>&nbsp;Row
-              </label>
-            </div>
-            <div className="relative w-full group contact">
-              <input
-                type="text"
-                {...register("Plot")}
-                className="block pt-4 px-0 w-full text-base xxs:text-[0.95rem] md:text-lg font-roboto font-medium text-primary bg-transparent border-0 border-b-2 border-primary appearance-none focus:outline-none focus:ring-0 focus:border-primary peer"
-                placeholder=" "
-                autoComplete="new-password"
-                onFocus={() => setCurrentErrorField("Plot")}
-                onBlur={() => setCurrentErrorField(null)}
-              />
-              <label
-                htmlFor="Plot"
-                className="peer-focus:font-medium absolute text-base xxs:text-[0.95rem] md:text-lg font-display text-primary duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-              >
-                Plot
-              </label>
-            </div>
+            )}
           </div>
 
           <div className="relative w-full mb-5 xl:mb-5 group contact">
