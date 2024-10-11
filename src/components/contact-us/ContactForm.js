@@ -10,8 +10,6 @@ import FormFailedMessage from "../ui/FormFailedMessage";
 import WarningPopup from "../ui/WarningPopup";
 import { ContactFormSchema } from "@/zod/ContactFormSchema";
 
-
-
 const ContactForm = () => {
   const [submissionStatus, setSubmissionStatus] = useState(null); // null, 'success', or 'error'
   const [currentErrorField, setCurrentErrorField] = useState(null);
@@ -34,36 +32,40 @@ const ContactForm = () => {
   };
 
   // Form submission handler
-const onSubmit = async (data) => {
-  try {
-    // Make a POST request to your API endpoint
-    const response = await fetch("/api/contact-form", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
+  const onSubmit = async (data) => {
+    if (data.BotField) {
+      // If the honeypot field has any value, block the form submission
+      console.log('Bot detected.')
+      setSubmissionStatus("error");
+      return;
+    }
+    try {
+      // Make a POST request to your API endpoint
+      const response = await fetch("/api/contact-form", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    if (response.ok) {
-      setSubmissionStatus("success");
-      reset(); // Reset form fields
-    } else {
-      const errorData = await response.json();
+      if (response.ok) {
+        setSubmissionStatus("success");
+        reset(); // Reset form fields
+      } else {
+        const errorData = await response.json();
+        setSubmissionStatus("error");
+        setErrorMessage(
+          errorData.error || "Failed to submit the form. Please try again."
+        );
+      }
+    } catch (error) {
       setSubmissionStatus("error");
       setErrorMessage(
-        errorData.error || "Failed to submit the form. Please try again."
+        "An error occurred while submitting the form. Please try again."
       );
     }
-  } catch (error) {
-    setSubmissionStatus("error");
-    setErrorMessage(
-      "An error occurred while submitting the form. Please try again."
-    );
-  }
-};
-
-
+  };
 
   // Hide submission status message after a delay
   useEffect(() => {
@@ -99,6 +101,9 @@ const onSubmit = async (data) => {
           onSubmit={handleSubmit(onSubmit)}
           autoComplete="off"
         >
+          {/* Bot field (honeypot) */}
+          <input type="hidden" {...register("BotField")} className="" />
+
           <div className="relative z-0 w-full mb-5 xl:mb-5 group contact">
             <input
               type="text"

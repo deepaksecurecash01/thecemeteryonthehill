@@ -6,9 +6,10 @@ const RegisterInterestSchema = new mongoose.Schema({
     required: [true, "Full Name is required."],
     validate: {
       validator: function (v) {
-        return /^\S+\s\S+$/.test(v);
+        return /^[A-Za-z]+\s[A-Za-z\s]+$/.test(v); // Ensures full name contains only letters and spaces, with at least two words
       },
-      message: "Name must include both first and last name.",
+      message:
+        "Name must only contain letters and spaces, and must include both first and last name.",
     },
   },
   Email: {

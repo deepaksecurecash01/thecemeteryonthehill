@@ -5,7 +5,10 @@ const ReleaseFormSchema = new mongoose.Schema({
   FullName: {
     type: String,
     required: [true, "Full Name is required."],
-    match: [/^\S+\s\S+$/, "Name must include both first and last name."],
+    match: [
+      /^[A-Za-z]+\s[A-Za-z\s]+$/,
+      "Name must include only letters and spaces, with both first and last name.",
+    ],
   },
   Email: {
     type: String,
@@ -18,7 +21,10 @@ const ReleaseFormSchema = new mongoose.Schema({
   NameOfDeceased: {
     type: String,
     required: [true, "Name of Deceased is required."],
-    match: [/^\S+\s\S+$/, "Name must include both first and last name."],
+    match: [
+      /^[A-Za-z]+\s[A-Za-z\s]+$/,
+      "Name must include only letters and spaces, with both first and last name.",
+    ],
   },
   DateOfBirth: {
     type: Number, // Unix Timestamp

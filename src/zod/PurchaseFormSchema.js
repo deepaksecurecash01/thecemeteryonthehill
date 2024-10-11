@@ -6,6 +6,7 @@ export const PurchaseFormSchema = z
     FullName: z
       .string()
       .nonempty("Full Name is required.")
+      .regex(/^[A-Za-z\s]+$/, "Name must only contain letters and spaces.")
       .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
     Address: z.string().nonempty("Address is required."),
     Suburb: z.string().nonempty("Suburb is required."),

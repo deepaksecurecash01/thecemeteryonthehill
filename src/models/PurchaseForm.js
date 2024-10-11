@@ -6,7 +6,10 @@ const PurchaseFormSchema = new mongoose.Schema({
   FullName: {
     type: String,
     required: [true, "Full Name is required."],
-    match: [/^\S+\s\S+$/, "Name must include both first and last name."],
+    match: [
+      /^[A-Za-z]+\s[A-Za-z\s]+$/,
+      "Name must include only letters and spaces, with both first and last name.",
+    ],
   },
   Address: {
     type: String,
@@ -85,7 +88,7 @@ const PurchaseFormSchema = new mongoose.Schema({
       type: String,
       required: [true, "Payment Method ID is required."],
     },
-    
+
     PaymentStatus: {
       type: String,
       enum: [
