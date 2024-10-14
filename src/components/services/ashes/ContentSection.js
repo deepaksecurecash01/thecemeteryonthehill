@@ -362,19 +362,33 @@ const ContentSection = () => (
             <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
                 <h2 className="text-xl font-medium text-tertiary font-display ">
-                  How Much Does Pet Interment Cost?
+                  Cost of Ashes Interment
                 </h2>
                 <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  The cost of pet interment at The Cemetery on The Hill can vary
-                  depending on a number of factors, including the type of
-                  interment you choose and any personalised memorials you would
-                  like to include. We understand that every pet is unique, and
-                  our aim is to offer a range of options that allow you to
-                  honour your beloved companion in a way that feels right for
-                  you. We offer perpetuity locations for pet ashes interments,
-                  starting from as low as $500. You can get a better gauge of
-                  the pricing we can offer for family plots that can include
-                  pets by visiting our Pricing page.
+                  The interment of ashes cost will vary depending on the price
+                  of the cemetery ashes plots. If you have already reserved a
+                  site or acquired an interment right from The Cemetery on the
+                  Hill, we can readily arrange the ashes funeral services and
+                  ceremony for your loved one.
+                </p>
+                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                  Our ashes interment sites can be reserved for up to two years.
+                  Once the reservation period has come to an end, you may then
+                  opt to either purchase the Interment Rights for that site or
+                  relinquish the reservation.
+                </p>
+                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                  Ashes Interment Rights are acquired for a duration of 25
+                  years. If you wish for an extension, it is available for a
+                  minimum of five years thereafter. We require a five-year
+                  minimum remaining on an Ashes Interment Right for an interment
+                  to take place.
+                </p>
+                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                  For more details about the pricing of Ashes interment costs,
+                  please visit our Pricing Page. You may also send an email to
+                  hello@thecemeteryonthehill.com.au or call us at 08 8317 6044
+                  to discuss your options.
                 </p>
               </div>
               <div className="flex justify-start items-center">
@@ -389,7 +403,7 @@ const ContentSection = () => (
             </div>
           </div>
           <div className="flex justify-center xl:justify-end items-center w-full  order-first xl:order-none py-8 xl:py-0">
-            <div className="relative h-96 md:h-[22rem] w-full">
+            <div className="relative h-96 md:h-[36rem] w-full">
               <Image
                 src={`/images/service-main.png`}
                 fill
@@ -401,8 +415,6 @@ const ContentSection = () => (
             </div>
           </div>
         </div>
-
-      
       </div>
 
       <div className="w-full my-10">
@@ -439,7 +451,7 @@ const ContentSection = () => (
           </div>
         </section>
       </div>
-     
+
       <div className="w-[90vw] xl:w-[80vw]">
         <div className="flex flex-col justify-center items-center">
           <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
