@@ -78,7 +78,6 @@ const RelinquishForm = () => {
     setFile(file);
     setValue("Id", file);
     await trigger("Id");
-    console.log(file);
   };
 
   const DateOfBirthRef = useRef(null);
@@ -87,7 +86,14 @@ const RelinquishForm = () => {
   const signCanvas = useRef(null);
   const fileRef = useRef(null);
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data) =>
+  {
+        if (data.BotField) {
+          // If the honeypot field has any value, block the form submission
+          console.log("Bot detected.");
+          setSubmissionStatus("error");
+          return;
+        }
     if (!signature) {
       focusInput(signCanvas);
       setSubmissionStatus("error");
@@ -278,6 +284,8 @@ const RelinquishForm = () => {
                     )}
                   </div>
                 ))}
+                {/* Bot field (honeypot) */}
+                <input type="hidden" {...register("BotField")} className="" />
                 <div className="relative w-full mb-5  xl:mb-5 group contact">
                   <input
                     type="text"

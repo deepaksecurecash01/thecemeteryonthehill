@@ -5,6 +5,7 @@ import {
   FaArrowRightLong
 } from "react-icons/fa6";
 import FaqSection from "./FaqSection";
+
 const ContentSection = () => (
   <div className="relative">
     <div

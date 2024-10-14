@@ -24,6 +24,7 @@ export const PurchaseFormSchema = z
       .string()
       .nonempty("Email is required.")
       .email("Please enter a valid email address."),
+    BotField: z.string().max(0, "Bot detected!"), // honeypot field must be empty
   })
   .superRefine((data, ctx) => {
     if (data.Country === "Australia") {

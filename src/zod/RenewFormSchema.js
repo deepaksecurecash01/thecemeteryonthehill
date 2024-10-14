@@ -11,6 +11,7 @@ export const RenewFormSchema = z
       .string()
       .nonempty("Email is required.")
       .email("Please enter a valid email address."),
+    BotField: z.string().max(0, "Bot detected!"), // honeypot field must be empty
     MobileNumber: z
       .string()
       .nonempty("Phone Number is required.")

@@ -14,4 +14,5 @@ export const RegisterInterestSchema = z.object({
     .string()
     .nonempty("Phone Number is required.")
     .regex(/^[0-9]+$/, "Phone Number must contain only digits."),
+  BotField: z.string().max(0, "Bot detected!"), // honeypot field must be empty
 });

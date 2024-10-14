@@ -9,9 +9,10 @@ export const RelinquishFormSchema = z
       .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
     NameOfDeceased: z
       .string()
-      .nonempty("Name of Deceased is required.")  
+      .nonempty("Name of Deceased is required.")
       .regex(/^[A-Za-z\s]+$/, "Name must only contain letters and spaces.")
       .regex(/^\S+\s\S+$/, "Name must include both first and last name."),
+    BotField: z.string().max(0, "Bot detected!"), // honeypot field must be empty
     Email: z
       .string()
       .nonempty("Email is required.")

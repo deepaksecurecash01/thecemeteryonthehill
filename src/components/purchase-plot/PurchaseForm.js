@@ -58,7 +58,14 @@ const PurchaseForm = ({ elementData }) => {
 
   const formattedTotalAmount = formatNumber(totalAmount);
 
- const onSubmit = async (data) => {
+  const onSubmit = async (data) =>
+  {
+    if (data.BotField) {
+      // If the honeypot field has any value, block the form submission
+      console.log("Bot detected.");
+      setSubmissionStatus("error");
+      return;
+    }
    try {
      // Prepare a simple JSON object instead of FormData for API submission
      const purchaseData = {
@@ -107,6 +114,8 @@ const PurchaseForm = ({ elementData }) => {
             onSubmit={handleSubmit(onSubmit)}
             autoComplete="off"
           >
+            {/* Bot field (honeypot) */}
+            <input type="hidden" {...register("BotField")} className="" />
             <div className="relative w-full mb-5 xl:mb-5 group contact">
               <input
                 type="text"

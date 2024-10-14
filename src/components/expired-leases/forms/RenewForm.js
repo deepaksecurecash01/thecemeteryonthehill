@@ -52,7 +52,14 @@ const RenewForm = () => {
     setValue(e.target.name, value, { shouldValidate: true, shouldDirty: true });
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data) =>
+  {
+      if (data.BotField) {
+        // If the honeypot field has any value, block the form submission
+        console.log("Bot detected.");
+        setSubmissionStatus("error");
+        return;
+      }
     try {
       // Format the date fields only if they are valid
       const formattedData = {
@@ -63,7 +70,6 @@ const RenewForm = () => {
           ? formatDate(data.PreferredContactDate)
           : null,
       };
-console.log(formattedData);
       const response = await fetch("/api/renew-form", {
         method: "POST",
         headers: {
@@ -184,6 +190,8 @@ console.log(formattedData);
               )}
             </div>
           ))}
+          {/* Bot field (honeypot) */}
+          <input type="hidden" {...register("BotField")} className="" />
           <div className="relative w-full mb-5 xl:mb-5 group contact">
             <input
               type="text"

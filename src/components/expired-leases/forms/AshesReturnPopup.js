@@ -58,7 +58,15 @@ const AshesReturnPopup = ({
     }
   };
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data) =>
+  {
+    console.log(releaseFormData?.BotField);
+        if (releaseFormData?.BotField) {
+          // If the honeypot field has any value, block the form submission
+          console.log("Bot detected.");
+          setSubmissionStatus("error");
+          return;
+        }
     const formData = new FormData();
 
     // Function to combine releaseFormData and additionalData
