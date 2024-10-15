@@ -17,3 +17,4 @@ export const ContactFormSchema = z.object({
   Message: z.string().nonempty("Message is required."),
   BotField: z.string().max(0, "Bot detected!"), // honeypot field must be empty
 });
+ 

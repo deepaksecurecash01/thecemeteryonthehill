@@ -143,6 +143,17 @@ const Header = () => {
                         Memorials
                       </span>
                     </Link>
+                    <Link href="/services/pet-interments" passHref>
+                      <span
+                        className={`block px-12 text-paragraph py-2 my-1 text-base ${
+                          pathname === "/services/pet-interments"
+                            ? "text-primary font-bold "
+                            : " hover:text-primary hover:bg-secondary/10 "
+                        }`}
+                      >
+                        Pet
+                      </span>
+                    </Link>
                   </div>
                 </div>
               </li>
@@ -295,6 +306,17 @@ const Header = () => {
                       }`}
                     >
                       Memorials
+                    </span>
+                  </Link>
+                  <Link href="/services/pet-interments" passHref>
+                    <span
+                      onClick={dropdownButton}
+                      className={`block px-8 py-4 text-sm text-gray-800 hover:bg-secondary/10 hover:text-primary rounded ${
+                        pathname === "/services/pet-interments" &&
+                        "text-primary font-bold bg-secondary/10"
+                      }`}
+                    >
+                      Pet
                     </span>
                   </Link>
                 </div>

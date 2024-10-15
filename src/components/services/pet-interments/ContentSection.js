@@ -51,7 +51,7 @@ const ContentSection = () => (
 
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
+            <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
                 <h2 className="text-xl font-medium text-tertiary font-display ">
                   Why Choose The Cemetery On The Hill For Pet Interments?
@@ -67,7 +67,7 @@ const ContentSection = () => (
                 </p>
               </div>
               <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-tertiary font-bold">
+                <h3 className="text-base lg:text-lg text-tertiary font-bold">
                   A Historic and Tranquil Setting
                 </h3>
                 <p className="text-paragraph text-base  tracking-wide lg:text-lg">
@@ -113,9 +113,9 @@ const ContentSection = () => (
             </div>
           </div>
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
+            <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-tertiary font-bold">
+                <h3 className="text-base lg:text-lg text-tertiary font-bold">
                   Personalised Attention and Care
                 </h3>
                 <p className="text-paragraph text-base  tracking-wide lg:text-lg">
@@ -131,7 +131,7 @@ const ContentSection = () => (
                 </p>
               </div>
               <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-tertiary font-bold">
+                <h3 className="text-base lg:text-lg text-tertiary font-bold">
                   A Lasting Memorial
                 </h3>
                 <p className="text-paragraph text-base  tracking-wide lg:text-lg">
@@ -153,7 +153,7 @@ const ContentSection = () => (
 
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
+            <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
                 <h2 className="text-xl font-medium text-tertiary font-display ">
                   Our Services For Cherished Pets
@@ -167,7 +167,7 @@ const ContentSection = () => (
                 </p>
               </div>
               <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-tertiary font-bold">
+                <h3 className="text-base lg:text-lg text-tertiary font-bold">
                   Pet Ashes Interments
                 </h3>
                 <p className="text-paragraph text-base  tracking-wide lg:text-lg">
@@ -209,7 +209,7 @@ const ContentSection = () => (
             aria-label="Decorative background image"
           />
           <div className="absolute bg-tertiary bg-opacity-60 w-full h-full -z-10" />
-          <div className="grid place-items-center gap-6 py-16 px-4 md:px-8">
+          <div className="grid place-items-center gap-4 py-16 px-4 md:px-8">
             <div
               id="banner-heading"
               className=" w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col gap-4"
@@ -247,7 +247,7 @@ const ContentSection = () => (
 
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
+            <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
                 <p className="text-paragraph text-base  tracking-wide lg:text-lg">
                   Archaeological evidence tells us that our connection to pets
@@ -303,7 +303,7 @@ const ContentSection = () => (
             </div>
           </div>
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
+            <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
                 <p className="text-paragraph text-base  tracking-wide lg:text-lg">
                   The idea of pet cemeteries, as we know them today, began to
@@ -332,7 +332,7 @@ const ContentSection = () => (
 
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
+            <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
                 <p className="text-paragraph text-base  tracking-wide lg:text-lg">
                   In the United States, the Hartsdale Pet Cemetery in New York
@@ -389,7 +389,7 @@ const ContentSection = () => (
             </div>
           </div>
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
+            <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
                 <h2 className="text-xl font-medium text-tertiary font-display ">
                   How Much Does Pet Interment Cost?
@@ -431,7 +431,7 @@ const ContentSection = () => (
             aria-label="Decorative background image"
           />
           <div className="absolute bg-tertiary bg-opacity-60 w-full h-full -z-10" />
-          <div className="grid place-items-center gap-6 py-16 px-4 md:px-8">
+          <div className="grid place-items-center gap-4 py-16 px-4 md:px-8">
             <div
               id="banner-heading"
               className=" w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col gap-4"

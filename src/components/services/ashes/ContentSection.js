@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { FaArrowRightLong } from "react-icons/fa6";
 import FaqSection from "./FaqSection";
+
 const ContentSection = () => (
   <div className="relative">
     <div
@@ -29,7 +30,6 @@ const ContentSection = () => (
               Peaceful Ashes Interments at The Cemetery on The Hill
             </h2>
           </div>
-
           <p className="text-paragraph text-base text-justify font-bold tracking-wide lg:text-lg">
             When a loved one has passed on, the bereaved family is sometimes
             left with the responsibility of deciding how to go about this final
@@ -42,7 +42,7 @@ const ContentSection = () => (
 
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
+            <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
                 <p className="text-paragraph text-base  tracking-wide lg:text-lg">
                   Cremation has become more popular despite some restrictions
@@ -82,28 +82,9 @@ const ContentSection = () => (
             </div>
           </div>
         </div>
-        <div className="w-full flex flex-col gap-4">
-          <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-            The interment of ashes, following a cremation, is the burial of
-            ashes into their final resting place. Family and friends of the
-            deceased can gather together at the interment site for an ashes
-            interment ceremony, in hopes to bring closure by saying their final
-            goodbyes.
-          </p>
-          <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-            The Cemetery on the Hill provides a peaceful and beautiful final
-            resting place for your loved one’s ashes. We guarantee the utmost
-            respect and care for every one laid to rest within our historic
-            cemetery.
-          </p>
-          <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-            What type of interment service will best suit your needs? Let’s
-            start discussing your options. Call us 08 8317 6044 .
-          </p>
-        </div>
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="flex justify-center xl:justify-end items-center w-full order-first xl:order-none py-8 xl:py-0">
-            <div className="relative h-96 md:h-[34rem] w-full">
+            <div className="relative h-96 md:h-[18rem] w-full">
               <Image
                 src={`/images/ourvision.jpg`}
                 fill
@@ -114,81 +95,64 @@ const ContentSection = () => (
               />
             </div>
           </div>
-
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
-              <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-tertiary font-bold">
-                  Options for Interment of Ashes in The Cemetery on the Hill
-                </h3>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  Families who prefer to have their loved ones cremated can
-                  avail of all our interment for ashes services, including
-                  managing the ashes interment rights, the physical interment of
-                  cremated remains into the interment plot, and organising a
-                  meaningful funeral for ashes remains.
-                </p>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  For most people, pets are a very big part of the family and
-                  they are worthy of just as much respect and care as we would
-                  treat other people. At The Cemetery on The Hill, we wanted to
-                  make sure we could provide an ashes interment for pets . When
-                  an Interment Right is taken out with us, you are more than
-                  welcome to begin using your plot whenever you need, and
-                  knowing that your beloved pet is in a place where you can
-                  freely visit and one day be interred with can be the peace of
-                  mind we all need. Ashes memorials for pets can absolutely also
-                  be arranged accordingly, just get in touch with us to begin
-                  discussing options.
-                </p>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  The Cemetery on the Hill offers ashes interments in a variety
-                  of unique locations. Some of the ashes interment options we
-                  currently have available are:
-                </p>
-              </div>
+            <div className="flex flex-col gap-4">
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                The interment of ashes, following a cremation, is the burial of
+                ashes into their final resting place. Family and friends of the
+                deceased can gather together at the interment site for an ashes
+                interment ceremony, in hopes to bring closure by saying their
+                final goodbyes.
+              </p>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                The Cemetery on the Hill provides a peaceful and beautiful final
+                resting place for your loved one’s ashes. We guarantee the
+                utmost respect and care for every one laid to rest within our
+                historic cemetery.
+              </p>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                What type of interment service will best suit your needs? Let’s
+                start discussing your options. Call us 08 8317 6044 .
+              </p>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
-              <div className="flex flex-col gap-4">
-                <h2 className="text-xl font-medium text-tertiary font-display ">
-                  Ashes Memorial Beds
-                </h2>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  Our ashes memorial bed is an excellent choice for families
-                  looking for a solemn and peaceful place to bury their loved
-                  one’s ashes. When you have a permanent interment site, anyone
-                  who wishes to pay their respects or to spend some time with
-                  the deceased can easily visit.
-                </p>
-
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  The Cemetery on the Hill is carefully renovating the two
-                  existing ashes beds, and a third one is being constructed so
-                  we can cater to more families. Our ashes memorial beds are
-                  designed with high regard to both current and future
-                  interments. We guarantee our genuine commitment to providing
-                  everyone with the best care and service possible.
-                </p>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  Families, relatives, and friends are welcomed to get together
-                  in The Cemetery to call upon the memories of their dearly
-                  departed. Or one can simply take the time to revel in the
-                  serenity of the area; soak in and appreciate its beautiful
-                  landscape, garden and water features. We take great pride in
-                  our work and in how we are developing and remodelling the
-                  cemetery into this magnificent heritage site that it deserves
-                  to be.
-                </p>
-              </div>
+            <div className="flex flex-col gap-4">
+              <h2 className="text-xl font-medium text-tertiary font-display ">
+                Options for Interment of Ashes in The Cemetery on the Hill
+              </h2>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                Families who prefer to have their loved ones cremated can avail
+                of all our interment for ashes services, including managing the
+                ashes interment rights, the physical interment of cremated
+                remains into the interment plot, and organising a meaningful
+                funeral for ashes remains.
+              </p>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                For most people, pets are a very big part of the family and they
+                are worthy of just as much respect and care as we would treat
+                other people. At The Cemetery on The Hill, we wanted to make
+                sure we could provide an ashes interment for pets . When an
+                Interment Right is taken out with us, you are more than welcome
+                to begin using your plot whenever you need, and knowing that
+                your beloved pet is in a place where you can freely visit and
+                one day be interred with can be the peace of mind we all need.
+                Ashes memorials for pets can absolutely also be arranged
+                accordingly, just get in touch with us to begin discussing
+                options.
+              </p>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                The Cemetery on the Hill offers ashes interments in a variety of
+                unique locations. Some of the ashes interment options we
+                currently have available are:
+              </p>
             </div>
           </div>
           <div className="flex justify-center xl:justify-end items-center w-full  order-first xl:order-none py-8 xl:py-0">
-            <div className="relative h-96 md:h-[28rem] w-full">
+            <div className="relative h-96 md:h-[34rem] w-full">
               <Image
                 src={`/images/service-main.png`}
                 fill
@@ -200,10 +164,9 @@ const ContentSection = () => (
             </div>
           </div>
         </div>
-
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="flex justify-center xl:justify-end items-center w-full order-first xl:order-none py-8 xl:py-0">
-            <div className="relative h-96 md:h-[24rem] w-full">
+            <div className="relative h-96 md:h-[30rem] w-full">
               <Image
                 src={`/images/ourvision.jpg`}
                 fill
@@ -215,54 +178,132 @@ const ContentSection = () => (
             </div>
           </div>
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
-              <div className="flex flex-col gap-4">
-                <h2 className="text-xl font-medium text-tertiary font-display ">
-                  Ashes Memorial Walls
-                </h2>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  For families who want an above-the-ground ashes interment
-                  option, our ashes memorial wall is the ideal choice for a
-                  final resting place. Our ashes memorial wall is a
-                  free-standing wall designed to contain an individual’s
-                  remains, where the cremation urns are placed and then enclosed
-                  with their own memorial plaque.
-                </p>
+            <div className="flex flex-col gap-4">
+              <h2 className="text-xl font-medium text-tertiary font-display ">
+                Ashes Memorial Beds
+              </h2>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                Our ashes memorial bed is an excellent choice for families
+                looking for a solemn and peaceful place to bury their loved
+                one’s ashes. When you have a permanent interment site, anyone
+                who wishes to pay their respects or to spend some time with the
+                deceased can easily visit.
+              </p>
 
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  Ashes walls have been a popular choice for those who want a
-                  more economical afterlife arrangement with fewer maintenance
-                  needs.
-                </p>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  Our ashes memorial walls give this opportunity for families to
-                  have that special spot where they can visit and honour those
-                  who have passed on. It is merely one of the ways to comfort
-                  the living and remember the deceased.
-                </p>
-              </div>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                The Cemetery on the Hill is carefully renovating the two
+                existing ashes beds, and a third one is being constructed so we
+                can cater to more families. Our ashes memorial beds are designed
+                with high regard to both current and future interments. We
+                guarantee our genuine commitment to providing everyone with the
+                best care and service possible.
+              </p>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                Families, relatives, and friends are welcomed to get together in
+                The Cemetery to call upon the memories of their dearly departed.
+                Or one can simply take the time to revel in the serenity of the
+                area; soak in and appreciate its beautiful landscape, garden and
+                water features. We take great pride in our work and in how we
+                are developing and remodelling the cemetery into this
+                magnificent heritage site that it deserves to be.
+              </p>
             </div>
           </div>
         </div>
 
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
-              <div className="flex flex-col gap-4">
-                <h2 className="text-xl font-medium text-tertiary font-display ">
-                  Choosing Cremation over Traditional Burial
-                </h2>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  Cremation may still be a sensitive and very personal topic for
-                  some. However, cremation is the best option for families who
-                  want to always be with their loved ones even after death. The
-                  cremation ashes can be stored in a sealed urn and provides
-                  greater flexibility for where the remains can go. For some,
-                  depending on the final wishes of the deceased or the personal
-                  preference of the family, dividing the ashes among family
-                  members is also an option.
-                </p>
-              </div>
+            <div className="flex flex-col gap-4">
+              <h2 className="text-xl font-medium text-tertiary font-display ">
+                Ashes Memorial Walls
+              </h2>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                For families who want an above-the-ground ashes interment
+                option, our ashes memorial wall is the ideal choice for a final
+                resting place. Our ashes memorial wall is a free-standing wall
+                designed to contain an individual’s remains, where the cremation
+                urns are placed and then enclosed with their own memorial
+                plaque.
+              </p>
+
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                Ashes walls have been a popular choice for those who want a more
+                economical afterlife arrangement with fewer maintenance needs.
+              </p>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                Our ashes memorial walls give this opportunity for families to
+                have that special spot where they can visit and honour those who
+                have passed on. It is merely one of the ways to comfort the
+                living and remember the deceased.
+              </p>
+            </div>
+          </div>
+          <div className="flex justify-center xl:justify-end items-center w-full  order-first xl:order-none py-8 xl:py-0">
+            <div className="relative h-96 md:h-[24rem] w-full">
+              <Image
+                src={`/images/service-main.png`}
+                fill
+                alt={`Hero-Section Image-1 | The Cemetery on the Hill`}
+                loading="lazy"
+                objectFit="cover"
+                className=" rounded-lg object-center"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="w-full my-10">
+        <section
+          className="relative 6xl:min-h-[35vh] flex justify-center items-center"
+          aria-labelledby="banner-heading"
+        >
+          <div
+            className={`absolute bg-banner-bg-2 bg-no-repeat w-full h-full bg-cover bg-center -z-20`}
+            role="img"
+            aria-label="Decorative background image"
+          />
+          <div className="absolute bg-tertiary bg-opacity-60 w-full h-full -z-10" />
+          <div className="grid place-items-center gap-4 py-16 px-4 md:px-8">
+            <div
+              id="banner-heading"
+              className=" w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col gap-4"
+            >
+              <h1 className="text-[1.75rem] 2xl:text-center md:text-[2rem] text-center font-bold font-display text-white">
+                A Resting Place Worthy Of Your Loved One.
+              </h1>
+              <p className="text-lg sm:text-lg lg:text-xl font-roboto text-white text-center tracking-wide">
+                {`Create a lasting tribute to your loved one in our historic cemetery.
+`}
+              </p>
+            </div>
+            <Link
+              href="/contact-us"
+              passHref
+              className="bg-secondary text-white font-roboto uppercase rounded-md border cursor-pointer border-secondary px-4 py-2 flex justify-center items-center hover:bg-primary hover:border-primary text-sm sm:text-base md:text-lg"
+            >
+              Get in Touch
+            </Link>
+          </div>
+        </section>
+      </div>
+      <div className="max-w-[90%] md:max-w-[75%] xl:max-w-[60%] gap-8">
+        <div className="flex flex-col justify-center items-center gap-8">
+          <div className="flex flex-col justify-center items-center">
+            <h2 className="text-[1.75rem] md:text-[2.75rem] text-center font-bold text-primary font-display">
+              Choosing Cremation over Traditional Burial
+            </h2>
+          </div>
+
+          <p className="text-paragraph text-base text-justify font-bold tracking-wide lg:text-lg">
+            {
+              "Cremation may still be a sensitive and very personal topic for some. However, cremation is the best option for families who want to always be with their loved ones even after death. The cremation ashes can be stored in a sealed urn and provides greater flexibility for where the remains can go. For some, depending on the final wishes of the deceased or the personal preference of the family, dividing the ashes among family members is also an option."
+            }
+          </p>
+        </div>
+
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+          <div className="w-full flex justify-center items-center">
+            <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
                 <p className="text-paragraph text-base  tracking-wide lg:text-lg">
                   When it comes to affordability, choosing direct cremation is
@@ -292,10 +333,10 @@ const ContentSection = () => (
               </div>
             </div>
           </div>
-          <div className="flex justify-center xl:justify-end items-center w-full  order-first xl:order-none py-8 xl:py-0">
-            <div className="relative h-96 md:h-[44rem] w-full">
+          <div className="flex justify-center xl:justify-end items-center w-full order-first xl:order-none py-8 xl:py-0">
+            <div className="relative h-96 md:h-[26rem] w-full">
               <Image
-                src={`/images/service-main.png`}
+                src={`/images/hero-2.jpg`}
                 fill
                 alt={`Hero-Section Image-1 | The Cemetery on the Hill`}
                 loading="lazy"
@@ -305,6 +346,7 @@ const ContentSection = () => (
             </div>
           </div>
         </div>
+
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="flex justify-center xl:justify-end items-center w-full order-first xl:order-none py-8 xl:py-0">
             <div className="relative h-96 md:h-[38rem] w-full">
@@ -318,48 +360,44 @@ const ContentSection = () => (
               />
             </div>
           </div>
-
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
-              <div className="flex flex-col gap-4">
-                <h3 className="text-2xl text-tertiary font-bold">
-                  How to plan for the interment of ashes ceremony?
-                </h3>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  An ashes interment service usually follows the cremation and
-                  involves the family, friends, and relatives of the deceased
-                  gathering at the interment site or other chosen location where
-                  the ashes are permanently laid to rest.
-                </p>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  During the graveside service for burial of ashes , the family
-                  and any individual who was close to the deceased can offer
-                  their eulogies and prayers. If you are wondering about what to
-                  say at an interment of ashes service, you can always offer
-                  songs that the deceased loved to listen to when they were
-                  still alive, read their favourite poems, and even play a
-                  special tribute with some memorable pictures and videos, but
-                  you can never go wrong with a few kind words.
-                </p>
-                <p className="text-paragraph text-base  tracking-wide lg:text-lg">
-                  If the deceased had already pre-planned their funeral
-                  arrangements, the family will not have to worry about what to
-                  do when the time comes. They may have already conveyed their
-                  final wishes with their family prior to their passing or had
-                  executed a set of written instructions so the bereaved family
-                  knows how the cremation and the funeral will transpire.
-                  Moreover, the family and friends of the departed can spend
-                  more of their time coping with grief and preparing themselves
-                  for the final farewell.
-                </p>
-              </div>
+            <div className="flex flex-col gap-4">
+              <h2 className="text-xl font-medium text-tertiary font-display ">
+                How to plan for the interment of ashes ceremony?
+              </h2>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                An ashes interment service usually follows the cremation and
+                involves the family, friends, and relatives of the deceased
+                gathering at the interment site or other chosen location where
+                the ashes are permanently laid to rest.
+              </p>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                During the graveside service for burial of ashes , the family
+                and any individual who was close to the deceased can offer their
+                eulogies and prayers. If you are wondering about what to say at
+                an interment of ashes service, you can always offer songs that
+                the deceased loved to listen to when they were still alive, read
+                their favourite poems, and even play a special tribute with some
+                memorable pictures and videos, but you can never go wrong with a
+                few kind words.
+              </p>
+              <p className="text-paragraph text-base  tracking-wide lg:text-lg">
+                If the deceased had already pre-planned their funeral
+                arrangements, the family will not have to worry about what to do
+                when the time comes. They may have already conveyed their final
+                wishes with their family prior to their passing or had executed
+                a set of written instructions so the bereaved family knows how
+                the cremation and the funeral will transpire. Moreover, the
+                family and friends of the departed can spend more of their time
+                coping with grief and preparing themselves for the final
+                farewell.
+              </p>
             </div>
           </div>
         </div>
-
         <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
           <div className="w-full flex justify-center items-center">
-            <div className="w-full flex flex-col gap-8 order-2 xl:order-1">
+            <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
                 <h2 className="text-xl font-medium text-tertiary font-display ">
                   Cost of Ashes Interment
@@ -416,7 +454,6 @@ const ContentSection = () => (
           </div>
         </div>
       </div>
-
       <div className="w-full my-10">
         <section
           className="relative 6xl:min-h-[35vh] flex justify-center items-center"
@@ -428,17 +465,18 @@ const ContentSection = () => (
             aria-label="Decorative background image"
           />
           <div className="absolute bg-tertiary bg-opacity-60 w-full h-full -z-10" />
-          <div className="grid place-items-center gap-6 py-16 px-4 md:px-8">
+          <div className="grid place-items-center gap-4 py-16 px-4 md:px-8">
             <div
               id="banner-heading"
               className=" w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col gap-4"
             >
-              <h1 className="text-[1.75rem] 2xl:text-center md:text-[2rem] text-center font-bold font-display text-white">
-                A Resting Place Worthy Of Your Pet
-              </h1>
               <p className="text-lg sm:text-lg lg:text-xl font-roboto text-white text-center tracking-wide">
-                {`Create a lasting tribute to your pet in our historic cemetery.
-`}
+                Our compassionate team is here to help guide you through the
+                process, providing clear information on the available options
+                and associated costs. Whether you are considering a simple ashes
+                interment or a more elaborate memorial, we will work with you to
+                ensure that your loved one is remembered with dignity and care,
+                all while respecting your personal preferences.
               </p>
             </div>
             <Link
@@ -451,14 +489,13 @@ const ContentSection = () => (
           </div>
         </section>
       </div>
-
       <div className="w-[90vw] xl:w-[80vw]">
         <div className="flex flex-col justify-center items-center">
           <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
             FaQ
           </h2>
           <p className="text-paragraph text-base font-bold tracking-wide mx-6 text-center lg:text-lg">
-            {`Frequently Asked Questions About Pet Interment At The Cemetery On The Hill`}
+            {`Frequently Asked Questions About Ashes Interments At The Cemetery On The Hill`}
           </p>
         </div>
         <FaqSection />
