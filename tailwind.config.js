@@ -37,11 +37,11 @@ module.exports = {
         paragraph: "#58595b", // Grey
       },
       backgroundImage: (theme) => ({
-        "hero-section": "url('/images/contact-bg.jpg')",
+        "hero-section": "url('/images/contact-bg.webp')",
         "intro-overlay": "url('/images/intro-overly.webp')",
-        "testimonials-overlay": "url('/images/testimonials-overly.png')",
+        "testimonials-overlay": "url('/images/testimonials-overly.webp')",
         "contact-overlay": "url('/images/Ellipse-141.png')",
-        "ellipse-1": "url('/images/Ellipse-140.png')",
+        "ellipse-1": "url('/images/Ellipse-140.webp')",
         "ellipse-2": "url('/images/Ellipse-139.webp')",
         "services-bg-1": "url('/images/services_bg_1.webp')",
         "services-bg-2": "url('/images/services_bg_2.webp')",
