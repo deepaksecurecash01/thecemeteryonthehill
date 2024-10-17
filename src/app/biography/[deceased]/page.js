@@ -1,34 +1,30 @@
-"use client";
 import BiographyTimeline from "@/components/biography/BiographyTimeline";
 import BiographySlider from "@/components/ui/BiographySlider";
-import { useEffect, useState } from "react";
 
-const Page = ({ params }) => {
-  const [persons, setPersons] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+// Function to generate dynamic metadata
+export async function generateMetadata({ params }) {
+  const res = await fetch(
+    `https://thecemeteryonthehill.vercel.app/api/biographies/${params.deceased}`
+  );
+  const data = await res.json();
+  const person = data[0];
 
-  useEffect(() => {
-    const fetchPersons = async () => {
-      try {
-        const res = await fetch(`/api/biographies/${params.deceased}`);
-        if (!res.ok) {
-          throw new Error("Failed to fetch");
-        }
-        const data = await res.json();
+  return {
+    title: `${person?.FirstName} ${person?.LastName} Biography`,
+    description: `Explore the biography of ${person?.FirstName} ${person?.LastName} interred at The Cemetery on The Hill. Learn more about their story and legacy as part of our historical preservation efforts.`,
+    keywords: `Cemetery biographies, life stories, legacy preservation, interment biographies, The Cemetery on The Hill, cemetery historical records, ${person?.FirstName} ${person?.LastName}, ${person?.LastName} History, ${person?.LastName} Australia`,
+    author: "The Cemetery on The Hill",
+    canonical: `https://www.thecemeteryonthehill.com.au/biography/${params.deceased}`,
+  };
+}
 
-        setPersons(data[0]);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPersons();
-  }, [params]);
-
-  if (loading) return <p>Loading...</p>;
+// Async component for the page
+const BiographyPage = async ({ params }) => {
+  const res = await fetch(
+    `https://thecemeteryonthehill.vercel.app/api/biographies/${params.deceased}`
+  );
+  const data = await res.json();
+  const person = data[0];
 
   return (
     <div className="flex flex-col items-center justify-center relative w-full overflow-hidden py-10 gap-8">
@@ -43,7 +39,7 @@ const Page = ({ params }) => {
 
       <div className="max-w-[90%] md:max-w-[75%] xl:max-w-[60%] flex flex-col justify-center items-center gap-8">
         <h2 className="text-[1.75rem] md:text-[2.75rem] font-bold text-primary font-display">
-          {persons.person?.FirstName + " " + persons.person?.LastName}
+          {person?.FirstName + " " + person?.LastName}
         </h2>
       </div>
 
@@ -53,11 +49,11 @@ const Page = ({ params }) => {
         </div>
       </div>
 
-      {persons?.biographyData && (
-        <BiographyTimeline timelineData={persons.biographyData} />
+      {person?.biographyData && (
+        <BiographyTimeline timelineData={person?.biographyData} />
       )}
     </div>
   );
 };
 
-export default Page;
+export default BiographyPage;

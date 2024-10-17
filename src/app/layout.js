@@ -30,7 +30,7 @@ const trajanpro3 = localFont({
 
 // Metadata for SEO
 export const metadata = {
-  title: "The Cemetery on The Hill - Home",
+  title: {default: "The Cemetery on The Hill", template:"%s - The Cemetery on The Hill"},
   description:
     "Learn more about The Cemetery on The Hill, a state heritage site in South Australia, offering ashes interments, burials, memorials, and pre-planning in a peaceful, historic setting.",
   keywords:
@@ -42,15 +42,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <Head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
-        <meta name="keywords" content={metadata.keywords} />
-        <meta name="author" content={metadata.author} />
-        <link rel="canonical" href={metadata.canonical} />
-
-        {/* Update with actual image */}
-      </Head>
       <body
         className={`${jolydisplay.className} ${roboto.variable} ${eliyamoliscript.variable} ${trajanpro3.variable}`}
       >

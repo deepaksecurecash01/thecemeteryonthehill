@@ -7,6 +7,17 @@ import BurialLocationTable from "@/components/pricing/BurialLocationTable";
 import MiscFeesTable from "@/components/pricing/MiscFeesTable";
 import BannerSection from "@/components/pricing/BannerSection";
 
+export const metadata = {
+  title: "Pricing",
+  description:
+    "Explore our transparent and flexible pricing options for burials, ashes interments, and pet interments at The Cemetery on The Hill. Contact us today for more details.",
+  keywords:
+    "Cemetery pricing, burial costs, burial plot cost, cemetery plaque cost, interment pricing, ashes interments, pet interments, The Cemetery on The Hill, affordable cemetery services",
+  author: "The Cemetery on The Hill",
+  canonical: "https://www.thecemeteryonthehill.com.au/pricing",
+};
+
+
 const Page = () => {
   const prices = {
     "Internment Rights (100 Years)": 1000,

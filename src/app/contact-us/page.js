@@ -2,6 +2,16 @@ import ContactForm from "@/components/contact-us/ContactForm";
 import Image from "next/image";
 import React from "react";
 
+export const metadata = {
+  title: "Contact Us",
+  description:
+    "Reach out to The Cemetery on The Hill for any inquiries regarding burials, ashes interments, pet interments, or memorial services. We're here to assist with compassion and care.",
+  keywords:
+    "Contact cemetery, burial inquiries, interment questions, cemetery support, The Cemetery on The Hill contact, cemetery services",
+  author: "The Cemetery on The Hill",
+  canonical: "https://www.thecemeteryonthehill.com.au/contact-us",
+};
+
 const Page = () => {
   return (
     <section className="relative min-h-screen flex justify-center items-center overflow-hidden">

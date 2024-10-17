@@ -26,7 +26,7 @@ const HeroSection = () => {
   return (
     <section className="relative h-screen">
       <div
-        className="absolute bg-hero-section bg-no-repeat bg-cover bg-center w-full h-full max-h-screen opacity-30 -z-10"
+        className="absolute bg-hero-section bg-no-repeat bg-cover bg-center w-full h-screen opacity-30 -z-10"
         aria-hidden="true"
       />
       <div className="flex flex-col justify-between items-center w-full h-full overflow-hidden px-4 sm:px-8">

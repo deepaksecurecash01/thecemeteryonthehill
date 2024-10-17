@@ -6,6 +6,16 @@ import Link from "next/link";
 import React from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
+export const metadata = {
+  title: "Our Records",
+  description:
+    "Search through The Cemetery on The Hill’s records to find information on loved ones and family members interred here. Explore the rich history of some of South Australia’s first settlers.",
+  keywords:
+    "Cemetery records, burial records, interment search, find loved ones, The Cemetery on The Hill records, family interment information, cemetery database, South Australian history, South Australian settlers",
+  author: "The Cemetery on The Hill",
+  canonical: "https://www.thecemeteryonthehill.com.au/our-records",
+};
+
 const page = () => {
   return (
     <>
