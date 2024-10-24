@@ -3,22 +3,22 @@ import PurchaseForm from "@/models/PurchaseForm";
 import { NextResponse } from "next/server";
 const stripe = require("stripe")(process.env.STRIPE_KEY_TEST);
 import sendgrid from "@sendgrid/mail";
+import Plot from "@/models/PlotSchema";
+import generateNewLeaseNumber from "@/lib/Configuration";
 
 // Set the SendGrid API key
 sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
 
 const prepareAdminEmailMessage = (
   formData,
-  AmountPaid,
-  Currency,
+  newLeaseNumber,
   PaymentIntentId,
   PaymentMethodId,
   PaymentStatus
 ) => {
-  console.log("Form Data: ", formData);
   return {
-    to: "dylan@securecash.com.au", // Replace with your receiving email
-    from: `${formData.FullName} <${formData.Email}>`, // Updated sender name and email
+    to: "deepak@securecash.com.au", // Updated to new admin email
+    from: `${formData.FullName} <${formData.Email}>`,
     subject: `Purchase of Plot ${formData.PlotNumber}`,
     html: `
       <!DOCTYPE html>
@@ -84,7 +84,19 @@ const prepareAdminEmailMessage = (
                           <td style="background-color:#9e8034;color:#ffffff;padding:5px 9px;"><strong>Email:</strong></td>
                           <td style="padding:5px 9px;">${formData.Email}</td>
                         </tr>
+                       <tr>
+                          <td style="background-color:#9e8034;color:#ffffff;padding:5px 9px;"><strong>Lease Number:</strong></td>
+                          <td style="padding:5px 9px;">${newLeaseNumber}</td>
+                        </tr>
                         <tr>
+                          <td style="background-color:#9e8034;color:#ffffff;padding:5px 9px;"><strong>Lease Term:</strong></td>
+                          <td style="padding:5px 9px;">${formData.LeaseTerm}</td>
+                        </tr>
+                        <tr>
+                          <td style="background-color:#9e8034;color:#ffffff;padding:5px 9px;"><strong>Expiration:</strong></td>
+                          <td style="padding:5px 9px;">${formData.Expiration}</td>
+                        </tr>
+                       <tr>
                           <td style="background-color:#9e8034;color:#ffffff;padding:5px 9px;"><strong>Amount Paid:</strong></td>
                           <td style="padding:5px 9px;">${formData.Amount}</td>
                         </tr>
@@ -149,7 +161,7 @@ const prepareAdminEmailMessage = (
 
 const prepareCustomerEmailMessage = (formData) => {
   return {
-    to: formData.Email, // Replace with your receiving email
+    to: formData.Email, // Customer's email from the form data
     from: "The Cemetery on The Hill <hello@thecemeteryonthehill.com.au>", // Updated sender name and email
     subject: `The Cemetery on The Hill | Thank You For Purchasing Plot ${formData.PlotNumber}`,
     html: `
@@ -165,26 +177,15 @@ const prepareCustomerEmailMessage = (formData) => {
             <tr>
               <td style="padding:12px;">
                 <table align="left" border="0" cellpadding="0" cellspacing="0" width="600" style="border-collapse:collapse;">
-                  <!-- Header Section -->
-                  <tr>
-                    <td style="padding:0 0 12px 0;">
-                      <img src="https://thecemeteryonthehill.vercel.app/_next/image?url=%2Fimages%2Flogo.png&w=640&q=75" alt="The Cemetery on The Hill Logo" width="200" height="60" />
-                    </td>
-                    <td valign="middle" style="color:#bbbbbb;text-align:center;font-size:15px;">
-                      Purchase of Plot
-                    </td>
-                  </tr>
                   <!-- Content Section -->
                   <tr style="border-top:1px solid #dddddd;">
                     <td colspan="2" style="padding:18px;color:#222222;line-height:160%;text-align:left;">
-                      <p">Hi ${formData.FullName},</p>
+                      <p>Hi ${formData.FullName},</p>
                       <p>Thank you very much for your purchase of Plot ${formData.PlotNumber} and trusting us to look after your family legacy!</p>
                       <p>We have received all your lease details and these have been recorded against your plot.</p>
                       <p>We will organise your Interment Rights Certificate and send this to your provided address as soon as possible.</p>
                       <p>In the meantime, if you have any questions or require assistance, please feel free to contact us at <strong>08 8317 6044</strong> or reply directly to this email.</p>
-                      <p>Kind regards, <br/>
-                      The team at The Cemetery on The Hill
-                      </p>
+                      <p>Kind regards,<br>The team at The Cemetery on The Hill</p>
                     </td>
                   </tr>
                   <!-- Footer Section -->
@@ -199,7 +200,7 @@ const prepareCustomerEmailMessage = (formData) => {
                             <table style="border-collapse:collapse;">
                               <tr>
                                 <td width="30"><img src="https://service.securecash.com.au/branded/email.png" alt="Email" /></td>
-                                <td><a href="mailto:hello@thecemeteryonthehill.com.au">hello@thecemeteryonthehill.com.au</a></td>
+                                <td>hello@thecemeteryonthehill.com.au</td>
                               </tr>
                               <tr>
                                 <td width="30"><img src="https://service.securecash.com.au/branded/phone.png" alt="Phone" /></td>
@@ -219,7 +220,6 @@ const prepareCustomerEmailMessage = (formData) => {
                   <tr>
                     <td colspan="2" style="text-align:center;color:#666666;padding:12px;border-top:1px solid #dddddd;">
                       &copy; 2024 THE CEMETERY ON THE HILL PRESERVATION SOCIETY LIMITED ABN 33672485442 - Trading as "The Cemetery on The Hill"
-
                     </td>
                   </tr>
                 </table>
@@ -257,40 +257,53 @@ export async function POST(request) {
       }
     );
 
-    // Step 3: Capture the PaymentIntent
+    // Step 3: If payment succeeded, push new lease entry into the LeaseHistory
     if (confirmedPaymentIntent.status === "succeeded") {
-      const purchaseFormData = { ...formData };
-      delete purchaseFormData.paymentMethod;
+         const newLeaseNumber = await generateNewLeaseNumber();
 
-      const purchaseForm = new PurchaseForm({
-        ...purchaseFormData,
+         // Proceed with saving the new plot using the new lease number
+         console.log("New Lease Number:", newLeaseNumber);
+      
+      const newLease = {
+        LeaseNumber: newLeaseNumber,
+        Amount: formData.Amount,
+        PaymentDate: Date.now(),
+        LeaseTerm: formData.LeaseTerm,
+        Expiration: formData.Expiration,
+        FullName: formData.FullName,
+        Email: formData.Email,
+        MobileNumber: formData.MobileNumber,
+        Address: formData.Address,
+        Suburb: formData.Suburb,
+        State: formData.State,
+        PostCode: formData.PostCode,
+        Country: formData.Country,
         PaymentDetails: {
-          AmountPaid: confirmedPaymentIntent.amount || 0,
-          Currency: confirmedPaymentIntent.currency || "AUD",
+          AmountPaid: formData.Amount,
           PaymentIntentId: confirmedPaymentIntent.id,
-          PaymentMethodId: confirmedPaymentIntent.payment_method || "",
-          PaymentStatus: confirmedPaymentIntent.status || "pending",
+          PaymentMethodId: confirmedPaymentIntent.payment_method,
+          PaymentStatus: confirmedPaymentIntent.status,
         },
-        Created_At: Math.floor(Date.now()),
-        Updated_At: Math.floor(Date.now()),
-        Updated_By: "System",
-      });
+      };
 
-      await purchaseForm.save();
-      console.log("Final: ", purchaseForm);
-            console.log("confirm: ", confirmedPaymentIntent);
+      // Use $push to add the new lease entry to LeaseHistory
+      const plotUpdate = await Plot.findOneAndUpdate(
+        { PlotNumber: formData.PlotNumber }, // Find the plot by PlotNumber
+        { $push: { Lease: newLease } }, // Push new lease to Lease
+        { new: true, upsert: true } // Create document if it doesn't exist
+      );
+
+    
 
       const emailAdminMessage = prepareAdminEmailMessage(
-        purchaseFormData,
-        confirmedPaymentIntent.amount || 0,
-        confirmedPaymentIntent.currency || "AUD",
+        formData,
+        newLeaseNumber,
         confirmedPaymentIntent.id,
         confirmedPaymentIntent.payment_method || "",
         confirmedPaymentIntent.status || "pending"
       );
 
-      const emailCustomerMessage =
-        prepareCustomerEmailMessage(purchaseFormData);
+      const emailCustomerMessage = prepareCustomerEmailMessage(formData);
       try {
         await sendgrid.send(emailAdminMessage);
       } catch (error) {
@@ -302,22 +315,19 @@ export async function POST(request) {
       } catch (error) {
         console.error("SendGrid Customer Email Error: ", error.response.body);
       }
+
       return NextResponse.json({
-        success: true,
-        message: "Form submitted and payment intent created successfully.",
-        clientSecret: paymentIntent.client_secret,
+        message: "Lease added successfully to Lease.",
+        plot: plotUpdate,
       });
     } else {
-      return NextResponse.json(
-        { error: "Payment Intent is not ready for capture" },
-        { status: 400 }
-      );
+      return NextResponse.json({
+        error: "Payment failed or is pending.",
+      });
     }
   } catch (error) {
-    console.error("Internal Error:", error);
-    return NextResponse.json(
-      { error: `Internal Server Error: ${error.message}` },
-      { status: 500 }
-    );
+    return NextResponse.json({
+      error: error.message,
+    });
   }
 }

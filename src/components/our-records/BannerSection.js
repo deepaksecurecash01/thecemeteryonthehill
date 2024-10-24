@@ -9,26 +9,39 @@ const BannerSection = async () => {
       aria-labelledby="banner-heading"
     >
       <div
-        className={`absolute bg-banner-bg bg-no-repeat w-full h-full bg-cover bg-center -z-20`}
+        className={`absolute bg-banner-bg-2 bg-no-repeat w-full h-full bg-cover bg-center -z-20`}
         role="img"
         aria-label="Decorative background image"
       />
       <div className="absolute bg-tertiary bg-opacity-60 w-full h-full -z-10" />
       <div className="grid place-items-center gap-6 py-16 px-4 md:px-8">
-        <h2
+        <div
           id="banner-heading"
-          className="text-lg sm:text-lg lg:text-xl 6xl:text-2xl font-roboto text-white text-center max-w-3xl tracking-wide"
+          className=" w-[90vw] xl:w-[80vw] 3xl:w-[60vw] flex flex-col gap-4"
         >
-          {
-            "If you have a question, want some more information or would just like to speak to someone from our team, make an enquiry now and we'll be in touch."
-          }
-        </h2>
+          <p className="text-lg sm:text-lg lg:text-xl font-roboto text-white text-center tracking-wide">
+            NOTE: There are some records which may be incomplete, if you have
+            any details you could help contribute to our records please do
+            contact us, either by emailing us at
+            <strong className="font-bold">
+              &nbsp;
+              <Link
+                className="underline"
+                href="mailto:hello@thecemeteryonthehill.com.au"
+              >
+                hello@thecemeteryonthehill.com.au
+              </Link>
+              &nbsp;
+            </strong>
+            or via our online form`
+          </p>
+        </div>
         <Link
           href="/contact-us"
           passHref
           className="bg-secondary text-white font-roboto uppercase rounded-md border cursor-pointer border-secondary px-4 py-2 flex justify-center items-center hover:bg-primary hover:border-primary text-sm sm:text-base md:text-lg"
         >
-          Enquire Now
+          Contact Us
         </Link>
       </div>
     </section>
@@ -36,3 +49,4 @@ const BannerSection = async () => {
 };
 
 export default BannerSection;
+

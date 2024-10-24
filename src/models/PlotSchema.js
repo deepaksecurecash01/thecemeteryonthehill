@@ -1,14 +1,14 @@
-const { mongoose } = require("../config/db.js");
+import mongoose from "mongoose";
 
 const LeaseSchema = {
   LeaseNumber: {
     type: String,
   },
-  Payment: {
+  Amount: {
     type: Number,
   },
   PaymentDate: {
-    type: String,
+    type: Number,
   },
   LeaseTerm: {
     type: Number,
@@ -16,13 +16,13 @@ const LeaseSchema = {
   Expiration: {
     type: String,
   },
-  Name: {
+  FullName: {
     type: String,
   },
   Email: {
     type: String,
   },
-  Mobile: {
+  MobileNumber: {
     type: String,
   },
   Address: {
@@ -45,10 +45,6 @@ const LeaseSchema = {
       type: Number,
       required: [true, "Amount Paid is required."],
       min: [0, "Amount Paid must be a positive number."],
-    },
-    Currency: {
-      type: String,
-      required: [true, "Currency is required."],
     },
     PaymentIntentId: {
       type: String,
@@ -79,7 +75,7 @@ const LeaseHistorySchema = {
   added_at: { type: Number },
 };
 
-const schema = new mongoose.Schema({
+const PlotSchema = new mongoose.Schema({
   PlotNumber: { type: String, required: true },
   Term: { type: Number, required: true },
   Type: { type: String, required: true },
@@ -105,4 +101,5 @@ const schema = new mongoose.Schema({
   LeaseHistory: [{ type: LeaseHistorySchema }], // Make LeaseHistory optional
 });
 
-module.exports = mongoose.model("Plot", schema);
+const Plot = mongoose.models.Plot || mongoose.model("Plot", PlotSchema);
+export default Plot;

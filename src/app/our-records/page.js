@@ -1,10 +1,7 @@
 import BannerSection from "@/components/our-records/BannerSection";
-import BannerSection2 from "@/components/our-records/BannerSection2";
 import FaqSection from "@/components/our-records/FaqSection";
 import TableSection from "@/components/our-records/TableSection";
-import Link from "next/link";
 import React from "react";
-import { FaArrowRightLong } from "react-icons/fa6";
 
 export const metadata = {
   title: "Our Records",
@@ -41,7 +38,7 @@ const page = () => {
           
         </div>
         <div className="w-full my-10">
-          <BannerSection2 />
+          <BannerSection />
         </div>
         <div className="w-[90vw] xl:w-[80vw]">
           <div className="flex flex-col justify-center items-center">

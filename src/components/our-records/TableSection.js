@@ -170,12 +170,12 @@ export default function DataTablePage() {
                             type="button"
                             onClick={() => handleNameClick(item)}
                             className={`bg-primary text-white rounded-lg border-2 cursor-pointer border-primary px-6 flex justify-center items-center  ${
-                              !item.biography && "hidden"
+                              !item.BiographyData && "hidden"
                             }`}
                           >
                             See More
                           </button>
-                          {!item.biography && "Coming Soon"}
+                          {!item.BiographyData && "Coming Soon"}
                         </td>
                       </tr>
                     );
@@ -261,12 +261,12 @@ export default function DataTablePage() {
                           type="button"
                           onClick={() => handleNameClick(item)}
                           className={`bg-primary text-white   rounded-lg border-2 cursor-pointer border-primary px-6 flex justify-center items-center  ${
-                            !item.biography && "hidden"
+                            !item.BiographyData && "hidden"
                           }`}
                         >
                           See More
                         </button>
-                        {!item.biography && "Coming Soon"}{" "}
+                        {!item.BiographyData && "Coming Soon"}{" "}
                       </span>
                     </div>
                   </div>
@@ -286,7 +286,6 @@ export default function DataTablePage() {
           </div>
         )}
       </div>
-      
     </div>
   );
 }

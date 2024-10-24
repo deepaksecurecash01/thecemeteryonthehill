@@ -1,11 +1,11 @@
 import Image from "next/image";
 import "./styles/BiographyTimeline.css";
 
-const BiographyTimeline = ({ timelineData }) => {
+const BiographyTimeline = ({ BiographyData }) => {
   return (
     <>
       <section className="relative flex flex-col justify-center items-center w-full md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px] mb-16 py-6 md:py-8 timeline">
-        {timelineData.map((item, index) => (
+        {BiographyData.map((item, index) => (
           <div
             key={index}
             className={`relative flex flex-col md:flex-row items-center card  ${
@@ -47,14 +47,14 @@ const BiographyTimeline = ({ timelineData }) => {
                     index % 2 === 0 ? "md:text-end" : "md:text-start"
                   }`}
                 >
-                  {item.year}
+                  {item.Date}
                 </h3>
                 <p
                   className={`text-base md:text-lg text-paragraph ${
                     index % 2 === 0 ? "md:text-end" : "md:text-start"
                   }`}
                 >
-                  {item.description}
+                  {item.Description}
                 </p>
               </div>
             </div>

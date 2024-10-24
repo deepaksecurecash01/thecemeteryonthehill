@@ -28,9 +28,11 @@ const trajanpro3 = localFont({
   variable: "--font-trajanpro3",
 });
 
-// Metadata for SEO
 export const metadata = {
-  title: {default: "The Cemetery on The Hill", template:"%s - The Cemetery on The Hill"},
+  title: {
+    default: "The Cemetery on The Hill",
+    template: "%s - The Cemetery on The Hill",
+  },
   description:
     "Learn more about The Cemetery on The Hill, a state heritage site in South Australia, offering ashes interments, burials, memorials, and pre-planning in a peaceful, historic setting.",
   keywords:

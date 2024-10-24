@@ -1,11 +1,7 @@
 import mongoose from "mongoose";
 
 const biographySchema = new mongoose.Schema({
-  person: {
-       type: mongoose.Schema.Types.ObjectId,
-    ref: "Person",
-    required: true,
-  },
+
   date: { type: Date, required: true },
   biographyData: [
     {

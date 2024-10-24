@@ -38,7 +38,7 @@ const ContentSection = () => (
           </p>
         </div>
 
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="w-full flex justify-center items-center">
             <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
@@ -79,7 +79,7 @@ const ContentSection = () => (
             </div>
           </div>
         </div>
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="flex justify-center xl:justify-end items-center w-full order-first xl:order-none py-8 xl:py-0">
             <div className="relative h-96 md:h-[24rem] w-full">
               <Image
@@ -117,7 +117,7 @@ const ContentSection = () => (
           </div>
         </div>
 
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="w-full flex justify-center items-center">
             <div className="flex flex-col gap-4">
               <h2 className="text-xl font-medium text-tertiary font-display ">
@@ -159,7 +159,7 @@ const ContentSection = () => (
             </div>
           </div>
         </div>
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="flex justify-center xl:justify-end items-center w-full order-first xl:order-none py-8 xl:py-0">
             <div className="relative h-96 md:h-[26rem] w-full">
               <Image
@@ -200,7 +200,7 @@ const ContentSection = () => (
           </div>
         </div>
 
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="w-full flex justify-center items-center">
             <div className="flex flex-col gap-4">
               <h2 className="text-xl font-medium text-tertiary font-display ">
@@ -236,7 +236,7 @@ const ContentSection = () => (
             </div>
           </div>
         </div>
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="flex justify-center xl:justify-end items-center w-full order-first xl:order-none py-8 xl:py-0">
             <div className="relative h-96 md:h-[30rem] w-full">
               <Image
@@ -329,7 +329,7 @@ const ContentSection = () => (
           </p>
         </div>
 
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="w-full flex justify-center items-center">
             <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
@@ -383,7 +383,7 @@ const ContentSection = () => (
           </div>
         </div>
 
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="flex justify-center xl:justify-end items-center w-full order-first xl:order-none py-8 xl:py-0">
             <div className="relative h-96 md:h-[14rem] w-full">
               <Image
@@ -413,7 +413,7 @@ const ContentSection = () => (
             </div>
           </div>
         </div>
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="w-full flex justify-center items-center">
             <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
@@ -470,7 +470,7 @@ const ContentSection = () => (
           </div>
         </div>
 
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="flex justify-center xl:justify-end items-center w-full order-first xl:order-none py-8 xl:py-0">
             <div className="relative h-96 md:h-[24rem] w-full">
               <Image
@@ -509,7 +509,7 @@ const ContentSection = () => (
             </div>
           </div>
         </div>
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="w-full flex justify-center items-center">
             <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
                 <h3 className="text-base lg:text-lg text-tertiary font-bold">
@@ -557,7 +557,7 @@ const ContentSection = () => (
           </div>
         </div>
 
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="flex justify-center xl:justify-end items-center w-full order-first xl:order-none py-8 xl:py-0">
             <div className="relative h-96 md:h-[24rem] w-full">
               <Image
@@ -596,7 +596,7 @@ const ContentSection = () => (
             </div>
           </div>
         </div>
-        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-4">
+        <div className="flex flex-col xl:flex-row justify-center items-center w-full h-full overflow-hidden relative xl:py-8 xl:gap-12">
           <div className="w-full flex justify-center items-center">
             <div className="w-full flex flex-col gap-4 order-2 xl:order-1">
               <div className="flex flex-col gap-4">
