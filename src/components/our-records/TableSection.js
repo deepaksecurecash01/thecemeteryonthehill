@@ -4,7 +4,6 @@ import { useRouter } from "next/navigation";
 import { setBiographyData } from "@/redux/slice";
 import { useDispatch } from "react-redux";
 
-
 export default function DataTablePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isClient, setIsClient] = useState(false);
@@ -143,32 +142,18 @@ export default function DataTablePage() {
                             </span>
                           )}
                         </td>
-                        <td className="py-3 text-center">
+                        <td className="py-3 text-center ">
                           {item.BirthDate ? (
-                            new Date(item.BirthDate).toLocaleDateString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                              }
-                            )
+                            item.BirthDate
                           ) : (
                             <span className="text-paragraph/50">
                               Not Available
                             </span>
                           )}
                         </td>
-                        <td className="py-3 text-center">
+                        <td className="py-3 text-center ">
                           {item.DeathDate ? (
-                            new Date(item.DeathDate).toLocaleDateString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                              }
-                            )
+                            item.DeathDate
                           ) : (
                             <span className="text-paragraph/50">
                               Not Available
