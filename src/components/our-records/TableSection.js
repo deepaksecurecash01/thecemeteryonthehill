@@ -53,7 +53,7 @@ export default function DataTablePage() {
   };
 
   const handleNameClick = (item) => {
-    router.push(`/biography/${item._id}`, {
+    router.push(`/biography/${item.Biography}`, {
       query: { data: encodeURIComponent(JSON.stringify(item)) },
     });
   };
@@ -170,12 +170,12 @@ export default function DataTablePage() {
                             type="button"
                             onClick={() => handleNameClick(item)}
                             className={`bg-primary text-white rounded-lg border-2 cursor-pointer border-primary px-6 flex justify-center items-center  ${
-                              !item.BiographyData && "hidden"
+                              !item.ShowBiography && "hidden"
                             }`}
                           >
                             See More
                           </button>
-                          {!item.BiographyData && "Coming Soon"}
+                          {!item.ShowBiography && "Coming Soon"}
                         </td>
                       </tr>
                     );

@@ -1,7 +1,9 @@
 import Image from "next/image";
 import "./styles/BiographyTimeline.css";
 
-const BiographyTimeline = ({ BiographyData }) => {
+const BiographyTimeline = ({ BiographyData }) =>
+{
+  console.log(BiographyData);
   return (
     <>
       <section className="relative flex flex-col justify-center items-center w-full md:max-w-[768px] lg:max-w-[1024px] xl:max-w-[1280px] mb-16 py-6 md:py-8 timeline">
