@@ -3,12 +3,16 @@ import BiographySlider from "@/components/ui/BiographySlider";
 
 // Function to generate dynamic metadata
 export async function generateMetadata({ params }) {
-  const res = await fetch(
-    `${process.env.BASE_URL}/api/biographies/${params.deceased}`
-  );
+const res = await fetch(
+  `${process.env.BASE_URL}/api/biographies/${params.deceased}`
+);
+let biography = await res.json();
 
-  const data = await res.json();
-  const biography = data[0];
+  if (Array.isArray(biography)) {
+  console.log("Array true");
+  biography = biography[0]; // Extract the first item if it's an array
+}
+
 
   return {
     title: `${biography?.Title} Biography`,
@@ -21,12 +25,16 @@ export async function generateMetadata({ params }) {
 
 // Async component for the page
 const BiographyPage = async ({ params }) => {
-  const res = await fetch(
-    `${process.env.BASE_URL}/api/biographies/${params.deceased}`
-  );
 
-  const data = await res.json();
-  const biography = data[0];
+const res = await fetch(
+  `${process.env.BASE_URL}/api/biographies/${params.deceased}`
+);
+let biography = await res.json();
+
+if (Array.isArray(biography)) {
+  biography = biography[0]; // Extract the first item if it's an array
+}
+
 
   return (
     <div className="flex flex-col items-center justify-center relative w-full overflow-hidden py-10 gap-8">
