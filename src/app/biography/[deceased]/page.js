@@ -3,16 +3,14 @@ import BiographySlider from "@/components/ui/BiographySlider";
 
 // Function to generate dynamic metadata
 export async function generateMetadata({ params }) {
-const res = await fetch(
-  `${process.env.BASE_URL}/api/biographies/${params.deceased}`
-);
-let biography = await res.json();
+  const res = await fetch(
+    `${process.env.BASE_URL}/api/biographies/${params.deceased}`
+  );
+  let biography = await res.json();
 
   if (Array.isArray(biography)) {
-  console.log("Array true");
-  biography = biography[0]; // Extract the first item if it's an array
-}
-
+    biography = biography[0]; // Extract the first item if it's an array
+  }
 
   return {
     title: `${biography?.Title} Biography`,
@@ -25,16 +23,16 @@ let biography = await res.json();
 
 // Async component for the page
 const BiographyPage = async ({ params }) => {
+  const res = await fetch(
+    `${process.env.BASE_URL}/api/biographies/${params.deceased}`
+  );
+  let biography = await res.json();
 
-const res = await fetch(
-  `${process.env.BASE_URL}/api/biographies/${params.deceased}`
-);
-let biography = await res.json();
+  if (Array.isArray(biography)) {
+    biography = biography[0]; // Extract the first item if it's an array
+  }
 
-if (Array.isArray(biography)) {
-  biography = biography[0]; // Extract the first item if it's an array
-}
-
+  console.log(biography.Images);
 
   return (
     <div className="flex flex-col items-center justify-center relative w-full overflow-hidden py-10 gap-8">

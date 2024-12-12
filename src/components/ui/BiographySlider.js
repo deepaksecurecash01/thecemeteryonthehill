@@ -29,7 +29,6 @@ const CustomNextArrow = ({ onClick }) => (
 );
 
 function BiographySlider({ BiographyImages }) {
-
   const maxSlidesToShow = 3;
   const slidesToShow =
     BiographyImages?.length > maxSlidesToShow ? maxSlidesToShow : BiographyImages?.length;
